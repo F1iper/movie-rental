@@ -1,4 +1,4 @@
-package org.movierental.model;
+package org.movierental.entity;
 
 public enum Category {
     HORROR,

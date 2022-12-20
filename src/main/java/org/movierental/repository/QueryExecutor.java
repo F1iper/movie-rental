@@ -3,7 +3,7 @@ package org.movierental.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-class QueryExecutor {
+public class QueryExecutor {
 
     public static ResultSet executeSelect(String selectQuery) {
         try {
@@ -19,7 +19,7 @@ class QueryExecutor {
         try {
             var connection = DatabaseConnection.connect();
             var statement = connection.createStatement();
-            statement.execute( query);
+            statement.execute(query);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
