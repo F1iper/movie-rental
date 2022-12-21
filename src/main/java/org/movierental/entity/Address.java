@@ -1,5 +1,12 @@
 package org.movierental.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString(exclude = {"addressId", "branch", "customer", "staff"})
 public class Address {
 
     private Long addressId;
@@ -9,6 +16,6 @@ public class Address {
     private String street;
     private String city;
     private String state;
-    private String zipCode;
+    private String zip_code;
     private String phone;
 }
