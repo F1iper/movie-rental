@@ -8,7 +8,7 @@ import org.movierental.branch.entity.Branch;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"staffId", "branch_id"})
 public class Staff {
 
     private Long staffId;
