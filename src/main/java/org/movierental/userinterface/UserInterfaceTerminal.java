@@ -23,7 +23,7 @@ public class UserInterfaceTerminal {
             printMainMenu();
             String command = scanner.nextLine();
 
-            if("exit".equals(command)) {
+            if ("exit".equals(command)) {
                 break;
             }
             if ("3".equals(command)) {
@@ -34,41 +34,58 @@ public class UserInterfaceTerminal {
             if ("4".equals(command)) {
                 System.out.println("Select data from: ");
                 printOptions();
-                retrieveData(scanner.nextLine());
+                chooseTableToSearchOn(scanner.nextLine());
+            }
+            if ("5".equals(command)) {
+                System.out.println("Remove data from: ");
+                printOptions();
+                removeData(scanner.nextLine());
             }
         }
     }
 
-    private static void printMainMenu() {
-        System.out.println("-------------------");
-        System.out.println("MAIN MENU ");
-        System.out.println("-------------------");
-        System.out.println("What would you like to do? ");
-        // TODO: 12/21/2022 register + login
-        System.out.println("3 - Insert data");
-        System.out.println("4 - Select data");
-        System.out.println("exit - exit program");
-    }
-
-    private void retrieveData(String command) {
+    private void chooseOption(String command) {
         if ("0".equals(command)) {
             return;
         }
         if ("1".equals(command)) {
-            String companyName = provideCompanyName();
-            companyController.searchCompany(companyName);
+            System.out.println("Provide Company ID: ");
+            Scanner scanner = new Scanner(System.in);
+            Long id = Long.parseLong(scanner.nextLine());
+            companyController.searchCompanyById(id);
+        }
+        if ("2".equals(command)) {
+            System.out.println("Provide company name: ");
+            Scanner scanner = new Scanner(System.in);
+            companyController.searchCompanyByName(scanner.nextLine());
+        }
+        if ("3".equals(command)) {
+            companyController.searchAll();
+        }
+
+    }
+
+    private void removeData(String command) {
+        if ("0".equals(command)) {
+            return;
+        }
+        if ("1".equals(command)) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Provide company ID: ");
+            Long companyId = Long.parseLong(scanner.nextLine());
+            companyController.removeCompany(companyId);
         }
     }
 
-    private void printOptions() {
-        System.out.println("1 - Company");
-        System.out.println("2 - Address");
-        System.out.println("3 - Staff");
-        System.out.println("4 - Movie");
-        System.out.println("5 - Actor");
-        System.out.println("6 - Branch");
-        System.out.println("7 - Customer");
-        System.out.println("0 - back to Main Menu");
+    private void chooseTableToSearchOn(String command) {
+        if ("0".equals(command)) {
+            return;
+        }
+        if ("1".equals(command)) {
+            Scanner scanner = new Scanner(System.in);
+            printCompanySearchOptions();
+            chooseOption(scanner.nextLine());
+        }
     }
 
     private void checkWhereToInsertData(String command) {
@@ -82,6 +99,18 @@ public class UserInterfaceTerminal {
         if ("2".equals(command)) {
             addressController.addAddress(provideAddressData());
         }
+    }
+
+    private static void printMainMenu() {
+        System.out.println("-------------------");
+        System.out.println("MAIN MENU ");
+        System.out.println("-------------------");
+        System.out.println("What would you like to do? ");
+        // TODO: 12/21/2022 register + login
+        System.out.println("3 - Insert data");
+        System.out.println("4 - Select data");
+        System.out.println("5 - Remove data");
+        System.out.println("exit - exit program");
     }
 
     private static String provideCompanyName() {
@@ -105,5 +134,24 @@ public class UserInterfaceTerminal {
         System.out.println("Phone: ");
         address.setPhone(scanner.nextLine());
         return address;
+    }
+
+    private void printOptions() {
+        System.out.println("1 - Company");
+        System.out.println("2 - Address");
+        System.out.println("3 - Staff");
+        System.out.println("4 - Movie");
+        System.out.println("5 - Actor");
+        System.out.println("6 - Branch");
+        System.out.println("7 - Customer");
+        System.out.println("0 - Back to Main Menu");
+    }
+
+    private void printCompanySearchOptions() {
+        System.out.println("Choose an option: ");
+        System.out.println("1 - Search by ID");
+        System.out.println("2 - Search by company name");
+        System.out.println("3 - Search all records");
+        System.out.println("0 - Back to Main Menu");
     }
 }

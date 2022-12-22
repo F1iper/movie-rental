@@ -6,6 +6,6 @@ import org.movierental.repository.QueryExecutor;
 public class AddAddressService {
 
     public void execute(Address address) {
-        QueryExecutor.executeInsertAddress(address);
+        QueryExecutor.insertAddress(address);
     }
 }

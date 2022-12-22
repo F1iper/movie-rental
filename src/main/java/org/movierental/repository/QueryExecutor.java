@@ -3,13 +3,14 @@ package org.movierental.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.movierental.entity.Address;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
 public class QueryExecutor {
 
-    public static void executeInsertCompany(String companyName) {
+    public static void insertCompany(String companyName) {
         try {
             var connection = DatabaseConnection.connect();
             String sql = "INSERT INTO company (name) values (?)";
@@ -26,7 +27,7 @@ public class QueryExecutor {
         }
     }
 
-    public static void executeInsertAddress(Address address) {
+    public static void insertAddress(Address address) {
         try {
             var connection = DatabaseConnection.connect();
             String sql = "INSERT INTO address (street, city, state, zip_code, phone) " +
@@ -68,16 +69,39 @@ public class QueryExecutor {
         }
     }
 
-    public static void executeSearchCompanyByCompanyName(String companyName) {
+    public static void searchByCompanyName(String companyName) {
         try {
             String sql = "SELECT * FROM company WHERE NAME LIKE '" + companyName + "'";
             ResultSet rs = QueryExecutor.executeSelect(sql);
 
             while (rs.next()) {
+                System.out.print(rs.getString("company_id"));
+                System.out.print(" - ");
                 System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public static void searchAll() {
+        try {
+            String sql = "SELECT * FROM company";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+
+            while (rs.next()) {
+                System.out.print("[");
+                System.out.print(rs.getString("company_id"));
+                System.out.print("] - ");
+                System.out.println(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void removeCompanyById(Long id) {
+        String sql = "DELETE FROM company WHERE company_id = " + id;
+        executeQuery(sql);
     }
 }
