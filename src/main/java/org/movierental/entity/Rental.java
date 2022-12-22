@@ -1,5 +1,7 @@
 package org.movierental.entity;
 
+import org.movierental.staff.entity.Staff;
+
 import java.time.LocalDateTime;
 
 public class Rental {

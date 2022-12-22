@@ -1,24 +1,27 @@
 package org.movierental.userinterface;
 
 import org.movierental.address.controller.AddressController;
-import org.movierental.company.controller.CompanyController;
 import org.movierental.address.entity.Address;
+import org.movierental.company.controller.CompanyController;
+import org.movierental.staff.controller.StaffController;
+import org.movierental.staff.entity.Staff;
 
 import java.util.Scanner;
 
 public class UserInterfaceTerminal {
 
+    private final static Scanner scanner = new Scanner(System.in);
     private final CompanyController companyController;
     private final AddressController addressController;
+    private final StaffController staffController;
 
     public UserInterfaceTerminal() {
         this.companyController = new CompanyController();
         this.addressController = new AddressController();
+        this.staffController = new StaffController();
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
             printMainMenu();
             String command = scanner.nextLine();
@@ -50,13 +53,11 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide Company ID: ");
-            Scanner scanner = new Scanner(System.in);
             Long id = Long.parseLong(scanner.nextLine());
             companyController.searchCompanyById(id);
         }
         if ("2".equals(command)) {
             System.out.println("Provide company name: ");
-            Scanner scanner = new Scanner(System.in);
             companyController.searchCompanyByName(scanner.nextLine());
         }
         if ("3".equals(command)) {
@@ -70,7 +71,6 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Provide company ID: ");
             Long companyId = Long.parseLong(scanner.nextLine());
             companyController.removeCompany(companyId);
@@ -82,7 +82,6 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-            Scanner scanner = new Scanner(System.in);
             printCompanySearchOptions();
             chooseOption(scanner.nextLine());
         }
@@ -99,6 +98,9 @@ public class UserInterfaceTerminal {
         if ("2".equals(command)) {
             addressController.addAddress(provideAddressData());
         }
+        if ("3".equals(command)) {
+            staffController.addStaff(provideStaffData());
+        }
     }
 
     private static void printMainMenu() {
@@ -114,13 +116,11 @@ public class UserInterfaceTerminal {
     }
 
     private static String provideCompanyName() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Provide company name to insert: ");
         return scanner.nextLine();
     }
 
     private static Address provideAddressData() {
-        Scanner scanner = new Scanner(System.in);
         Address address = new Address();
         System.out.println("Please provide Address");
         System.out.println("Street: ");
@@ -134,6 +134,26 @@ public class UserInterfaceTerminal {
         System.out.println("Phone: ");
         address.setPhone(scanner.nextLine());
         return address;
+    }
+
+    private Staff provideStaffData() {
+        Staff staff = new Staff();
+        System.out.println("Please provide firstname: ");
+        staff.setFirstname(scanner.nextLine());
+        System.out.println("Lastname: ");
+        staff.setLastname(scanner.nextLine());
+        System.out.println("Possible positions: ");
+        printPositions();
+
+        System.out.println("Please provide position ID: ");
+        staff.setPosition_id(Long.parseLong(scanner.nextLine()));
+        System.out.println("Salary: ");
+        staff.setSalary(Double.parseDouble(scanner.nextLine()));
+        return staff;
+    }
+
+    private void printPositions() {
+        staffController.getPositions();
     }
 
     private void printOptions() {

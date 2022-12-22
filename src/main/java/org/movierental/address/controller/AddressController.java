@@ -12,6 +12,6 @@ public class AddressController {
     }
 
     public void addAddress(Address address) {
-        addAddressService.execute(address);
+        addAddressService.add(address);
     }
 }
