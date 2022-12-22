@@ -1,7 +1,7 @@
 package org.movierental.entity;
 
-public enum Status {
-    IN_STOCK,
-    RENTED,
-    IN_REPAIR
+public class Status {
+
+    private Long statusId;
+    private String name;
 }

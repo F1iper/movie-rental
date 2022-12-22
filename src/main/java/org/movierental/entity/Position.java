@@ -1,6 +1,7 @@
 package org.movierental.entity;
 
-public enum Position {
-    STAFF,
-    MANAGER
+public class Position {
+
+    private Long positionId;
+    private String name;
 }

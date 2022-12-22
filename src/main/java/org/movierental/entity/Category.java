@@ -1,11 +1,7 @@
 package org.movierental.entity;
 
-public enum Category {
-    HORROR,
-    THRILLER,
-    COMEDY,
-    DRAMA,
-    ACTION,
-    CARTOON,
-    ANIME
+public class Category {
+
+    private Long categoryId;
+    private String name;
 }

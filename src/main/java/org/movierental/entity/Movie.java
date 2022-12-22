@@ -1,6 +1,5 @@
 package org.movierental.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +15,6 @@ public class Movie {
     private Status status;
     private double rentalRate;
     private Set<Actor> actors;
-    private List<Branch> branches = new ArrayList<>();
+    private List<Branch> branches;
 
 }
