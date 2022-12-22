@@ -9,7 +9,7 @@ public class SearchCompanyService {
     }
 
     public void searchAll() {
-        QueryExecutor.searchAll();
+        QueryExecutor.searchAllCompanies();
     }
 
     public void searchById(Long id) {

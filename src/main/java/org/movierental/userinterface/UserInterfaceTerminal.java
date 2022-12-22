@@ -47,7 +47,7 @@ public class UserInterfaceTerminal {
         }
     }
 
-    private void chooseOption(String command) {
+    private void chooseCompanySearchOption(String command) {
         if ("0".equals(command)) {
             return;
         }
@@ -83,8 +83,52 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             printCompanySearchOptions();
-            chooseOption(scanner.nextLine());
+            chooseCompanySearchOption(scanner.nextLine());
         }
+        if ("2".equals(command)) {
+            printAddressSearchOptions();
+            chooseAddressSearchOption(scanner.nextLine());
+        }
+    }
+
+    private void chooseAddressSearchOption(String command) {
+        if ("0".equals(command)) {
+            return;
+        }
+        if ("1".equals(command)) {
+            System.out.println("Provide address ID: ");
+            addressController.searchAddressById(Long.parseLong(scanner.nextLine()));
+        }
+        if ("2".equals(command)) {
+            System.out.println("Provide street: ");
+            addressController.searchAddressByStreet(scanner.nextLine());
+        }
+        if ("3".equals(command)) {
+            System.out.println("Provide city: ");
+            addressController.searchAddressByCity(scanner.nextLine());
+        }
+        if ("4".equals(command)) {
+            System.out.println("Provide state: ");
+            addressController.searchAddressByState(scanner.nextLine());
+        }
+        if ("5".equals(command)) {
+            System.out.println("Provide zip code: ");
+            addressController.searchAddressByZipCode(scanner.nextLine());
+        }
+        if ("5".equals(command)) {
+            addressController.searchAllAddresses();
+        }
+    }
+
+    private void printAddressSearchOptions() {
+        System.out.println("Choose an option: ");
+        System.out.println("1 - Search by ID");
+        System.out.println("2 - Search by street");
+        System.out.println("3 - Search by city");
+        System.out.println("4 - Search by state");
+        System.out.println("5 - Search by zip code");
+        System.out.println("6 - Search all records");
+        System.out.println("0 - Back to Main Menu");
     }
 
     private void checkWhereToInsertData(String command) {
@@ -92,8 +136,7 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-            String companyName = provideCompanyName();
-            companyController.addCompany(companyName);
+            companyController.addCompany(provideCompanyName());
         }
         if ("2".equals(command)) {
             addressController.addAddress(provideAddressData());

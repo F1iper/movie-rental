@@ -2,13 +2,10 @@ package org.movierental.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
-import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 public class QueryExecutor {
@@ -87,7 +84,7 @@ public class QueryExecutor {
         }
     }
 
-    public static void searchAll() {
+    public static void searchAllCompanies() {
         try {
             String sql = "SELECT * FROM company";
             ResultSet rs = QueryExecutor.executeSelect(sql);
@@ -134,14 +131,112 @@ public class QueryExecutor {
             String sql = "SELECT * FROM position";
             ResultSet rs = QueryExecutor.executeSelect(sql);
             while (rs.next()) {
-                System.out.print("[");
-                System.out.print(rs.getLong("position_id"));
-                System.out.print("] - ");
+                System.out.print("[" + rs.getLong("position_id") + "] - ");
                 System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public static void getStaffList() {
+        try {
+            String sql = "SELECT * FROM staff";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                System.out.print(rs.getString("firstname"));
+                System.out.print(", " + rs.getString("lastname"));
+                System.out.print(", " + rs.getDouble("salary"));
+                System.out.println(", " + rs.getLong("position_id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void removeStaffById(Long id) {
+        String sql = "DELETE * FROM STAFF WHERE staff_id = " + id;
+        executeQuery(sql);
+    }
+
+    public static void searchAddressById(Long id) {
+        try {
+            String sql = "SELECT * FROM address WHERE address_id = " + id;
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printAddress(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchAddressByStreet(String street) {
+        try {
+            String sql = "SELECT * FROM address WHERE street LIKE '" + street + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printAddress(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchAddressByCity(String city) {
+        try {
+            String sql = "SELECT * FROM address WHERE city LIKE '" + city + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printAddress(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchAddressByState(String state) {
+        try {
+            String sql = "SELECT * FROM address WHERE state LIKE '" + state + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printAddress(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchAddressByZipCode(String zipCode) {
+        try {
+            String sql = "SELECT * FROM address WHERE zip_code LIKE '" + zipCode + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printAddress(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchAllAddresses() {
+        try {
+            String sql = "SELECT * FROM address";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printAddress(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private static void printAddress(ResultSet rs) throws SQLException {
+        System.out.print(rs.getString("street"));
+        System.out.print(", " + rs.getString("city"));
+        System.out.print(", " + rs.getString("state"));
+        System.out.print(", " + rs.getString("zip_code"));
+        System.out.println(", " + rs.getString("phone"));
     }
 }
