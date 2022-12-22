@@ -1,8 +1,8 @@
-package org.movierental.controller;
+package org.movierental.company.controller;
 
-import org.movierental.service.AddCompanyService;
-import org.movierental.service.RemoveCompanyService;
-import org.movierental.service.SearchCompanyService;
+import org.movierental.company.service.AddCompanyService;
+import org.movierental.company.service.RemoveCompanyService;
+import org.movierental.company.service.SearchCompanyService;
 
 public class CompanyController {
 

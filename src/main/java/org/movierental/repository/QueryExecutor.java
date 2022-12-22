@@ -1,9 +1,8 @@
 package org.movierental.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.movierental.entity.Address;
+import org.movierental.address.entity.Address;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

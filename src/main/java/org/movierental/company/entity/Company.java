@@ -1,4 +1,6 @@
-package org.movierental.entity;
+package org.movierental.company.entity;
+
+import org.movierental.branch.entity.Branch;
 
 import java.util.Set;
 

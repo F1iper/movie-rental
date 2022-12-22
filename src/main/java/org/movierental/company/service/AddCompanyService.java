@@ -1,4 +1,4 @@
-package org.movierental.service;
+package org.movierental.company.service;
 
 import org.movierental.repository.QueryExecutor;
 

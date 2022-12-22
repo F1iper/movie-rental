@@ -1,4 +1,4 @@
-package org.movierental.entity;
+package org.movierental.address.entity;
 
 import lombok.Getter;
 import lombok.Setter;

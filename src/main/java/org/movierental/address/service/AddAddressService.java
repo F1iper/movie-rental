@@ -1,6 +1,6 @@
-package org.movierental.service;
+package org.movierental.address.service;
 
-import org.movierental.entity.Address;
+import org.movierental.address.entity.Address;
 import org.movierental.repository.QueryExecutor;
 
 public class AddAddressService {

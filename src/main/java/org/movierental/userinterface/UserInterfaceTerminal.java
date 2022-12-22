@@ -1,8 +1,8 @@
 package org.movierental.userinterface;
 
-import org.movierental.controller.AddressController;
-import org.movierental.controller.CompanyController;
-import org.movierental.entity.Address;
+import org.movierental.address.controller.AddressController;
+import org.movierental.company.controller.CompanyController;
+import org.movierental.address.entity.Address;
 
 import java.util.Scanner;
 

@@ -1,5 +1,7 @@
 package org.movierental.entity;
 
+import org.movierental.address.entity.Address;
+
 import java.time.LocalDateTime;
 
 public class Customer {

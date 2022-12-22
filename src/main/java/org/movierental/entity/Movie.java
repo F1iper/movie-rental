@@ -1,5 +1,7 @@
 package org.movierental.entity;
 
+import org.movierental.branch.entity.Branch;
+
 import java.util.List;
 import java.util.Set;
 

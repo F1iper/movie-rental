@@ -1,7 +1,7 @@
-package org.movierental.controller;
+package org.movierental.address.controller;
 
-import org.movierental.entity.Address;
-import org.movierental.service.AddAddressService;
+import org.movierental.address.entity.Address;
+import org.movierental.address.service.AddAddressService;
 
 public class AddressController {
 

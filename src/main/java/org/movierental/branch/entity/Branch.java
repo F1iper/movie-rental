@@ -1,4 +1,9 @@
-package org.movierental.entity;
+package org.movierental.branch.entity;
+
+import org.movierental.address.entity.Address;
+import org.movierental.company.entity.Company;
+import org.movierental.entity.Movie;
+import org.movierental.entity.Staff;
 
 import java.util.HashSet;
 import java.util.List;
