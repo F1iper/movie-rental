@@ -89,6 +89,51 @@ public class UserInterfaceTerminal {
             printAddressSearchOptions();
             chooseAddressSearchOption(scanner.nextLine());
         }
+        if ("3".equals(command)) {
+            printStaffSearchOptions();
+            chooseStaffSearchOption(scanner.nextLine());
+        }
+    }
+
+    private void chooseStaffSearchOption(String command) {
+        if ("0".equals(command)) {
+            return;
+        }
+        if ("1".equals(command)) {
+            System.out.println("Provide staff ID: ");
+            staffController.findStaffById(Long.parseLong(scanner.nextLine()));
+        }
+        if ("2".equals(command)) {
+            System.out.println("Provide firstname: ");
+            staffController.findStaffByFirstname(scanner.nextLine());
+        }
+        if ("3".equals(command)) {
+            System.out.println("Provide lastname: ");
+            staffController.findStaffByLastname(scanner.nextLine());
+        }
+        if ("4".equals(command)) {
+            System.out.println("Provide salary range, first number - minimum, second number - maximum ");
+            staffController.findStaffBySalaryRange(Integer.parseInt(scanner.nextLine()),
+                    Integer.parseInt(scanner.nextLine()));
+        }
+        if ("5".equals(command)) {
+            System.out.println("Provide position ID: ");
+            staffController.findStaffByPositionId(Long.parseLong(scanner.nextLine()));
+        }
+        if ("6".equals(command)) {
+            staffController.findAllStaff();
+        }
+    }
+
+    private void printStaffSearchOptions() {
+        System.out.println("Choose an option: ");
+        System.out.println("1 - Search by ID");
+        System.out.println("2 - Search by firstname");
+        System.out.println("3 - Search by lastname");
+        System.out.println("4 - Search by salary amount");
+        System.out.println("5 - Search by position");
+        System.out.println("6 - Search all records");
+        System.out.println("0 - Back to Main Menu");
     }
 
     private void chooseAddressSearchOption(String command) {

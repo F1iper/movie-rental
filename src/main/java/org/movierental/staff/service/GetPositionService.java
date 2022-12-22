@@ -4,7 +4,7 @@ import org.movierental.repository.QueryExecutor;
 
 public class GetPositionService {
 
-    public void get() {
+    public void getPositions() {
         QueryExecutor.getPositions();
     }
 }

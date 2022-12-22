@@ -232,11 +232,90 @@ public class QueryExecutor {
         }
     }
 
+    public static void findStaffById(Long id) {
+        try {
+            String sql = "SELECT * FROM staff WHERE staff_id = " + id;
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printStaff(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    private static void printStaff(ResultSet rs) throws SQLException {
+        System.out.print(rs.getString("firstname"));
+        System.out.print(", " + rs.getString("lastname"));
+        System.out.print(", " + rs.getDouble("salary"));
+        System.out.println(", " + rs.getLong("position_id"));
+    }
+
     private static void printAddress(ResultSet rs) throws SQLException {
         System.out.print(rs.getString("street"));
         System.out.print(", " + rs.getString("city"));
         System.out.print(", " + rs.getString("state"));
         System.out.print(", " + rs.getString("zip_code"));
         System.out.println(", " + rs.getString("phone"));
+    }
+
+    public static void findStaffByFirstname(String firstname) {
+        try {
+            String sql = "SELECT * FROM staff WHERE firstname like '" + firstname + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printStaff(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void findStaffByLastname(String lastname) {
+        try {
+            String sql = "SELECT * FROM staff WHERE lastname like '" + lastname + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printStaff(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void findStaffByPositionId(Long positionId) {
+        try {
+            String sql = "SELECT * FROM staff WHERE position_id = " + positionId;
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printStaff(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void findStaffBySalaryRange(int min, int max) {
+        try {
+            String sql = "SELECT * FROM staff WHERE salary BETWEEN " + min + " AND " + max;
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printStaff(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void findAllStaff() {
+        try {
+            String sql = "SELECT * FROM staff";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printStaff(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
