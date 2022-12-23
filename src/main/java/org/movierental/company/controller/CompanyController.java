@@ -1,5 +1,6 @@
 package org.movierental.company.controller;
 
+import org.movierental.company.entity.Company;
 import org.movierental.company.service.AddCompanyService;
 import org.movierental.company.service.RemoveCompanyService;
 import org.movierental.company.service.SearchCompanyService;
@@ -16,8 +17,8 @@ public class CompanyController {
         this.removeCompanyService = new RemoveCompanyService();
     }
 
-    public void addCompany(String companyName) {
-        addCompanyService.add(companyName);
+    public Company addCompany(Company company) {
+        return addCompanyService.add(company);
     }
 
     public void searchCompanyByName(String companyName) {

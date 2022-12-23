@@ -3,6 +3,7 @@ package org.movierental.userinterface;
 import org.movierental.address.controller.AddressController;
 import org.movierental.address.entity.Address;
 import org.movierental.company.controller.CompanyController;
+import org.movierental.company.entity.Company;
 import org.movierental.staff.controller.StaffController;
 import org.movierental.staff.entity.Staff;
 
@@ -181,7 +182,7 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-            companyController.addCompany(provideCompanyName());
+            companyController.addCompany(provideCompany());
         }
         if ("2".equals(command)) {
             addressController.addAddress(provideAddressData());
@@ -203,9 +204,11 @@ public class UserInterfaceTerminal {
         System.out.println("exit - exit program");
     }
 
-    private static String provideCompanyName() {
+    private static Company provideCompany() {
         System.out.println("Provide company name to insert: ");
-        return scanner.nextLine();
+        Company company = new Company();
+        company.setName(scanner.nextLine());
+        return company;
     }
 
     private static Address provideAddressData() {

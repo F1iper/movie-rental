@@ -2,6 +2,7 @@ package org.movierental.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
+import org.movierental.company.entity.Company;
 import org.movierental.staff.entity.Staff;
 
 import java.sql.ResultSet;
@@ -10,21 +11,22 @@ import java.sql.SQLException;
 @Slf4j
 public class QueryExecutor {
 
-    public static void insertCompany(String companyName) {
+    public static Company insertCompany(Company company) {
         try {
             var connection = DatabaseConnection.connect();
             String sql = "INSERT INTO company (name) values (?)";
 
             var statement = connection.prepareStatement(sql);
-            statement.setString(1, companyName);
+            statement.setString(1, company.getName());
             int rows = statement.executeUpdate();
             if (rows > 0) {
-                log.info("New company [" + companyName + "] has been inserted successfully.");
+                System.out.println(("New company [" + company.getName() + "] has been inserted successfully."));
             }
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return company;
     }
 
     public static void insertAddress(Address address) {
