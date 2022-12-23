@@ -12,7 +12,11 @@ public class SearchCompanyService {
         QueryExecutor.searchAllCompanies();
     }
 
-    public void searchById(Long id) {
+    public void removeCompanyById(Long id) {
         QueryExecutor.removeCompanyById(id);
+    }
+
+    public void findById(Long id) {
+        QueryExecutor.findCompanyById(id);
     }
 }

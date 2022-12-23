@@ -30,6 +30,11 @@ public class UserInterfaceTerminal {
             if ("exit".equals(command)) {
                 break;
             }
+            if ("2".equals(command)) {
+                System.out.println("Update data in: ");
+                printOptions();
+                checkWhereUpdateData(scanner.nextLine());
+            }
             if ("3".equals(command)) {
                 System.out.println("Insert data to: ");
                 printOptions();
@@ -48,6 +53,20 @@ public class UserInterfaceTerminal {
         }
     }
 
+    private void checkWhereUpdateData(String command) {
+        if ("0".equals(command)) {
+            return;
+        }
+        if ("1".equals(command)) {
+            System.out.println("Provide Company ID: ");
+            long id = Long.parseLong(scanner.nextLine());
+            System.out.println("Company to update: ");
+            companyController.searchCompanyById(id);
+//            companyController.updateCompany(id);
+        }
+
+    }
+
     private void chooseCompanySearchOption(String command) {
         if ("0".equals(command)) {
             return;
@@ -64,7 +83,6 @@ public class UserInterfaceTerminal {
         if ("3".equals(command)) {
             companyController.searchAll();
         }
-
     }
 
     private void removeData(String command) {
@@ -161,7 +179,7 @@ public class UserInterfaceTerminal {
             System.out.println("Provide zip code: ");
             addressController.searchAddressByZipCode(scanner.nextLine());
         }
-        if ("5".equals(command)) {
+        if ("6".equals(command)) {
             addressController.searchAllAddresses();
         }
     }
@@ -198,6 +216,7 @@ public class UserInterfaceTerminal {
         System.out.println("-------------------");
         System.out.println("What would you like to do? ");
         // TODO: 12/21/2022 register + login
+        System.out.println("2 - Update data");
         System.out.println("3 - Insert data");
         System.out.println("4 - Select data");
         System.out.println("5 - Remove data");

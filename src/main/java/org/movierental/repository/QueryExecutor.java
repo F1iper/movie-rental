@@ -11,6 +11,27 @@ import java.sql.SQLException;
 @Slf4j
 public class QueryExecutor {
 
+    public static ResultSet executeSelect(String selectQuery) {
+        try {
+            var connection = DatabaseConnection.connect();
+            var statement = connection.createStatement();
+            statement.setFetchSize(1);
+            return statement.executeQuery(selectQuery);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void executeQuery(String query) {
+        try {
+            var connection = DatabaseConnection.connect();
+            var statement = connection.createStatement();
+            statement.execute(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public static Company insertCompany(Company company) {
         try {
             var connection = DatabaseConnection.connect();
@@ -22,12 +43,69 @@ public class QueryExecutor {
             if (rows > 0) {
                 System.out.println(("New company [" + company.getName() + "] has been inserted successfully."));
             }
-            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
         return company;
     }
+
+    public static void findCompanyById(Long id) {
+        try {
+            String sql = "SELECT * FROM company WHERE id = " + id;
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                printCompanies(rs);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchByCompanyName(String companyName) {
+        try {
+            String sql = "SELECT * FROM company WHERE NAME LIKE '" + companyName + "'";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+
+            while (rs.next()) {
+                printCompanies(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void searchAllCompanies() {
+        try {
+            String sql = "SELECT * FROM company";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+
+            while (rs.next()) {
+                printCompanies(rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void removeCompanyById(Long id) {
+        String sql = "DELETE FROM company WHERE company_id = " + id;
+        executeQuery(sql);
+    }
+
+    public static void getPositions() {
+        try {
+            String sql = "SELECT * FROM position";
+            ResultSet rs = QueryExecutor.executeSelect(sql);
+            while (rs.next()) {
+                System.out.print("[" + rs.getLong("position_id") + "] - ");
+                System.out.println(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            log.warn(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 
     public static void insertAddress(Address address) {
         try {
@@ -49,117 +127,6 @@ public class QueryExecutor {
             log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    public static ResultSet executeSelect(String selectQuery) {
-        try {
-            var connection = DatabaseConnection.connect();
-            var statement = connection.createStatement();
-            return statement.executeQuery(selectQuery);
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void executeQuery(String query) {
-        try {
-            var connection = DatabaseConnection.connect();
-            var statement = connection.createStatement();
-            statement.execute(query);
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void searchByCompanyName(String companyName) {
-        try {
-            String sql = "SELECT * FROM company WHERE NAME LIKE '" + companyName + "'";
-            ResultSet rs = QueryExecutor.executeSelect(sql);
-
-            while (rs.next()) {
-                System.out.print(rs.getString("company_id"));
-                System.out.print(" - ");
-                System.out.println(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void searchAllCompanies() {
-        try {
-            String sql = "SELECT * FROM company";
-            ResultSet rs = QueryExecutor.executeSelect(sql);
-
-            while (rs.next()) {
-                System.out.print("[");
-                System.out.print(rs.getString("company_id"));
-                System.out.print("] - ");
-                System.out.println(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void removeCompanyById(Long id) {
-        String sql = "DELETE FROM company WHERE company_id = " + id;
-        executeQuery(sql);
-    }
-
-    public static void insertStaff(Staff staff) {
-        try {
-            var connection = DatabaseConnection.connect();
-
-            String sql = "INSERT INTO staff (firstname, lastname, salary, position_id) VALUES (?, ?, ?, ?)";
-            var statement = connection.prepareStatement(sql);
-            statement.setString(1, staff.getFirstname());
-            statement.setString(2, staff.getLastname());
-            statement.setDouble(3, staff.getSalary());
-            statement.setLong(4, staff.getPosition_id());
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("Added: " + staff);
-            }
-
-        } catch (SQLException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void getPositions() {
-        try {
-            String sql = "SELECT * FROM position";
-            ResultSet rs = QueryExecutor.executeSelect(sql);
-            while (rs.next()) {
-                System.out.print("[" + rs.getLong("position_id") + "] - ");
-                System.out.println(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void getStaffList() {
-        try {
-            String sql = "SELECT * FROM staff";
-            ResultSet rs = QueryExecutor.executeSelect(sql);
-            while (rs.next()) {
-                System.out.print(rs.getString("firstname"));
-                System.out.print(", " + rs.getString("lastname"));
-                System.out.print(", " + rs.getDouble("salary"));
-                System.out.println(", " + rs.getLong("position_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public static void removeStaffById(Long id) {
-        String sql = "DELETE * FROM STAFF WHERE staff_id = " + id;
-        executeQuery(sql);
     }
 
     public static void searchAddressById(Long id) {
@@ -234,6 +201,27 @@ public class QueryExecutor {
         }
     }
 
+    public static void insertStaff(Staff staff) {
+        try {
+            var connection = DatabaseConnection.connect();
+
+            String sql = "INSERT INTO staff (firstname, lastname, salary, position_id) VALUES (?, ?, ?, ?)";
+            var statement = connection.prepareStatement(sql);
+            statement.setString(1, staff.getFirstname());
+            statement.setString(2, staff.getLastname());
+            statement.setDouble(3, staff.getSalary());
+            statement.setLong(4, staff.getPosition_id());
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Added: " + staff);
+            }
+
+        } catch (SQLException e) {
+            log.warn(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public static void findStaffById(Long id) {
         try {
             String sql = "SELECT * FROM staff WHERE staff_id = " + id;
@@ -244,21 +232,6 @@ public class QueryExecutor {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    private static void printStaff(ResultSet rs) throws SQLException {
-        System.out.print(rs.getString("firstname"));
-        System.out.print(", " + rs.getString("lastname"));
-        System.out.print(", " + rs.getDouble("salary"));
-        System.out.println(", " + rs.getLong("position_id"));
-    }
-
-    private static void printAddress(ResultSet rs) throws SQLException {
-        System.out.print(rs.getString("street"));
-        System.out.print(", " + rs.getString("city"));
-        System.out.print(", " + rs.getString("state"));
-        System.out.print(", " + rs.getString("zip_code"));
-        System.out.println(", " + rs.getString("phone"));
     }
 
     public static void findStaffByFirstname(String firstname) {
@@ -319,5 +292,33 @@ public class QueryExecutor {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public static void removeStaffById(Long id) {
+        String sql = "DELETE * FROM STAFF WHERE staff_id = " + id;
+        executeQuery(sql);
+    }
+
+    private static void printCompanies(ResultSet rs) throws SQLException {
+        System.out.print(rs.getString("company_id"));
+        System.out.print(" - ");
+        System.out.println(rs.getString("name"));
+    }
+
+    private static void printStaff(ResultSet rs) throws SQLException {
+        System.out.print("[" + rs.getString("staff_id") + "] ");
+        System.out.print(rs.getString("firstname"));
+        System.out.print(", " + rs.getString("lastname"));
+        System.out.print(", " + rs.getDouble("salary"));
+        System.out.println(", " + rs.getLong("position_id"));
+    }
+
+    private static void printAddress(ResultSet rs) throws SQLException {
+        System.out.print("[" + rs.getString("address_id") + "] ");
+        System.out.print(rs.getString("street"));
+        System.out.print(", " + rs.getString("city"));
+        System.out.print(", " + rs.getString("state"));
+        System.out.print(", " + rs.getString("zip_code"));
+        System.out.println(", " + rs.getString("phone"));
     }
 }

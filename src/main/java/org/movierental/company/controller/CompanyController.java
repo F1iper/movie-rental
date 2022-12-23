@@ -30,7 +30,7 @@ public class CompanyController {
     }
 
     public void searchCompanyById(Long id) {
-        searchCompanyService.searchById(id);
+        searchCompanyService.removeCompanyById(id);
     }
 
     public void searchAll() {
