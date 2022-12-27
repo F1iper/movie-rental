@@ -31,8 +31,14 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void update(long id, String newName) {
-        execute("UPDATE company SET name = '" + newName + "' WHERE company_id = " + id + ";");
-        System.out.println("Company with id [" + id + "] name was updated to: [" + newName + "]");
+        try (QueryExecutor queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.createStatement()) {
+            statement.executeUpdate("UPDATE company SET name = '" + newName + "' WHERE company_id = " + id + ";");
+            execute("SELECT * FROM company WHERE company_id = " + id + ";");
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override

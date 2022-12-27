@@ -2,9 +2,11 @@ package org.movierental.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 @Slf4j
@@ -19,17 +21,13 @@ public class DatabaseConnection {
             String username = prop.getProperty("db.username");
             String password = prop.getProperty("db.password");
 
-            Connection connection = null;
-            try {
-                connection = DriverManager.getConnection(url, username, password);
-                log.warn("Database connected");
-            } catch (Exception e) {
-                log.warn("Error: " + e.getMessage());
-            }
-            return connection;
-        } catch (Exception e) {
-            log.warn(e.getMessage());
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            log.warn("Error connecting to the database: " + e.getMessage());
+            return null;
+        } catch (IOException e) {
+            log.warn("Error reading database configuration: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 }
