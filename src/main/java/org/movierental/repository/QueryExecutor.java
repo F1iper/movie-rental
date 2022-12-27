@@ -212,6 +212,11 @@ public class QueryExecutor {
         }
     }
 
+    public static void removeAddressById(Long id) {
+        String sql = "DELETE * FROM address WHERE address_id = " + id;
+        executeQuery(sql);
+    }
+
     public static void insertStaff(Staff staff) {
         try {
             var connection = DatabaseConnection.connect();

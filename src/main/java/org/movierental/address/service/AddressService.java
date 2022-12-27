@@ -18,4 +18,6 @@ public interface AddressService {
     void findByZipCode(String zipCode);
 
     void findAll();
+
+    void removeById(Long id);
 }
