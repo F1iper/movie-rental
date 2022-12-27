@@ -1,52 +1,56 @@
 package org.movierental.staff.service;
 
-import org.movierental.repository.QueryExecutor;
+import lombok.RequiredArgsConstructor;
 import org.movierental.staff.entity.Staff;
+import org.movierental.staff.repository.StaffRepository;
 
+@RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
+
+    private final StaffRepository staffRepository;
 
     @Override
     public void add(Staff staff) {
-        QueryExecutor.insertStaff(staff);
+        staffRepository.insert(staff);
     }
 
     @Override
     public void getPositions() {
-        QueryExecutor.getPositions();
+        staffRepository.getPositions();
     }
 
     @Override
     public void findById(Long id) {
-        QueryExecutor.findStaffById(id);
+        staffRepository.findById(id);
     }
 
     @Override
     public void findByFirstname(String firstname) {
-        QueryExecutor.findStaffByFirstname(firstname);
+        staffRepository.findByFirstname(firstname);
     }
 
     @Override
     public void findByLastname(String lastname) {
-        QueryExecutor.findStaffByLastname(lastname);
+        staffRepository.findByLastname(lastname);
     }
 
     @Override
     public void findBySalaryRange(int min, int max) {
-        QueryExecutor.findStaffBySalaryRange(min, max);
+        staffRepository.findBySalaryRange(min, max);
     }
 
     @Override
     public void findByPositionId(Long positionId) {
-        QueryExecutor.findStaffByPositionId(positionId);
+        staffRepository.findByPositionId(positionId);
     }
 
     @Override
     public void findAll() {
-        QueryExecutor.findAllStaff();
+        staffRepository.findAll();
     }
 
     @Override
     public void removeById(Long id) {
-        QueryExecutor.removeStaffById(id);
+        staffRepository.removeById(id);
     }
 }

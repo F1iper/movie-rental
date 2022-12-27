@@ -1,37 +1,41 @@
 package org.movierental.company.service;
 
+import lombok.RequiredArgsConstructor;
 import org.movierental.company.entity.Company;
-import org.movierental.repository.QueryExecutor;
+import org.movierental.company.repository.CompanyRepository;
 
+@RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
+
+    private final CompanyRepository companyRepository;
 
     @Override
     public Company add(Company company) {
-        return QueryExecutor.insertCompany(company);
+        return companyRepository.insert(company);
     }
 
     @Override
     public void update(long id, String newName) {
-        QueryExecutor.updateCompany(id, newName);
+        companyRepository.update(id, newName);
     }
 
     @Override
     public void findById(Long id) {
-        QueryExecutor.findCompanyById(id);
+        companyRepository.findById(id);
     }
 
     @Override
-    public void findByName(String companyName) {
-        QueryExecutor.searchByCompanyName(companyName);
+    public void findByName(String name) {
+        companyRepository.findByName(name);
     }
 
     @Override
     public void findAll() {
-        QueryExecutor.searchAllCompanies();
+        companyRepository.findAll();
     }
 
     @Override
     public void removeById(Long id) {
-        QueryExecutor.removeCompanyById(id);
+        companyRepository.removeById(id);
     }
 }

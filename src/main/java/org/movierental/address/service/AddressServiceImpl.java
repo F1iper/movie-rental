@@ -1,47 +1,51 @@
 package org.movierental.address.service;
 
+import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;
-import org.movierental.repository.QueryExecutor;
+import org.movierental.address.repository.AddressRepository;
 
+@RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
+
+    private final AddressRepository addressRepository;
 
     @Override
     public void add(Address address) {
-        QueryExecutor.insertAddress(address);
+        addressRepository.insert(address);
     }
 
     @Override
     public void findById(Long id) {
-        QueryExecutor.searchAddressById(id);
+        addressRepository.findById(id);
     }
 
     @Override
     public void findByStreet(String street) {
-        QueryExecutor.searchAddressByStreet(street);
+        addressRepository.findByStreet(street);
     }
 
     @Override
     public void findByCity(String city) {
-        QueryExecutor.searchAddressByCity(city);
+        addressRepository.findByCity(city);
     }
 
     @Override
     public void findByState(String state) {
-        QueryExecutor.searchAddressByState(state);
+        addressRepository.findByState(state);
     }
 
     @Override
     public void findByZipCode(String zipCode) {
-        QueryExecutor.searchAddressByZipCode(zipCode);
+        addressRepository.findByZipCode(zipCode);
     }
 
     @Override
     public void findAll() {
-        QueryExecutor.searchAllAddresses();
+        addressRepository.findAll();
     }
 
     @Override
     public void removeById(Long id) {
-        QueryExecutor.removeAddressById(id);
+        addressRepository.removeById(id);
     }
 }

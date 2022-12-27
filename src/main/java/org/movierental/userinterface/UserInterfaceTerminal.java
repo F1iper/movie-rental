@@ -1,5 +1,6 @@
 package org.movierental.userinterface;
 
+import lombok.RequiredArgsConstructor;
 import org.movierental.address.controller.AddressController;
 import org.movierental.address.entity.Address;
 import org.movierental.company.controller.CompanyController;
@@ -9,18 +10,13 @@ import org.movierental.staff.entity.Staff;
 
 import java.util.Scanner;
 
+@RequiredArgsConstructor
 public class UserInterfaceTerminal {
 
     private final static Scanner scanner = new Scanner(System.in);
     private final CompanyController companyController;
     private final AddressController addressController;
     private final StaffController staffController;
-
-    public UserInterfaceTerminal() {
-        this.companyController = new CompanyController();
-        this.addressController = new AddressController();
-        this.staffController = new StaffController();
-    }
 
     public void run() {
         while (true) {
@@ -62,10 +58,9 @@ public class UserInterfaceTerminal {
             long id = Long.parseLong(scanner.nextLine());
             System.out.println("Company to update: ");
             companyController.findCompanyById(id);
-            System.out.println("Provide new data: ");
-            System.out.println("Name: ");
+            System.out.println("Provide new name: ");
             String newName = scanner.nextLine();
-            companyController.updateCompany(id, newName);
+            companyController.updateCompanyNameById(id, newName);
         }
     }
 
@@ -93,7 +88,7 @@ public class UserInterfaceTerminal {
         if ("1".equals(command)) {
             System.out.println("Provide company ID: ");
             Long companyId = Long.parseLong(scanner.nextLine());
-            companyController.removeCompany(companyId);
+            companyController.removeCompanyById(companyId);
         }
     }
 

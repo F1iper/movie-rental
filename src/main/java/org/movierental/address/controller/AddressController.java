@@ -1,16 +1,13 @@
 package org.movierental.address.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;
 import org.movierental.address.service.AddressService;
-import org.movierental.address.service.AddressServiceImpl;
 
+@RequiredArgsConstructor
 public class AddressController {
 
     private final AddressService addressService;
-
-    public AddressController() {
-        this.addressService = new AddressServiceImpl();
-    }
 
     public void addAddress(Address address) {
         addressService.add(address);

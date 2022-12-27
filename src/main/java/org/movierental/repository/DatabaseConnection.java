@@ -10,7 +10,7 @@ import java.util.Properties;
 @Slf4j
 public class DatabaseConnection {
 
-    public static Connection connect() {
+    public Connection connect() {
         try (InputStream input = new FileInputStream("src/resources/dbconfig.properties")) {
             Properties prop = new Properties();
             prop.load(input);

@@ -1,16 +1,13 @@
 package org.movierental.company.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.movierental.company.entity.Company;
 import org.movierental.company.service.CompanyService;
-import org.movierental.company.service.CompanyServiceImpl;
 
+@RequiredArgsConstructor
 public class CompanyController {
 
     private final CompanyService companyService;
-
-    public CompanyController() {
-        this.companyService = new CompanyServiceImpl();
-    }
 
     public Company addCompany(Company company) {
         return companyService.add(company);
@@ -20,7 +17,7 @@ public class CompanyController {
         companyService.findByName(companyName);
     }
 
-    public void removeCompany(Long id) {
+    public void removeCompanyById(Long id) {
         companyService.removeById(id);
     }
 
@@ -32,7 +29,7 @@ public class CompanyController {
         companyService.findAll();
     }
 
-    public void updateCompany(long id, String name) {
+    public void updateCompanyNameById(long id, String name) {
         companyService.update(id, name);
     }
 }

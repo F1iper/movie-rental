@@ -1,16 +1,13 @@
 package org.movierental.staff.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.movierental.staff.entity.Staff;
 import org.movierental.staff.service.StaffService;
-import org.movierental.staff.service.StaffServiceImpl;
 
+@RequiredArgsConstructor
 public class StaffController {
 
     private final StaffService staffService;
-
-    public StaffController() {
-        this.staffService = new StaffServiceImpl();
-    }
 
     public void add(Staff staff) {
         staffService.add(staff);
