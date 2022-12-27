@@ -61,10 +61,12 @@ public class UserInterfaceTerminal {
             System.out.println("Provide Company ID: ");
             long id = Long.parseLong(scanner.nextLine());
             System.out.println("Company to update: ");
-            companyController.searchCompanyById(id);
-//            companyController.updateCompany(id);
+            companyController.findCompanyById(id);
+            System.out.println("Provide new data: ");
+            System.out.println("Name: ");
+            String newName = scanner.nextLine();
+            companyController.updateCompany(id, newName);
         }
-
     }
 
     private void chooseCompanySearchOption(String command) {
@@ -73,15 +75,14 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide Company ID: ");
-            Long id = Long.parseLong(scanner.nextLine());
-            companyController.searchCompanyById(id);
+            companyController.findCompanyById(Long.parseLong(scanner.nextLine()));
         }
         if ("2".equals(command)) {
             System.out.println("Provide company name: ");
-            companyController.searchCompanyByName(scanner.nextLine());
+            companyController.findCompanyByName(scanner.nextLine());
         }
         if ("3".equals(command)) {
-            companyController.searchAll();
+            companyController.findCompaniesAsList();
         }
     }
 

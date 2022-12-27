@@ -5,6 +5,7 @@ import org.movierental.address.entity.Address;
 import org.movierental.company.entity.Company;
 import org.movierental.staff.entity.Staff;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,7 +16,7 @@ public class QueryExecutor {
         try {
             var connection = DatabaseConnection.connect();
             var statement = connection.createStatement();
-            statement.setFetchSize(1);
+            statement.setFetchSize(Integer.MIN_VALUE);
             return statement.executeQuery(selectQuery);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -34,7 +35,7 @@ public class QueryExecutor {
 
     public static Company insertCompany(Company company) {
         try {
-            var connection = DatabaseConnection.connect();
+            Connection connection = DatabaseConnection.connect();
             String sql = "INSERT INTO company (name) values (?)";
 
             var statement = connection.prepareStatement(sql);
@@ -49,9 +50,20 @@ public class QueryExecutor {
         return company;
     }
 
+    public static void updateCompany(long id, String newName) {
+        try(var connection = DatabaseConnection.connect()) {
+            var statement = connection.createStatement();
+            String sql = "UPDATE company SET name = '" + newName + "' WHERE company_id = " + id;
+            statement.executeUpdate(sql);
+            System.out.println("Company with id [" + id +"] name was updated to: " + newName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void findCompanyById(Long id) {
         try {
-            String sql = "SELECT * FROM company WHERE id = " + id;
+            String sql = "SELECT * FROM company WHERE company_id = " + id;
             ResultSet rs = QueryExecutor.executeSelect(sql);
             while (rs.next()) {
                 printCompanies(rs);
@@ -105,7 +117,6 @@ public class QueryExecutor {
             throw new RuntimeException(e.getMessage());
         }
     }
-
 
     public static void insertAddress(Address address) {
         try {

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AddCompanyServiceTest {
+public class AddCompanyServiceImplTest {
 
     @Rule
     public MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");

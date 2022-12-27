@@ -1,39 +1,37 @@
 package org.movierental.company.controller;
 
 import org.movierental.company.entity.Company;
-import org.movierental.company.service.AddCompanyService;
-import org.movierental.company.service.RemoveCompanyService;
-import org.movierental.company.service.SearchCompanyService;
+import org.movierental.company.service.CompanyServiceImpl;
 
 public class CompanyController {
 
-    private final AddCompanyService addCompanyService;
-    private final SearchCompanyService searchCompanyService;
-    private final RemoveCompanyService removeCompanyService;
+    private final CompanyServiceImpl companyServiceImpl;
 
     public CompanyController() {
-        this.addCompanyService = new AddCompanyService();
-        this.searchCompanyService = new SearchCompanyService();
-        this.removeCompanyService = new RemoveCompanyService();
+        this.companyServiceImpl = new CompanyServiceImpl();
     }
 
     public Company addCompany(Company company) {
-        return addCompanyService.add(company);
+        return companyServiceImpl.add(company);
     }
 
-    public void searchCompanyByName(String companyName) {
-        searchCompanyService.searchByName(companyName);
+    public void findCompanyByName(String companyName) {
+        companyServiceImpl.findByName(companyName);
     }
 
     public void removeCompany(Long id) {
-        removeCompanyService.removeById(id);
+        companyServiceImpl.removeById(id);
     }
 
-    public void searchCompanyById(Long id) {
-        searchCompanyService.removeCompanyById(id);
+    public void findCompanyById(Long id) {
+        companyServiceImpl.findById(id);
     }
 
-    public void searchAll() {
-        searchCompanyService.searchAll();
+    public void findCompaniesAsList() {
+        companyServiceImpl.findAll();
+    }
+
+    public void updateCompany(long id, String name) {
+        companyServiceImpl.update(id, name);
     }
 }
