@@ -1,44 +1,42 @@
 package org.movierental.address.controller;
 
 import org.movierental.address.entity.Address;
-import org.movierental.address.service.AddAddressService;
-import org.movierental.address.service.SearchAddressService;
+import org.movierental.address.service.AddressService;
+import org.movierental.address.service.AddressServiceImpl;
 
 public class AddressController {
 
-    private final AddAddressService addAddressService;
-    private final SearchAddressService searchAddressService;
+    private final AddressService addressService;
 
     public AddressController() {
-        this.addAddressService = new AddAddressService();
-        this.searchAddressService = new SearchAddressService();
+        this.addressService = new AddressServiceImpl();
     }
 
     public void addAddress(Address address) {
-        addAddressService.add(address);
+        addressService.add(address);
     }
 
     public void searchAddressById(Long id) {
-        searchAddressService.searchAddressById(id);
+        addressService.findById(id);
     }
 
     public void searchAddressByStreet(String street) {
-        searchAddressService.searchAddressByStreet(street);
+        addressService.findByStreet(street);
     }
 
     public void searchAddressByCity(String city) {
-        searchAddressService.searchAddressByCity(city);
+        addressService.findByCity(city);
     }
 
     public void searchAddressByState(String state) {
-        searchAddressService.searchAddressByState(state);
+        addressService.findByState(state);
     }
 
     public void searchAddressByZipCode(String zipCode) {
-        searchAddressService.searchAddressByZipCode(zipCode);
+        addressService.findByZipCode(zipCode);
     }
 
     public void searchAllAddresses() {
-        searchAddressService.searchAllAddresses();
+        addressService.findAll();
     }
 }
