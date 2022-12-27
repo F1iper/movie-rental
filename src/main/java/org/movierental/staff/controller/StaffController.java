@@ -1,55 +1,50 @@
 package org.movierental.staff.controller;
 
 import org.movierental.staff.entity.Staff;
-import org.movierental.staff.service.*;
+import org.movierental.staff.service.StaffService;
+import org.movierental.staff.service.StaffServiceImpl;
 
 public class StaffController {
 
-    private final AddStaffService addStaffService;
-    private final GetPositionService getPositionService;
-    private final RemoveStaffService removeStaffService;
-    private final SearchStaffService searchStaffService;
+    private final StaffService staffService;
 
     public StaffController() {
-        this.addStaffService = new AddStaffService();
-        this.getPositionService = new GetPositionService();
-        this.removeStaffService = new RemoveStaffService();
-        this.searchStaffService = new SearchStaffService();
+        this.staffService = new StaffServiceImpl();
     }
 
-    public void addStaff(Staff staff) {
-        addStaffService.add(staff);
+    public void add(Staff staff) {
+        staffService.add(staff);
     }
 
-    public void removeStaffById(Long id) {
-        removeStaffService.remove(id);
+    public void removeById(Long id) {
+        staffService.removeById(id);
     }
 
-    public void findAllStaff() {
-        searchStaffService.findAllStaff();
+    public void findAll() {
+        staffService.findAll();
     }
 
     public void getPositions() {
-        getPositionService.getPositions();
+        staffService.getPositions();
     }
 
     public void findStaffById(long id) {
-        searchStaffService.findStaffById(id);
+        staffService.findById(id);
     }
 
-    public void findStaffByFirstname(String firstname) {
-        searchStaffService.findStaffByFirstname(firstname);
+    public void findByFirstname(String firstname) {
+        staffService.findByFirstname(firstname);
     }
 
-    public void findStaffByLastname(String lastname) {
-        searchStaffService.findStaffByLastname(lastname);
+    public void findByLastname(String lastname) {
+        staffService.findByLastname(lastname);
     }
 
-    public void findStaffBySalaryRange(int min, int max) {
-        searchStaffService.findStaffBySalaryRange(min, max);
+    public void findBySalaryRange(int min, int max) {
+        staffService.findBySalaryRange(min, max);
     }
 
-    public void findStaffByPositionId(long positionId) {
-        searchStaffService.findStaffByPositionId(positionId);
+    public void findByPositionId(long positionId) {
+        staffService.findByPositionId(positionId);
     }
 }

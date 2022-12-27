@@ -125,23 +125,23 @@ public class UserInterfaceTerminal {
         }
         if ("2".equals(command)) {
             System.out.println("Provide firstname: ");
-            staffController.findStaffByFirstname(scanner.nextLine());
+            staffController.findByFirstname(scanner.nextLine());
         }
         if ("3".equals(command)) {
             System.out.println("Provide lastname: ");
-            staffController.findStaffByLastname(scanner.nextLine());
+            staffController.findByLastname(scanner.nextLine());
         }
         if ("4".equals(command)) {
             System.out.println("Provide salary range, first number - minimum, second number - maximum ");
-            staffController.findStaffBySalaryRange(Integer.parseInt(scanner.nextLine()),
+            staffController.findBySalaryRange(Integer.parseInt(scanner.nextLine()),
                     Integer.parseInt(scanner.nextLine()));
         }
         if ("5".equals(command)) {
             System.out.println("Provide position ID: ");
-            staffController.findStaffByPositionId(Long.parseLong(scanner.nextLine()));
+            staffController.findByPositionId(Long.parseLong(scanner.nextLine()));
         }
         if ("6".equals(command)) {
-            staffController.findAllStaff();
+            staffController.findAll();
         }
     }
 
@@ -207,7 +207,7 @@ public class UserInterfaceTerminal {
             addressController.addAddress(provideAddressData());
         }
         if ("3".equals(command)) {
-            staffController.addStaff(provideStaffData());
+            staffController.add(provideStaffData());
         }
     }
 
