@@ -1,16 +1,15 @@
 package org.movierental.entity;
 
-import org.movierental.address.entity.Address;
+import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
+@Data
 public class Customer {
-
     private Long customerId;
+    private boolean active;
+    private Timestamp createdAt;
+    private String email;
     private String firstname;
     private String lastname;
-    private String email;
-    private boolean active;
-    private LocalDateTime createdAt;
-    private Address address;
 }

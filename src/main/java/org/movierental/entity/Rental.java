@@ -1,15 +1,15 @@
 package org.movierental.entity;
 
-import org.movierental.staff.entity.Staff;
+import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
+@Data
 public class Rental {
-
     private Long rentalId;
-    private LocalDateTime rentDate;
-    private LocalDateTime returnDate;
-    private Staff staff;
-    private Movie movie;
-    private Customer customer;
+    private Timestamp rentDate;
+    private Timestamp returnDate;
+    private Long customerId;
+    private Long movieId;
+    private Long staffId;
 }

@@ -3,8 +3,7 @@ package org.movierental.entity;
 import lombok.Data;
 
 @Data
-public class Director {
+public class MovieDirector {
     private Long directorId;
-    private String firstname;
-    private String lastname;
+    private Long movieId;
 }

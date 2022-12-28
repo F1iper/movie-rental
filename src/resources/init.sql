@@ -1,112 +1,174 @@
-CREATE TABLE IF NOT EXISTS `actor`
+CREATE TABLE IF NOT EXISTS company
 (
-    `actor_id`  BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `firstname` VARCHAR(40)       NULL DEFAULT NULL,
-    `lastname`  VARCHAR(50)       NULL DEFAULT NULL
+    company_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name       VARCHAR(255)       NULL DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `address`
+
+CREATE TABLE IF NOT EXISTS branch
 (
-    `address_id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `city`       VARCHAR(40)       NULL DEFAULT NULL,
-    `phone`      VARCHAR(20)       NULL DEFAULT NULL,
-    `state`      VARCHAR(30)       NULL DEFAULT NULL,
-    `street`     VARCHAR(40)       NULL DEFAULT NULL,
-    `zip_code`   VARCHAR(10)       NULL DEFAULT NULL
+    branch_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name      varchar(255)
 );
 
-CREATE TABLE IF NOT EXISTS `company`
+CREATE TABLE IF NOT EXISTS actors
 (
-    `company_id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `name`       VARCHAR(30)       NULL DEFAULT NULL
+    actor_id   BIGINT       NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name  VARCHAR(255) NOT NULL,
+    PRIMARY KEY (actor_id)
 );
 
-CREATE TABLE IF NOT EXISTS `branch`
+
+CREATE TABLE IF NOT EXISTS director
 (
-    `branch_id`  BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `address_id` BIGINT             NULL DEFAULT NULL,
-    `company_id` BIGINT             NULL DEFAULT NULL,
-    FOREIGN KEY (`company_id`) REFERENCES `company` (`company_id`),
-    FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+    director_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    firstname   VARCHAR(20) DEFAULT NULL,
+    lastname    VARCHAR(40) DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `movie`
+CREATE TABLE IF NOT EXISTS movies
 (
-    `movie_id`     BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `category`     SMALLINT           NULL DEFAULT NULL,
-    `rent_cost`    DOUBLE             NOT NULL,
-    `description`  VARCHAR(255)       NULL DEFAULT NULL,
-    `language`     SMALLINT           NULL DEFAULT NULL,
-    `length`       INT                NOT NULL,
-    `release_year` INT                NOT NULL,
-    `rental_rate`  DOUBLE             NOT NULL,
-    `status`       SMALLINT           NULL DEFAULT NULL,
-    `title`        VARCHAR(50)       NULL DEFAULT NULL
+    movie_id     BIGINT           NOT NULL AUTO_INCREMENT,
+    title        VARCHAR(255)     NOT NULL,
+    description  TEXT,
+    release_year INT              NOT NULL,
+    length       INT              NOT NULL,
+    language_id  BIGINT           NOT NULL,
+    category_id  BIGINT           NOT NULL,
+    cost         DOUBLE PRECISION NOT NULL,
+    status_id    BIGINT           NOT NULL,
+    rental_rate  DOUBLE PRECISION NOT NULL,
+    PRIMARY KEY (movie_id)
 );
 
-CREATE TABLE IF NOT EXISTS `branch_movies`
+CREATE TABLE IF NOT EXISTS movie_type
 (
-    `branch_id` BIGINT NOT NULL,
-    `movie_id`  BIGINT NOT NULL,
-    FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`),
-    FOREIGN KEY (`branch_id`) RóEFERENCES `branch` (`branch_id`),
-    UNIQUE (`branch_id`, `movie_id`)
+    movie_type_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(50),
+    movie_id      BIGINT DEFAULT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
 );
 
-CREATE TABLE IF NOT EXISTS `company_branches`
+CREATE TABLE IF NOT EXISTS movie_actor
 (
-    `company_id` BIGINT NOT NULL,
-    `branch_id`  BIGINT NOT NULL,
-    PRIMARY KEY (`company_id`, `branch_id`),
-    FOREIGN KEY (`company_id`) REFERENCES `company` (`company_id`),
-    FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
-    UNIQUE (`branch_id`, `company_id`)
+    movie_id BIGINT NOT NULL,
+    actor_id BIGINT NOT NULL,
+    PRIMARY KEY (movie_id, actor_id),
+    FOREIGN KEY (actor_id) REFERENCES actors (actor_id),
+    FOREIGN KEY (movie_id) REFERENCES movies (movie_id),
+    UNIQUE (actor_id, movie_id)
 );
 
-CREATE TABLE IF NOT EXISTS `customer`
+CREATE TABLE IF NOT EXISTS movie_director
 (
-    `customer_id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `active`      BIT(1)             NOT NULL,
-    `created_at`  DATETIME(6)        NULL DEFAULT NULL,
-    `email`       VARCHAR(50)       NULL DEFAULT NULL,
-    `firstname`   VARCHAR(40)       NULL DEFAULT NULL,
-    `lastname`    VARCHAR(50)       NULL DEFAULT NULL,
-    `address_id`  BIGINT             NULL DEFAULT NULL,
-    FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+    director_id BIGINT DEFAULT NULL,
+    movie_id    BIGINT DEFAULT NULL,
+    FOREIGN KEY (director_id) REFERENCES director (director_id),
+    FOREIGN KEY (movie_id) REFERENCES movies (movie_id),
+    UNIQUE (movie_id, director_id)
 );
 
-CREATE TABLE IF NOT EXISTS `movie_actor`
+
+CREATE TABLE IF NOT EXISTS customers
 (
-    `movie_id` BIGINT NOT NULL,
-    `actor_id` BIGINT NOT NULL,
-    PRIMARY KEY (`movie_id`, `actor_id`),
-    FOREIGN KEY (`actor_id`) REFERENCES `actor` (`actor_id`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`),
-    UNIQUE (`actor_id`, `movie_id`)
+    customer_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    active      BIT(1)             NOT NULL,
+    created_at  DATETIME(6)  DEFAULT NULL,
+    email       VARCHAR(255) DEFAULT NULL,
+    firstname   VARCHAR(255) DEFAULT NULL,
+    lastname    VARCHAR(255) DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `staff`
+
+CREATE TABLE IF NOT EXISTS address
 (
-    `staff_id`   BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `firstname`  VARCHAR(20)       NULL DEFAULT NULL,
-    `lastname`   VARCHAR(50)       NULL DEFAULT NULL,
-    `position`   SMALLINT           NULL DEFAULT NULL,
-    `salary`     DOUBLE             NOT NULL,
-    `address_id` BIGINT             NULL DEFAULT NULL,
-    `branch_id`  BIGINT             NULL DEFAULT NULL,
-    FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
-    FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`)
+    address_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    city       VARCHAR(255) DEFAULT NULL,
+    phone      VARCHAR(255) DEFAULT NULL,
+    state      VARCHAR(255) DEFAULT NULL,
+    street     VARCHAR(255) DEFAULT NULL,
+    zip_code   VARCHAR(255) DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `rental`
+
+CREATE TABLE IF NOT EXISTS positions
 (
-    `rental_id`   BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `rent_date`   DATETIME(6)        NULL DEFAULT NULL,
-    `return_date` DATETIME(6)        NULL DEFAULT NULL,
-    `customer_id` BIGINT             NULL DEFAULT NULL,
-    `movie_id`    BIGINT             NULL DEFAULT NULL,
-    `staff_id`    BIGINT             NULL DEFAULT NULL,
-    FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
-    FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`)
+    position_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(50)
+);
+
+
+CREATE TABLE IF NOT EXISTS staff
+(
+    staff_id    BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    firstname   VARCHAR(255) DEFAULT NULL,
+    lastname    VARCHAR(255) DEFAULT NULL,
+    salary      DOUBLE             NOT NULL,
+    branch_id   BIGINT       DEFAULT NULL,
+    position_id BIGINT       DEFAULT NULL,
+    FOREIGN KEY (branch_id) REFERENCES branch (branch_id),
+    FOREIGN KEY (position_id) REFERENCES positions (position_id)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS staff_address
+(
+    staff_id   BIGINT NOT NULL,
+    address_id BIGINT NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff (staff_id),
+    FOREIGN KEY (address_id) REFERENCES address (address_id),
+    UNIQUE (staff_id, address_id)
+);
+
+CREATE TABLE IF NOT EXISTS branch_address
+(
+    branch_id  BIGINT NOT NULL,
+    address_id BIGINT NOT NULL,
+    FOREIGN KEY (branch_id) REFERENCES branch (branch_id),
+    FOREIGN KEY (address_id) REFERENCES address (address_id),
+    UNIQUE (branch_id, address_id)
+);
+
+CREATE TABLE IF NOT EXISTS customer_address
+(
+    customer_id BIGINT NOT NULL,
+    address_id  BIGINT NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
+    FOREIGN KEY (address_id) REFERENCES address (address_id),
+    UNIQUE (customer_id, address_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS branch_movies
+(
+    branch_id BIGINT NOT NULL,
+    movie_id  BIGINT NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies (movie_id),
+    FOREIGN KEY (branch_id) REFERENCES branch (branch_id),
+    UNIQUE (branch_id, movie_id)
+);
+
+CREATE TABLE IF NOT EXISTS company_branches
+(
+    company_id BIGINT NOT NULL,
+    branch_id  BIGINT NOT NULL,
+    PRIMARY KEY (company_id, branch_id),
+    FOREIGN KEY (company_id) REFERENCES company (company_id),
+    FOREIGN KEY (branch_id) REFERENCES branch (branch_id),
+    UNIQUE (branch_id, company_id)
+);
+
+CREATE TABLE IF NOT EXISTS rental
+(
+    rental_id   BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    rent_date   DATETIME(6) DEFAULT NULL,
+    return_date DATETIME(6) DEFAULT NULL,
+    customer_id BIGINT      DEFAULT NULL,
+    movie_id    BIGINT      DEFAULT NULL,
+    staff_id    BIGINT      DEFAULT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff (staff_id),
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
+    FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
 );

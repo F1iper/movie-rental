@@ -1,19 +1,11 @@
 package org.movierental.branch.entity;
 
-import org.movierental.address.entity.Address;
-import org.movierental.company.entity.Company;
-import org.movierental.entity.Movie;
-import org.movierental.staff.entity.Staff;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+@Data
+@AllArgsConstructor
 public class Branch {
-
     private Long branchId;
-    private Company company;
-    private Address address;
-    private List<Movie> movies;
-    private Set<Staff> staff = new HashSet<>();
+    private String name;
 }

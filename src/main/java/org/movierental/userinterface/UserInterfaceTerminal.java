@@ -263,7 +263,7 @@ public class UserInterfaceTerminal {
         printPositions();
 
         System.out.println("Please provide position ID: ");
-        staff.setPosition_id(Long.parseLong(scanner.nextLine()));
+        staff.setPositionId(Long.parseLong(scanner.nextLine()));
         System.out.println("Salary: ");
         staff.setSalary(Double.parseDouble(scanner.nextLine()));
         return staff;

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class StaffRepositoryImpl implements StaffRepository {
 
     private final static String STAFF = "staff";
-    private final static String POSITION = "position";
+    private final static String POSITIONS = "positions";
 
     @Override
     public void insert(Staff staff) {
@@ -20,11 +20,10 @@ public class StaffRepositoryImpl implements StaffRepository {
              var statement = connection.prepareStatement(
                      "INSERT INTO " + STAFF + " (firstname, lastname, salary, position_id) VALUES (?, ?, ?, ?)")) {
 
-            statement.setLong(1, staff.getStaffId());
-            statement.setString(2, staff.getFirstname());
-            statement.setString(3, staff.getLastname());
-            statement.setDouble(4, staff.getSalary());
-            statement.setLong(5, staff.getPosition_id());
+            statement.setString(1, staff.getFirstname());
+            statement.setString(2, staff.getLastname());
+            statement.setDouble(3, staff.getSalary());
+            statement.setLong(4, staff.getPositionId());
             int rows = statement.executeUpdate();
             if (rows > 0) {
                 System.out.println("Added: " + staff);
@@ -68,7 +67,8 @@ public class StaffRepositoryImpl implements StaffRepository {
 
     @Override
     public void getPositions() {
-        execute("SELECT * FROM " + POSITION);
+        printPositions("SELECT * FROM " + POSITIONS);
+
     }
 
     private void execute(String sql) {
@@ -97,5 +97,19 @@ public class StaffRepositoryImpl implements StaffRepository {
         System.out.print(", " + rs.getString("lastname"));
         System.out.print(", " + rs.getDouble("salary"));
         System.out.println(", " + rs.getLong("position_id"));
+    }
+
+    private static void printPositions(String sql) {
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.createStatement();
+             var rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                System.out.print("[" + rs.getString("position_id") + "] - ");
+                System.out.println(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            log.warn(e.getMessage());
+        }
     }
 }

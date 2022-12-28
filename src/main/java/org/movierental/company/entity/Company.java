@@ -1,18 +1,12 @@
 package org.movierental.company.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.movierental.branch.entity.Branch;
 
-import java.util.Set;
-
-@Getter
-@Setter
-@ToString
+@Data
 public class Company {
-
     private Long companyId;
     private String name;
-    private Set<Branch> branches;
 }

@@ -3,9 +3,8 @@ package org.movierental.entity;
 import lombok.Data;
 
 @Data
-public class Language {
-
-    private Long languageId;
+public class MovieType {
+    private Long movieTypeId;
     private String name;
-
+    private Long movieId;
 }

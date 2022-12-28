@@ -1,10 +1,8 @@
 package org.movierental.address.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class Address {
 
     private Long addressId;

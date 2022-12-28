@@ -1,22 +1,19 @@
 package org.movierental.entity;
 
-import org.movierental.branch.entity.Branch;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import java.util.List;
-import java.util.Set;
-
+@Data
+@AllArgsConstructor
 public class Movie {
     private Long movieId;
     private String title;
     private String description;
     private int releaseYear;
     private int length;
-    private Language language;
-    private Category category;
+    private Long languageId;
+    private Long categoryId;
     private double cost;
-    private Status status;
+    private Long statusId;
     private double rentalRate;
-    private Set<Actor> actors;
-    private List<Branch> branches;
-
 }
