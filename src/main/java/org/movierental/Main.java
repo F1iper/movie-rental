@@ -6,6 +6,10 @@ import org.movierental.address.service.AddressServiceImpl;
 import org.movierental.company.controller.CompanyController;
 import org.movierental.company.repository.CompanyRepositoryImpl;
 import org.movierental.company.service.CompanyServiceImpl;
+import org.movierental.movie.controller.MovieController;
+import org.movierental.movie.repository.MovieRepository;
+import org.movierental.movie.repository.MovieRepositoryImpl;
+import org.movierental.movie.service.MovieServiceImpl;
 import org.movierental.staff.controller.StaffController;
 import org.movierental.staff.repository.StaffRepositoryImpl;
 import org.movierental.staff.service.StaffServiceImpl;
@@ -17,7 +21,8 @@ class Main {
         var uITerminal = new UserInterfaceTerminal(
                 new CompanyController(new CompanyServiceImpl(new CompanyRepositoryImpl())),
                 new AddressController(new AddressServiceImpl(new AddressRepositoryImpl())),
-                new StaffController(new StaffServiceImpl(new StaffRepositoryImpl()))
+                new StaffController(new StaffServiceImpl(new StaffRepositoryImpl())),
+                new MovieController(new MovieServiceImpl(new MovieRepositoryImpl()))
         );
         uITerminal.run();
 

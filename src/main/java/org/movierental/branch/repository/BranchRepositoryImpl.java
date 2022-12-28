@@ -2,7 +2,7 @@ package org.movierental.branch.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.movierental.branch.entity.Branch;
-import org.movierental.entity.Movie;
+import org.movierental.movie.entity.Movie;
 import org.movierental.repository.QueryExecutor;
 
 import java.sql.ResultSet;
@@ -53,31 +53,31 @@ public class BranchRepositoryImpl implements BranchRepository {
         System.out.println(branch);
     }
 
-    private List<Movie> getMoviesForBranch(Long branchId) {
-        List<Movie> movies = new ArrayList<>();
-        try (var queryExecution = new QueryExecutor();
-             var connection = queryExecution.getConnection();
-             var statement = connection.createStatement();
-             var rs = statement.executeQuery("SELECT * FROM movies WHERE branch_id = " + branchId)) {
-            while (rs.next()) {
-                Long movieId = rs.getLong("movie_id");
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                int releaseYear = rs.getInt("release_year");
-                int length = rs.getInt("length");
-                Long languageId = rs.getLong("language_id");
-                Long categoryId = rs.getLong("category_id");
-                double cost = rs.getDouble("cost");
-                Long statusId = rs.getLong("status_id");
-                double rentalRate = rs.getDouble("rental_rate");
-                Movie movie = new Movie(movieId, title, description, releaseYear, length, languageId, categoryId, cost, statusId, rentalRate);
-                movies.add(movie);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return movies;
-    }
+//    private List<Movie> getMoviesForBranch(Long branchId) {
+//        List<Movie> movies = new ArrayList<>();
+//        try (var queryExecution = new QueryExecutor();
+//             var connection = queryExecution.getConnection();
+//             var statement = connection.createStatement();
+//             var rs = statement.executeQuery("SELECT * FROM movies WHERE branch_id = " + branchId)) {
+//            while (rs.next()) {
+//                Long movieId = rs.getLong("movie_id");
+//                String title = rs.getString("title");
+//                String description = rs.getString("description");
+//                int releaseYear = rs.getInt("release_year");
+//                int length = rs.getInt("length");
+//                Long languageId = rs.getLong("language_id");
+//                Long categoryId = rs.getLong("category_id");
+//                double cost = rs.getDouble("cost");
+//                Long statusId = rs.getLong("status_id");
+//                double rentalRate = rs.getDouble("rental_rate");
+//                Movie movie = new Movie(movieId, title, description, releaseYear, length, languageId, categoryId, cost, statusId, rentalRate);
+//                movies.add(movie);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return movies;
+//    }
 
     @Override
     public void findAllStaffByBranchId(Long id) {

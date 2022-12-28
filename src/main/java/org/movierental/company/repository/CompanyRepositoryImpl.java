@@ -1,13 +1,13 @@
 package org.movierental.company.repository;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.movierental.company.entity.Company;
 import org.movierental.repository.QueryExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Log4j2
+@Slf4j
 public class CompanyRepositoryImpl implements CompanyRepository {
 
     private final static String COMPANY = "company";
@@ -42,7 +42,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void findById(Long id) {
-        execute("SELECT * FROM "  + COMPANY + " WHERE company_id = " + id + ";");
+        execute("SELECT * FROM " + COMPANY + " WHERE company_id = " + id + ";");
     }
 
     @Override

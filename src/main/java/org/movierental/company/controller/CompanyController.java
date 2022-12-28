@@ -13,23 +13,23 @@ public class CompanyController {
         return companyService.add(company);
     }
 
-    public void findCompanyByName(String companyName) {
+    public void findByName(String companyName) {
         companyService.findByName(companyName);
     }
 
-    public void removeCompanyById(Long id) {
+    public void removeById(Long id) {
         companyService.removeById(id);
     }
 
-    public void findCompanyById(Long id) {
+    public void findById(Long id) {
         companyService.findById(id);
     }
 
-    public void findCompaniesAsList() {
+    public void findAll() {
         companyService.findAll();
     }
 
-    public void updateCompanyNameById(long id, String name) {
+    public void updateName(Long id, String name) {
         companyService.update(id, name);
     }
 }

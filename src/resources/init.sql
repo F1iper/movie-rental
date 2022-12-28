@@ -172,3 +172,15 @@ CREATE TABLE IF NOT EXISTS rental
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
     FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
 );
+
+CREATE TABLE IF NOT EXISTS status
+(
+    status_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name      VARCHAR(255)       NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS language
+(
+    language_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(255)       NOT NULL
+);
