@@ -1,6 +1,5 @@
 package org.movierental.address.repository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
 import org.movierental.repository.QueryExecutor;
@@ -9,15 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-@RequiredArgsConstructor
 public class AddressRepositoryImpl implements AddressRepository {
 
-    private final QueryExecutor queryExecutor;
+    private final static String ADDRESS = "address";
 
     @Override
     public void insert(Address address) {
-        try (var connection = queryExecutor.getConnection();
-             var statement = connection.prepareStatement("INSERT INTO address (street, city, state, zip_code, phone) " +
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.prepareStatement("INSERT INTO " + ADDRESS + " (street, city, state, zip_code, phone) " +
                      "VALUES (?, ?, ?, ?, ?)")) {
             statement.setString(1, address.getStreet());
             statement.setString(2, address.getCity());
@@ -26,7 +25,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             statement.setString(5, address.getPhone());
             int rows = statement.executeUpdate();
             if (rows > 0) {
-                System.out.println(("New address [" + address + "] has been inserted successfully."));
+                System.out.println(("New address has been inserted successfully.\n" + address));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
@@ -36,64 +35,52 @@ public class AddressRepositoryImpl implements AddressRepository {
 
     @Override
     public void findById(Long id) {
-        execute("SELECT * FROM address WHERE address_id = " + id + ";");
+        execute("SELECT * FROM " + ADDRESS + " WHERE address_id = " + id + ";");
     }
 
     @Override
     public void findByStreet(String street) {
-        execute("SELECT * FROM address WHERE street LIKE '" + street + "';");
+        execute("SELECT * FROM " + ADDRESS + " WHERE street LIKE '%" + street + "%'");
     }
 
     @Override
     public void findByCity(String city) {
-        execute("SELECT * FROM address WHERE city LIKE '" + city + "';");
+        execute("SELECT * FROM " + ADDRESS + " WHERE city LIKE '%" + city + "%'");
     }
 
     @Override
     public void findByState(String state) {
-        execute("SELECT * FROM address WHERE state LIKE '" + state + "';");
+        execute("SELECT * FROM " + ADDRESS + " WHERE state LIKE '%" + state + "%'");
     }
 
     @Override
     public void findByZipCode(String zipCode) {
-        execute("SELECT * FROM address WHERE zip_code LIKE '" + zipCode + "';");
+        execute("SELECT * FROM " + ADDRESS + " WHERE zip_code LIKE '%" + zipCode + "%'");
     }
 
     @Override
     public void findAll() {
-        execute("SELECT * FROM address;");
+        execute("SELECT * FROM " + ADDRESS);
     }
 
     private void execute(String sql) {
-        try (QueryExecutor queryExecution = new QueryExecutor();
+        try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
                 print(rs);
             }
-            queryExecutor.close();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public void update(long id, String newName) {
-        try (var connection = queryExecutor.getConnection();
-             var statement = connection.createStatement()) {
-            statement.executeUpdate("UPDATE address SET name = '" + newName + "' WHERE company_id = " + id);
-            System.out.println("Company with id [" + id + "] name was updated to: " + newName);
-        } catch (
-                SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
-    }
-
-    @Override
     public void removeById(Long id) {
-        queryExecutor.executeQuery("DELETE * FROM address WHERE address_id = " + id);
+        try (var queryExecution = new QueryExecutor()) {
+            queryExecution.executeQuery("DELETE * FROM " + ADDRESS + " WHERE address_id = " + id);
+        }
     }
 
     private static void print(ResultSet rs) throws SQLException {

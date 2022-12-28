@@ -14,12 +14,9 @@ public interface AddressRepository {
 
     void findByState(String state);
 
-
     void findByZipCode(String zipCode);
 
     void findAll();
-
-    void update(long id, String newName);
 
     void removeById(Long id);
 }

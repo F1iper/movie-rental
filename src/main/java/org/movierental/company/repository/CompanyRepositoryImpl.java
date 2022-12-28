@@ -1,6 +1,5 @@
 package org.movierental.company.repository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.movierental.company.entity.Company;
 import org.movierental.repository.QueryExecutor;
@@ -9,15 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Log4j2
-@RequiredArgsConstructor
 public class CompanyRepositoryImpl implements CompanyRepository {
 
-    private final QueryExecutor queryExecutor;
+    private final static String COMPANY = "company";
 
     @Override
     public Company insert(Company company) {
-        try (var connection = queryExecutor.getConnection();
-             var statement = connection.prepareStatement("INSERT INTO company (name) VALUES (?)")) {
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.prepareStatement("INSERT INTO " + COMPANY + " (name) VALUES (?)")) {
             statement.setString(1, company.getName());
             int rows = statement.executeUpdate();
             if (rows > 0) {
@@ -31,10 +30,10 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void update(long id, String newName) {
-        try (QueryExecutor queryExecution = new QueryExecutor();
+        try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement()) {
-            statement.executeUpdate("UPDATE company SET name = '" + newName + "' WHERE company_id = " + id + ";");
+            statement.executeUpdate("UPDATE " + COMPANY + " SET name = '" + newName + "' WHERE company_id = " + id + ";");
             execute("SELECT * FROM company WHERE company_id = " + id + ";");
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -43,26 +42,28 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public void findById(Long id) {
-        execute("SELECT * FROM company WHERE company_id = " + id + ";");
+        execute("SELECT * FROM "  + COMPANY + " WHERE company_id = " + id + ";");
     }
 
     @Override
     public void findAll() {
-        execute("SELECT * FROM company ;");
+        execute("SELECT * FROM " + COMPANY + " ;");
     }
 
     @Override
     public void findByName(String companyName) {
-        execute("SELECT * FROM company WHERE NAME LIKE '" + companyName + "';");
+        execute("SELECT * FROM " + COMPANY + " WHERE NAME LIKE '%" + companyName + "%'");
     }
 
     @Override
     public void removeById(Long id) {
-        queryExecutor.executeQuery("DELETE FROM company WHERE company_id = " + id + ";");
+        try (var queryExecution = new QueryExecutor()) {
+            queryExecution.executeQuery("DELETE FROM " + COMPANY + " WHERE company_id = " + id);
+        }
     }
 
     private void execute(String sql) {
-        try (QueryExecutor queryExecution = new QueryExecutor();
+        try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {

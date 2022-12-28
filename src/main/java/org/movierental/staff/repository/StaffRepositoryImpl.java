@@ -1,6 +1,5 @@
 package org.movierental.staff.repository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.movierental.repository.QueryExecutor;
 import org.movierental.staff.entity.Staff;
@@ -9,24 +8,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-@RequiredArgsConstructor
 public class StaffRepositoryImpl implements StaffRepository {
 
-    private final static String STAFF_TABLE = "staff";
+    private final static String STAFF = "staff";
     private final static String POSITION = "position";
-
-    private final QueryExecutor queryExecutor;
 
     @Override
     public void insert(Staff staff) {
-        String sql = "INSERT INTO staff (firstname, lastname, salary, position_id) VALUES (?, ?, ?, ?)";
-        try (var connection = queryExecutor.getConnection();
-             var statement = connection.prepareStatement(sql)) {
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.prepareStatement(
+                     "INSERT INTO " + STAFF + " (firstname, lastname, salary, position_id) VALUES (?, ?, ?, ?)")) {
 
-            statement.setString(1, staff.getFirstname());
-            statement.setString(2, staff.getLastname());
-            statement.setDouble(3, staff.getSalary());
-            statement.setLong(4, staff.getPosition_id());
+            statement.setLong(1, staff.getStaffId());
+            statement.setString(2, staff.getFirstname());
+            statement.setString(3, staff.getLastname());
+            statement.setDouble(4, staff.getSalary());
+            statement.setLong(5, staff.getPosition_id());
             int rows = statement.executeUpdate();
             if (rows > 0) {
                 System.out.println("Added: " + staff);
@@ -40,32 +38,32 @@ public class StaffRepositoryImpl implements StaffRepository {
 
     @Override
     public void findById(Long id) {
-        execute("SELECT * FROM staff WHERE staff_id = " + id + ";");
+        execute("SELECT * FROM " + STAFF + " WHERE staff_id = " + id + ";");
     }
 
     @Override
     public void findByFirstname(String firstname) {
-        execute("SELECT * FROM " + STAFF_TABLE + " WHERE firstname like '%" + firstname + "%';");
+        execute("SELECT * FROM " + STAFF + " WHERE firstname like '%" + firstname + "%';");
     }
 
     @Override
     public void findByLastname(String lastname) {
-        execute("SELECT * FROM " + STAFF_TABLE + "  WHERE lastname like '%" + lastname + "%';");
+        execute("SELECT * FROM " + STAFF + "  WHERE lastname like '%" + lastname + "%';");
     }
 
     @Override
     public void findByPositionId(Long positionId) {
-        execute("SELECT * FROM " + STAFF_TABLE + " WHERE position_id = " + positionId + ";");
+        execute("SELECT * FROM " + STAFF + " WHERE position_id = " + positionId + ";");
     }
 
     @Override
     public void findBySalaryRange(int min, int max) {
-        execute("SELECT * FROM " + STAFF_TABLE + " WHERE salary BETWEEN " + min + " AND " + max + ";");
+        execute("SELECT * FROM " + STAFF + " WHERE salary BETWEEN " + min + " AND " + max + ";");
     }
 
     @Override
     public void findAll() {
-        execute("SELECT * FROM " + STAFF_TABLE);
+        execute("SELECT * FROM " + STAFF);
     }
 
     @Override
@@ -74,7 +72,7 @@ public class StaffRepositoryImpl implements StaffRepository {
     }
 
     private void execute(String sql) {
-        try (QueryExecutor queryExecution = new QueryExecutor();
+        try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.prepareStatement(sql);
              var rs = statement.executeQuery()) {
@@ -88,8 +86,8 @@ public class StaffRepositoryImpl implements StaffRepository {
 
     @Override
     public void removeById(Long id) {
-        String sql = "DELETE * FROM STAFF WHERE staff_id = " + id;
-        queryExecutor.executeQuery(sql);
+        var queryExecution = new QueryExecutor();
+        queryExecution.executeQuery("DELETE * FROM " + STAFF + "  WHERE staff_id = " + id);
     }
 
     private static void print(ResultSet rs) throws SQLException {
