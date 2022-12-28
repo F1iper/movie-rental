@@ -79,7 +79,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     @Override
     public void removeById(Long id) {
         try (var queryExecution = new QueryExecutor()) {
-            queryExecution.executeQuery("DELETE * FROM " + ADDRESS + " WHERE address_id = " + id);
+            queryExecution.executeQuery("DELETE FROM " + ADDRESS + " WHERE address_id = " + id);
         }
     }
 

@@ -87,8 +87,19 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide company ID: ");
-            Long companyId = Long.parseLong(scanner.nextLine());
-            companyController.removeCompanyById(companyId);
+            companyController.removeCompanyById(Long.parseLong(scanner.nextLine()));
+        }
+        if ("2".equals(command)) {
+            System.out.println("Provide address ID: ");
+            addressController.removeById(Long.parseLong(scanner.nextLine()));
+        }
+        if ("3".equals(command)) {
+            System.out.println("Provide Staff ID: ");
+            staffController.removeById(Long.parseLong(scanner.nextLine()));
+        }
+        if ("4".equals(command)) {
+            System.out.println("Provide Movie ID: ");
+//            movieController.removeById(Long.parseLong(scanner.nextLine()));
         }
     }
 
@@ -157,26 +168,26 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide address ID: ");
-            addressController.searchAddressById(Long.parseLong(scanner.nextLine()));
+            addressController.findById(Long.parseLong(scanner.nextLine()));
         }
         if ("2".equals(command)) {
             System.out.println("Provide street: ");
-            addressController.searchAddressByStreet(scanner.nextLine());
+            addressController.findByStreet(scanner.nextLine());
         }
         if ("3".equals(command)) {
             System.out.println("Provide city: ");
-            addressController.searchAddressByCity(scanner.nextLine());
+            addressController.findByCity(scanner.nextLine());
         }
         if ("4".equals(command)) {
             System.out.println("Provide state: ");
-            addressController.searchAddressByState(scanner.nextLine());
+            addressController.findByState(scanner.nextLine());
         }
         if ("5".equals(command)) {
             System.out.println("Provide zip code: ");
-            addressController.searchAddressByZipCode(scanner.nextLine());
+            addressController.findByZipCode(scanner.nextLine());
         }
         if ("6".equals(command)) {
-            addressController.searchAllAddresses();
+            addressController.findAll();
         }
     }
 
@@ -199,7 +210,7 @@ public class UserInterfaceTerminal {
             companyController.addCompany(provideCompany());
         }
         if ("2".equals(command)) {
-            addressController.addAddress(provideAddressData());
+            addressController.add(provideAddressData());
         }
         if ("3".equals(command)) {
             staffController.add(provideStaffData());

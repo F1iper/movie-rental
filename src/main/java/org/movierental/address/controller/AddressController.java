@@ -9,31 +9,35 @@ public class AddressController {
 
     private final AddressService addressService;
 
-    public void addAddress(Address address) {
+    public void add(Address address) {
         addressService.add(address);
     }
 
-    public void searchAddressById(Long id) {
+    public void findById(Long id) {
         addressService.findById(id);
     }
 
-    public void searchAddressByStreet(String street) {
+    public void findByStreet(String street) {
         addressService.findByStreet(street);
     }
 
-    public void searchAddressByCity(String city) {
+    public void findByCity(String city) {
         addressService.findByCity(city);
     }
 
-    public void searchAddressByState(String state) {
+    public void findByState(String state) {
         addressService.findByState(state);
     }
 
-    public void searchAddressByZipCode(String zipCode) {
+    public void findByZipCode(String zipCode) {
         addressService.findByZipCode(zipCode);
     }
 
-    public void searchAllAddresses() {
+    public void findAll() {
         addressService.findAll();
+    }
+
+    public void removeById(Long id) {
+        addressService.removeById(id);
     }
 }

@@ -86,8 +86,9 @@ public class StaffRepositoryImpl implements StaffRepository {
 
     @Override
     public void removeById(Long id) {
-        var queryExecution = new QueryExecutor();
-        queryExecution.executeQuery("DELETE * FROM " + STAFF + "  WHERE staff_id = " + id);
+        try (var queryExecution = new QueryExecutor()) {
+            queryExecution.executeQuery("DELETE FROM " + STAFF + "  WHERE staff_id = " + id);
+        }
     }
 
     private static void print(ResultSet rs) throws SQLException {
