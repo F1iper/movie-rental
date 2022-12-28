@@ -12,6 +12,9 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class StaffRepositoryImpl implements StaffRepository {
 
+    private final static String STAFF_TABLE = "staff";
+    private final static String POSITION = "position";
+
     private final QueryExecutor queryExecutor;
 
     @Override
@@ -42,32 +45,32 @@ public class StaffRepositoryImpl implements StaffRepository {
 
     @Override
     public void findByFirstname(String firstname) {
-        execute("SELECT * FROM staff WHERE firstname like '" + firstname + "';");
+        execute("SELECT * FROM " + STAFF_TABLE + " WHERE firstname like '%" + firstname + "%';");
     }
 
     @Override
     public void findByLastname(String lastname) {
-        execute("SELECT * FROM staff WHERE lastname like '" + lastname + "';");
+        execute("SELECT * FROM " + STAFF_TABLE + "  WHERE lastname like '%" + lastname + "%';");
     }
 
     @Override
     public void findByPositionId(Long positionId) {
-        execute("SELECT * FROM staff WHERE position_id = " + positionId + ";");
+        execute("SELECT * FROM " + STAFF_TABLE + " WHERE position_id = " + positionId + ";");
     }
 
     @Override
     public void findBySalaryRange(int min, int max) {
-        execute("SELECT * FROM staff WHERE salary BETWEEN " + min + " AND " + max + ";");
+        execute("SELECT * FROM " + STAFF_TABLE + " WHERE salary BETWEEN " + min + " AND " + max + ";");
     }
 
     @Override
     public void findAll() {
-        execute("SELECT * FROM staff ;");
+        execute("SELECT * FROM " + STAFF_TABLE);
     }
 
     @Override
     public void getPositions() {
-        execute("SELECT * FROM position ;");
+        execute("SELECT * FROM " + POSITION);
     }
 
     private void execute(String sql) {
