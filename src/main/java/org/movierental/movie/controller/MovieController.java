@@ -33,10 +33,6 @@ public class MovieController {
         movieService.findByCategoryId(categoryId);
     }
 
-    public void findByReleaseYearBetween(int start, int end) {
-        movieService.findByReleaseYear(start);
-    }
-
     public void removeById(Long id) {
         movieService.removeById(id);
     }

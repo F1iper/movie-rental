@@ -16,11 +16,7 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public Movie add(Movie movie) {
-        try (var queryExecution = new QueryExecutor();
-             var connection = queryExecution.getConnection();
-             var statement = connection.prepareStatement("INSERT INTO " + MOVIES +
-                     " (title, description, release_year, length, language_id, cost, status_id, rental_rate, movie_type_id) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+        try (var queryExecution = new QueryExecutor(); var connection = queryExecution.getConnection(); var statement = connection.prepareStatement("INSERT INTO " + MOVIES + " (title, description, release_year, length, language_id, cost, status_id, rental_rate, movie_type_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             statement.setString(1, movie.getTitle());
             statement.setString(2, movie.getDescription());
             statement.setInt(3, movie.getReleaseYear());
@@ -53,12 +49,13 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public void findByCategoryId(Long categoryId) {
+        execute("SELECT * FROM " + MOVIES + " WHERE category_id = " + categoryId);
 
     }
 
     @Override
-    public void findByReleaseYearBetween(int start, int end) {
-
+    public void findByReleaseYear(int year) {
+        execute("SELECT * FROM " + MOVIES + " WHERE release_year = " + year);
     }
 
     @Override
@@ -73,12 +70,14 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public void removeById(Long id) {
-
+        try (var queryExecution = new QueryExecutor()) {
+            queryExecution.executeQuery("DELETE FROM " + MOVIES + " WHERE movie_id = " + id);
+        }
     }
 
     @Override
     public void findStatuses() {
-       printStatuses("SELECT * FROM " + STATUS);
+        printStatuses("SELECT * FROM " + STATUS);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public void findByCostRange(int min, int max) {
-
+        execute("SELECT * FROM " + MOVIES + " BETWEEN " + min + " AND " + max);
     }
 
     @Override
@@ -102,16 +101,14 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     private void execute(String sql) {
-        try (var queryExecution = new QueryExecutor();
-             var connection = queryExecution.getConnection();
-             var statement = connection.createStatement();
-             var rs = statement.executeQuery(sql)) {
+        try (var queryExecution = new QueryExecutor(); var connection = queryExecution.getConnection(); var statement = connection.createStatement(); var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
                 System.out.print("[" + rs.getString("movie_id") + "] - ");
-                System.out.print(rs.getString("title"));
-                System.out.print(rs.getString("description"));
-                System.out.print(rs.getInt("release_year"));
-                System.out.println(rs.getInt("length"));
+                System.out.print(", title:" + rs.getString("title"));
+                System.out.print(", description: " + rs.getString("description"));
+                System.out.print(", release year: " + rs.getInt("release_year"));
+                System.out.print(", movie type: " + rs.getString("movie_type_id"));
+                System.out.println(", length: " + rs.getInt("length"));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
@@ -119,10 +116,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     private void printMovieTypes(String sql) {
-        try (var queryExecution = new QueryExecutor();
-             var connection = queryExecution.getConnection();
-             var statement = connection.createStatement();
-             var rs = statement.executeQuery(sql)) {
+        try (var queryExecution = new QueryExecutor(); var connection = queryExecution.getConnection(); var statement = connection.createStatement(); var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
                 System.out.print("[" + rs.getString("movie_type_id") + "] - ");
                 System.out.println(rs.getString("name"));
@@ -133,10 +127,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     private void printStatuses(String sql) {
-        try (var queryExecution = new QueryExecutor();
-             var connection = queryExecution.getConnection();
-             var statement = connection.createStatement();
-             var rs = statement.executeQuery(sql)) {
+        try (var queryExecution = new QueryExecutor(); var connection = queryExecution.getConnection(); var statement = connection.createStatement(); var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
                 System.out.print("[" + rs.getString("status_id") + "] - ");
                 System.out.println(rs.getString("name"));
@@ -147,10 +138,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     private void printLanguages(String sql) {
-        try (var queryExecution = new QueryExecutor();
-             var connection = queryExecution.getConnection();
-             var statement = connection.createStatement();
-             var rs = statement.executeQuery(sql)) {
+        try (var queryExecution = new QueryExecutor(); var connection = queryExecution.getConnection(); var statement = connection.createStatement(); var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
                 System.out.print("[" + rs.getString("language_id") + "] - ");
                 System.out.println(rs.getString("name"));

@@ -16,22 +16,22 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void findByName(String name) {
-
+        movieRepository.findByName(name);
     }
 
     @Override
     public void findById(Long id) {
-
+        movieRepository.findById(id);
     }
 
     @Override
     public void findByCategoryId(Long categoryId) {
-
+        movieRepository.findByCategoryId(categoryId);
     }
 
     @Override
-    public void findByReleaseYear(int start) {
-
+    public void findByReleaseYear(int year) {
+        movieRepository.findByReleaseYear(year);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void removeById(Long id) {
-
+        movieRepository.removeById(id);
     }
 
     @Override

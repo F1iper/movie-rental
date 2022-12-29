@@ -12,7 +12,7 @@ public interface MovieRepository {
 
     void findByCategoryId(Long categoryId);
 
-    void findByReleaseYearBetween(int start, int end);
+    void findByReleaseYear(int year);
 
     void updateName(Long id, String name);
 
