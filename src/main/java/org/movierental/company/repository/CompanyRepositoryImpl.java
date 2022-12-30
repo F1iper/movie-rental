@@ -51,14 +51,13 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
     @Override
-    public List<Company> findByName(String companyName) {
-        return execute("SELECT * FROM " + COMPANY + " WHERE NAME LIKE '%" + companyName + "%'");
+    public List<Company> findByName(String name) {
+        return execute("SELECT * FROM " + COMPANY + " WHERE NAME LIKE '%" + name + "%'");
     }
 
     @Override
     public boolean removeById(Long id) {
         try (var queryExecution = new QueryExecutor()) {
-
             queryExecution.executeQuery("DELETE FROM " + COMPANY + " WHERE company_id = " + id);
         }
         return true;
