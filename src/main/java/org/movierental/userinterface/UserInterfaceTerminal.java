@@ -86,14 +86,14 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide Company ID: ");
-            companyController.findById(Long.parseLong(scanner.nextLine()));
+            System.out.println(companyController.findById(Long.parseLong(scanner.nextLine())));
         }
         if ("2".equals(command)) {
             System.out.println("Provide company name: ");
-            companyController.findByName(scanner.nextLine());
+            System.out.println(companyController.findByName(scanner.nextLine()));
         }
         if ("3".equals(command)) {
-            companyController.findAll();
+            System.out.println(companyController.findAll());
         }
     }
 

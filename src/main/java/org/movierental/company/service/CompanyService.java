@@ -2,18 +2,19 @@ package org.movierental.company.service;
 
 import org.movierental.company.entity.Company;
 
+import java.util.List;
+
 public interface CompanyService {
 
-    Company add(Company company);
+    boolean add(Company company);
 
     void update(long id, String newName);
 
-    void findById(Long id);
+    Company findById(Long id);
 
-    void findByName(String companyName);
+    List<Company> findByName(String companyName);
 
-    void findAll();
+    List<Company> findAll();
 
-    void removeById(Long id);
-
+    boolean removeById(Long id);
 }

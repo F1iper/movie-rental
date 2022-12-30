@@ -4,13 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.movierental.company.entity.Company;
 import org.movierental.company.repository.CompanyRepository;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
 
     @Override
-    public Company add(Company company) {
+    public boolean add(Company company) {
         return companyRepository.insert(company);
     }
 
@@ -20,22 +22,24 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void findById(Long id) {
-        companyRepository.findById(id);
+    public Company findById(Long id) {
+        return companyRepository.findById(id);
     }
 
     @Override
-    public void findByName(String name) {
+    public List<Company> findByName(String name) {
         companyRepository.findByName(name);
+        return null;
     }
 
     @Override
-    public void findAll() {
-        companyRepository.findAll();
+    public List<Company> findAll() {
+        return companyRepository.findAll();
     }
 
     @Override
-    public void removeById(Long id) {
+    public boolean removeById(Long id) {
         companyRepository.removeById(id);
+        return false;
     }
 }

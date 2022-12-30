@@ -2,21 +2,19 @@ package org.movierental.company.repository;
 
 import org.movierental.company.entity.Company;
 
-import java.sql.ResultSet;
+import java.util.List;
 
 public interface CompanyRepository {
 
-    Company insert(Company company);
+    boolean insert(Company company);
 
     void update(long id, String newName);
 
-    void findById(Long id);
+    Company findById(Long id);
 
-    void findByName(String companyName);
+    List<Company> findByName(String companyName);
 
-    void findAll();
+    List<Company> findAll();
 
-    void removeById(Long id);
-
-    void print(ResultSet rs);
+    boolean removeById(Long id);
 }
