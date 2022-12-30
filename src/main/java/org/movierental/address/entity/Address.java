@@ -12,9 +12,21 @@ public class Address {
     private String zip_code;
     private String phone;
 
+    public Address(Long addressId, String street, String city, String state, String zip_code, String phone) {
+        this.addressId = addressId;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zip_code = zip_code;
+        this.phone = phone;
+    }
+
+    public Address() {
+    }
+
     @Override
     public String toString() {
-        return "Street: " + street + ",\ncity: " + city + ",\nstate: " + state +
-                ",\nzip code: " + zip_code + ",\nphone: " + phone;
+        return "\nid: " + addressId + ", street: " + street + ", city: " + city + ", state: " + state +
+                ", zip code: " + zip_code + ", phone: " + phone;
     }
 }

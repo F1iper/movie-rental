@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
 import org.movierental.repository.QueryExecutor;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class AddressRepositoryImpl implements AddressRepository {
@@ -13,7 +14,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     private final static String ADDRESS = "address";
 
     @Override
-    public void insert(Address address) {
+    public boolean insert(Address address) {
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.prepareStatement("INSERT INTO " + ADDRESS + " (street, city, state, zip_code, phone) " +
@@ -27,6 +28,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             if (rows > 0) {
                 System.out.println(("New address has been inserted successfully.\n" + address));
             }
+            return true;
         } catch (SQLException e) {
             log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
@@ -34,61 +36,84 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public void findById(Long id) {
-        execute("SELECT * FROM " + ADDRESS + " WHERE address_id = " + id + ";");
+    public Address findById(Long id) {
+        return executeFindById("SELECT * FROM " + ADDRESS + " WHERE address_id = " + id + ";");
     }
 
     @Override
-    public void findByStreet(String street) {
-        execute("SELECT * FROM " + ADDRESS + " WHERE street LIKE '%" + street + "%'");
+    public List<Address> findByStreet(String street) {
+        return execute("SELECT * FROM " + ADDRESS + " WHERE street LIKE '%" + street + "%'");
     }
 
     @Override
-    public void findByCity(String city) {
-        execute("SELECT * FROM " + ADDRESS + " WHERE city LIKE '%" + city + "%'");
+    public List<Address> findByCity(String city) {
+        return execute("SELECT * FROM " + ADDRESS + " WHERE city LIKE '%" + city + "%'");
     }
 
     @Override
-    public void findByState(String state) {
-        execute("SELECT * FROM " + ADDRESS + " WHERE state LIKE '%" + state + "%'");
+    public List<Address> findByState(String state) {
+        return execute("SELECT * FROM " + ADDRESS + " WHERE state LIKE '%" + state + "%'");
     }
 
     @Override
-    public void findByZipCode(String zipCode) {
-        execute("SELECT * FROM " + ADDRESS + " WHERE zip_code LIKE '%" + zipCode + "%'");
+    public List<Address> findByZipCode(String zipCode) {
+        return execute("SELECT * FROM " + ADDRESS + " WHERE zip_code LIKE '%" + zipCode + "%'");
     }
 
     @Override
-    public void findAll() {
-        execute("SELECT * FROM " + ADDRESS);
+    public List<Address> findAll() {
+        return execute("SELECT * FROM " + ADDRESS);
     }
 
-    private void execute(String sql) {
+    private List<Address> execute(String sql) {
+        List<Address> addresses = new ArrayList<>();
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                print(rs);
+                Long id = rs.getLong("address_id");
+                String street = rs.getString("street");
+                String city = rs.getString("city");
+                String state = rs.getString("state");
+                String zipCode = rs.getString("zip_code");
+                String phone = rs.getString("phone");
+
+                addresses.add(new Address(id, street, city, state, zipCode, phone));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return addresses;
+    }
+
+    private Address executeFindById(String sql) {
+        Address address = new Address();
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.createStatement();
+             var rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                Long id = rs.getLong("address_id");
+                String street = rs.getString("street");
+                String city = rs.getString("city");
+                String state = rs.getString("state");
+                String zipCode = rs.getString("zip_code");
+                String phone = rs.getString("phone");
+
+                address = new Address(id, street, city, state, zipCode, phone);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return address;
     }
 
     @Override
-    public void removeById(Long id) {
+    public boolean removeById(Long id) {
         try (var queryExecution = new QueryExecutor()) {
             queryExecution.executeQuery("DELETE FROM " + ADDRESS + " WHERE address_id = " + id);
+            return true;
         }
-    }
-
-    private static void print(ResultSet rs) throws SQLException {
-        System.out.print("[" + rs.getString("address_id") + "] ");
-        System.out.print(rs.getString("street"));
-        System.out.print(", " + rs.getString("city"));
-        System.out.print(", " + rs.getString("state"));
-        System.out.print(", " + rs.getString("zip_code"));
-        System.out.println(", " + rs.getString("phone"));
     }
 }

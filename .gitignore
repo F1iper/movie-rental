@@ -12,6 +12,7 @@ target/
 *.iml
 *.ipr
 src/resources/dbconfig.properties
+src/test/resources/dbconfig.properties
 
 ### Eclipse ###
 .apt_generated

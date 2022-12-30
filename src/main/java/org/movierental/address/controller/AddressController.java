@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;
 import org.movierental.address.service.AddressService;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class AddressController {
 
@@ -13,31 +15,31 @@ public class AddressController {
         addressService.add(address);
     }
 
-    public void findById(Long id) {
-        addressService.findById(id);
+    public Address findById(Long id) {
+        return addressService.findById(id);
     }
 
-    public void findByStreet(String street) {
-        addressService.findByStreet(street);
+    public List<Address> findByStreet(String street) {
+        return addressService.findByStreet(street);
     }
 
-    public void findByCity(String city) {
-        addressService.findByCity(city);
+    public List<Address> findByCity(String city) {
+        return addressService.findByCity(city);
     }
 
-    public void findByState(String state) {
-        addressService.findByState(state);
+    public List<Address> findByState(String state) {
+        return addressService.findByState(state);
     }
 
-    public void findByZipCode(String zipCode) {
-        addressService.findByZipCode(zipCode);
+    public List<Address> findByZipCode(String zipCode) {
+        return addressService.findByZipCode(zipCode);
     }
 
-    public void findAll() {
-        addressService.findAll();
+    public List<Address> findAll() {
+        return addressService.findAll();
     }
 
-    public void removeById(Long id) {
-        addressService.removeById(id);
+    public boolean removeById(Long id) {
+        return addressService.removeById(id);
     }
 }

@@ -2,21 +2,23 @@ package org.movierental.address.repository;
 
 import org.movierental.address.entity.Address;
 
+import java.util.List;
+
 public interface AddressRepository {
 
-    void insert(Address address);
+    boolean insert(Address address);
 
-    void findById(Long id);
+    Address findById(Long id);
 
-    void findByStreet(String street);
+    List<Address> findByStreet(String street);
 
-    void findByCity(String city);
+    List<Address> findByCity(String city);
 
-    void findByState(String state);
+    List<Address> findByState(String state);
 
-    void findByZipCode(String zipCode);
+    List<Address> findByZipCode(String zipCode);
 
-    void findAll();
+    List<Address> findAll();
 
-    void removeById(Long id);
+    boolean removeById(Long id);
 }

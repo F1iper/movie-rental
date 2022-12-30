@@ -4,48 +4,50 @@ import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;
 import org.movierental.address.repository.AddressRepository;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
     @Override
-    public void add(Address address) {
-        addressRepository.insert(address);
+    public boolean add(Address address) {
+        return addressRepository.insert(address);
     }
 
     @Override
-    public void findById(Long id) {
-        addressRepository.findById(id);
+    public Address findById(Long id) {
+        return addressRepository.findById(id);
     }
 
     @Override
-    public void findByStreet(String street) {
-        addressRepository.findByStreet(street);
+    public List<Address> findByStreet(String street) {
+        return addressRepository.findByStreet(street);
     }
 
     @Override
-    public void findByCity(String city) {
-        addressRepository.findByCity(city);
+    public List<Address> findByCity(String city) {
+        return addressRepository.findByCity(city);
     }
 
     @Override
-    public void findByState(String state) {
-        addressRepository.findByState(state);
+    public List<Address> findByState(String state) {
+        return addressRepository.findByState(state);
     }
 
     @Override
-    public void findByZipCode(String zipCode) {
-        addressRepository.findByZipCode(zipCode);
+    public List<Address> findByZipCode(String zipCode) {
+        return addressRepository.findByZipCode(zipCode);
     }
 
     @Override
-    public void findAll() {
-        addressRepository.findAll();
+    public List<Address> findAll() {
+        return addressRepository.findAll();
     }
 
     @Override
-    public void removeById(Long id) {
-        addressRepository.removeById(id);
+    public boolean removeById(Long id) {
+        return addressRepository.removeById(id);
     }
 }

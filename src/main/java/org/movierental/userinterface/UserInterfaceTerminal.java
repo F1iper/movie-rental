@@ -204,26 +204,26 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide address ID: ");
-            addressController.findById(Long.parseLong(scanner.nextLine()));
+            System.out.println(addressController.findById(Long.parseLong(scanner.nextLine())));
         }
         if ("2".equals(command)) {
             System.out.println("Provide street: ");
-            addressController.findByStreet(scanner.nextLine());
+            System.out.println(addressController.findByStreet(scanner.nextLine()));
         }
         if ("3".equals(command)) {
             System.out.println("Provide city: ");
-            addressController.findByCity(scanner.nextLine());
+            System.out.println(addressController.findByCity(scanner.nextLine()));
         }
         if ("4".equals(command)) {
             System.out.println("Provide state: ");
-            addressController.findByState(scanner.nextLine());
+            System.out.println(addressController.findByState(scanner.nextLine()));
         }
         if ("5".equals(command)) {
             System.out.println("Provide zip code: ");
-            addressController.findByZipCode(scanner.nextLine());
+            System.out.println(addressController.findByZipCode(scanner.nextLine()));
         }
         if ("6".equals(command)) {
-            addressController.findAll();
+            System.out.println(addressController.findAll());
         }
     }
 
