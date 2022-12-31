@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.movierental.movie.entity.Movie;
 import org.movierental.repository.QueryExecutor;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +47,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> findByName(String name) {
-        return execute("SELECT * FROM " + MOVIES + " WHERE name LIKE '%" + name + "%'");
-
-        // TODO: 12/31/2022 execute return list
+    public List<Movie> findByTitle(String title) {
+        return execute("SELECT * FROM " + MOVIES + " WHERE title LIKE '%" + title + "%'");
     }
 
     @Override
@@ -60,7 +59,6 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public List<Movie> findByCategoryId(Long categoryId) {
         return execute("SELECT * FROM " + MOVIES + " WHERE category_id = " + categoryId);
-
     }
 
     @Override
@@ -69,13 +67,15 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public void updateName(Long id, String name) {
-
+    public Movie updateName(Long id, String name) {
+        // TODO: 12/31/2022 implement UPDATE method
+        return executeFindById("SELECT * FROM " + MOVIES + " WHERE movie_id = " + id);
     }
 
     @Override
-    public void updateDescription(Long id, String description) {
-
+    public Movie updateDescription(Long id, String description) {
+        // TODO: 12/31/2022 implement UPDATE method
+        return executeFindById("SELECT * FROM " + MOVIES + " WHERE movie_id =" + id);
     }
 
     @Override
@@ -83,21 +83,25 @@ public class MovieRepositoryImpl implements MovieRepository {
         try (var queryExecution = new QueryExecutor()) {
             queryExecution.executeQuery("DELETE FROM " + MOVIES + " WHERE movie_id = " + id);
         }
+        // TODO: 12/31/2022 fix returning proper value after removal - ?
         return true;
     }
 
     @Override
     public void findStatuses() {
+        // TODO: 12/31/2022 make it object oriented
         printStatuses("SELECT * FROM " + STATUS);
     }
 
     @Override
     public void findMovieTypes() {
+        // TODO: 12/31/2022 make it object oriented
         printMovieTypes("SELECT * FROM " + MOVIE_TYPE);
     }
 
     @Override
     public void findLanguages() {
+        // TODO: 12/31/2022 make it object oriented
         printLanguages("SELECT * FROM " + LANGUAGE);
     }
 
@@ -118,18 +122,8 @@ public class MovieRepositoryImpl implements MovieRepository {
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                Long id = rs.getLong("movie_id");
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                int releaseYear = rs.getInt("release_year");
-                int length = rs.getInt("length");
-                Long languageId = rs.getLong("language_id");
-                double cost = rs.getDouble("cost");
-                Long statusId = rs.getLong("status_id");
-                double rentalRate = rs.getLong("rental_rate");
-                Long movieTypeId = rs.getLong("movie_type_id");
+                movies.add(movieCreator(rs));
 
-                movies.add(new Movie(id, title, description, releaseYear, length, languageId, cost, statusId, rentalRate, movieTypeId));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
@@ -143,24 +137,28 @@ public class MovieRepositoryImpl implements MovieRepository {
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
-            while (rs.next()) {
-                Long id = rs.getLong("movie_id");
-                String title = rs.getString("title");
-                String description = rs.getString("description");
-                int releaseYear = rs.getInt("release_year");
-                int length = rs.getInt("length");
-                Long languageId = rs.getLong("language_id");
-                double cost = rs.getDouble("cost");
-                Long statusId = rs.getLong("status_id");
-                double rentalRate = rs.getLong("rental_rate");
-                Long movieTypeId = rs.getLong("movie_type_id");
-
-                movie = new Movie(id, title, description, releaseYear, length, languageId, cost, statusId, rentalRate, movieTypeId);
+            if (rs.next()) {
+                movie = movieCreator(rs);
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
         }
         return movie;
+    }
+
+    private Movie movieCreator(ResultSet rs) throws SQLException {
+        Long id = rs.getLong("movie_id");
+        String title = rs.getString("title");
+        String description = rs.getString("description");
+        int releaseYear = rs.getInt("release_year");
+        int length = rs.getInt("length");
+        Long languageId = rs.getLong("language_id");
+        double cost = rs.getDouble("cost");
+        Long statusId = rs.getLong("status_id");
+        double rentalRate = rs.getLong("rental_rate");
+        Long movieTypeId = rs.getLong("movie_type_id");
+
+        return new Movie(id, title, description, releaseYear, length, languageId, cost, statusId, rentalRate, movieTypeId);
     }
 
 

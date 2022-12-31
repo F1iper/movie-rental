@@ -16,19 +16,19 @@ public class MovieController {
     }
 
     public List<Movie> findByTitle(String name) {
-        return movieService.findByName(name);
+        return movieService.findByTitle(name);
     }
 
     public Movie findById(Long id) {
         return movieService.findById(id);
     }
 
-    public void updateName(Long id, String name) {
-        movieService.updateName(id, name);
+    public Movie updateName(Long id, String name) {
+        return movieService.updateName(id, name);
     }
 
-    public void updateDescription(Long id, String description) {
-        movieService.updateDescription(id, description);
+    public Movie updateDescription(Long id, String description) {
+        return movieService.updateDescription(id, description);
     }
 
     public List<Movie> findByCategoryId(Long categoryId) {

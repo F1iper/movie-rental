@@ -8,7 +8,7 @@ public interface MovieRepository {
 
     boolean add(Movie movie);
 
-    List<Movie> findByName(String name);
+    List<Movie> findByTitle(String name);
 
     Movie findById(Long id);
 
@@ -16,9 +16,9 @@ public interface MovieRepository {
 
     List<Movie> findByReleaseYear(int year);
 
-    void updateName(Long id, String name);
+    Movie updateName(Long id, String name);
 
-    void updateDescription(Long id, String description);
+    Movie updateDescription(Long id, String description);
 
     boolean removeById(Long id);
 

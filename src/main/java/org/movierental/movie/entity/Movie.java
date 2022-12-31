@@ -1,10 +1,12 @@
 package org.movierental.movie.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Data
-@ToString(exclude = {"movieId", "languageId", "statusId", "movieTypeId", "rentalRate"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
     private Long movieId;
     private String title;
@@ -17,19 +19,4 @@ public class Movie {
     private double rentalRate;
     private Long movieTypeId;
 
-    public Movie(Long movieId, String title, String description, int releaseYear, int length, Long languageId, double cost, Long statusId, double rentalRate, Long movieTypeId) {
-        this.movieId = movieId;
-        this.title = title;
-        this.description = description;
-        this.releaseYear = releaseYear;
-        this.length = length;
-        this.languageId = languageId;
-        this.cost = cost;
-        this.statusId = statusId;
-        this.rentalRate = rentalRate;
-        this.movieTypeId = movieTypeId;
-    }
-
-    public Movie() {
-    }
 }

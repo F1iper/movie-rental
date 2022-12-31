@@ -17,8 +17,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findByName(String name) {
-        return movieRepository.findByName(name);
+    public List<Movie> findByTitle(String name) {
+        return movieRepository.findByTitle(name);
     }
 
     @Override
@@ -37,13 +37,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void updateName(Long id, String name) {
-
+    public Movie updateName(Long id, String name) {
+        return movieRepository.updateName(id, name);
     }
 
     @Override
-    public void updateDescription(Long id, String description) {
-
+    public Movie updateDescription(Long id, String description) {
+        return movieRepository.updateDescription(id, description);
     }
 
     @Override
