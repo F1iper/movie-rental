@@ -4,21 +4,23 @@ import lombok.RequiredArgsConstructor;
 import org.movierental.movie.entity.Movie;
 import org.movierental.movie.service.MovieService;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class MovieController {
 
     private final MovieService movieService;
 
-    public Movie add(Movie movie) {
+    public boolean add(Movie movie) {
         return movieService.add(movie);
     }
 
-    public void findByTitle(String name) {
-        movieService.findByName(name);
+    public List<Movie> findByTitle(String name) {
+        return movieService.findByName(name);
     }
 
-    public void findById(Long id) {
-        movieService.findById(id);
+    public Movie findById(Long id) {
+        return movieService.findById(id);
     }
 
     public void updateName(Long id, String name) {
@@ -29,12 +31,12 @@ public class MovieController {
         movieService.updateDescription(id, description);
     }
 
-    public void findByCategoryId(Long categoryId) {
-        movieService.findByCategoryId(categoryId);
+    public List<Movie> findByCategoryId(Long categoryId) {
+        return movieService.findByCategoryId(categoryId);
     }
 
-    public void removeById(Long id) {
-        movieService.removeById(id);
+    public boolean removeById(Long id) {
+        return movieService.removeById(id);
     }
 
     public void getStatuses() {
@@ -49,15 +51,15 @@ public class MovieController {
         movieService.findLanguages();
     }
 
-    public void findByCostRange(int min, int max) {
-        movieService.findByCostRange(min, max);
+    public List<Movie> findByCostRange(int min, int max) {
+        return movieService.findByCostRange(min, max);
     }
 
-    public void findByReleaseYear(int year) {
-        movieService.findByReleaseYear(year);
+    public List<Movie> findByReleaseYear(int year) {
+        return movieService.findByReleaseYear(year);
     }
 
-    public void findAll() {
-        movieService.findAll();
+    public List<Movie> findAll() {
+        return movieService.findAll();
     }
 }

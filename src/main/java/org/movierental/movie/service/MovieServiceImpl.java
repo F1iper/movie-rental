@@ -4,34 +4,36 @@ import lombok.RequiredArgsConstructor;
 import org.movierental.movie.entity.Movie;
 import org.movierental.movie.repository.MovieRepository;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
 
     @Override
-    public Movie add(Movie movie) {
+    public boolean add(Movie movie) {
         return movieRepository.add(movie);
     }
 
     @Override
-    public void findByName(String name) {
-        movieRepository.findByName(name);
+    public List<Movie> findByName(String name) {
+        return movieRepository.findByName(name);
     }
 
     @Override
-    public void findById(Long id) {
-        movieRepository.findById(id);
+    public Movie findById(Long id) {
+        return movieRepository.findById(id);
     }
 
     @Override
-    public void findByCategoryId(Long categoryId) {
-        movieRepository.findByCategoryId(categoryId);
+    public List<Movie> findByCategoryId(Long categoryId) {
+        return movieRepository.findByCategoryId(categoryId);
     }
 
     @Override
-    public void findByReleaseYear(int year) {
-        movieRepository.findByReleaseYear(year);
+    public List<Movie> findByReleaseYear(int year) {
+        return movieRepository.findByReleaseYear(year);
     }
 
     @Override
@@ -45,8 +47,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void removeById(Long id) {
-        movieRepository.removeById(id);
+    public boolean removeById(Long id) {
+        return movieRepository.removeById(id);
     }
 
     @Override
@@ -65,12 +67,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void findByCostRange(int min, int max) {
-        movieRepository.findByCostRange(min, max);
+    public List<Movie> findByCostRange(int min, int max) {
+        return movieRepository.findByCostRange(min, max);
     }
 
     @Override
-    public void findAll() {
-        movieRepository.findAll();
+    public List<Movie> findAll() {
+        return  movieRepository.findAll();
     }
 }

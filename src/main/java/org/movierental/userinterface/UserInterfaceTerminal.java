@@ -147,23 +147,23 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide movie ID: ");
-            movieController.findById(Long.parseLong(scanner.nextLine()));
+            System.out.println(movieController.findById(Long.parseLong(scanner.nextLine())));
         }
         if ("2".equals(command)) {
             System.out.println("Provide title: ");
-            movieController.findByTitle(scanner.nextLine());
+            System.out.println(movieController.findByTitle(scanner.nextLine()));
         }
         if ("3".equals(command)) {
             System.out.println("Provide release year: ");
-            movieController.findByReleaseYear(Integer.parseInt(scanner.nextLine()));
+            System.out.println(movieController.findByReleaseYear(Integer.parseInt(scanner.nextLine())));
         }
         if ("4".equals(command)) {
             System.out.println("Provide cost range, \nfirst number - minimum, \nsecond number - maximum ");
-            movieController.findByCostRange(Integer.parseInt(scanner.nextLine()),
-                    Integer.parseInt(scanner.nextLine()));
+            System.out.println(movieController.findByCostRange(Integer.parseInt(scanner.nextLine()),
+                    Integer.parseInt(scanner.nextLine())));
         }
         if ("5".equals(command)) {
-            movieController.findAll();
+            System.out.println(movieController.findAll());
         }
     }
 
