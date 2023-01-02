@@ -1,6 +1,7 @@
 package org.movierental.address.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,9 +10,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.movierental.address.entity.Address;
 import org.movierental.address.repository.AddressRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,10 +50,10 @@ class AddressServiceImplTest {
                 "Malopolskie",
                 "15-999",
                 "+48 500 399 588");
-
     }
 
     @Test
+    @DisplayName("Add address")
     void addAddress_returnTrue() {
         //given
         when(addressRepository.insert(any(Address.class))).thenReturn(true);
@@ -64,6 +67,7 @@ class AddressServiceImplTest {
     }
 
     @Test
+    @DisplayName("Find by id")
     void shouldReturnAddressById() {
         //given
         Long id = 1L;
@@ -78,6 +82,7 @@ class AddressServiceImplTest {
     }
 
     @Test
+    @DisplayName("Find by street")
     void shouldReturnListOfAddressesWithProvidedStreet() {
         //given
         String street = "Mokotowska";
@@ -91,5 +96,73 @@ class AddressServiceImplTest {
         //then
         assertEquals(addresses, resultAddresses);
         verify(addressRepository).findByStreet(street);
+    }
+
+    @Test
+    @DisplayName("Find by city")
+    void shouldFindAllAddressesByCity() {
+        //given
+        String city = "Warsaw";
+
+        List<Address> addresses = singletonList(address);
+
+        when(addressRepository.findByCity(city)).thenReturn(addresses);
+
+        //when
+        List<Address> resultAddresses = addressService.findByCity(city);
+
+        //then
+        assertEquals(addresses, resultAddresses);
+        assertEquals(1, resultAddresses.size());
+        verify(addressRepository).findByCity(city);
+    }
+
+    @Test
+    @DisplayName("Find by state")
+    void shouldFindAllAddressesByState() {
+        //given
+        String state = "Mazowieckie";
+        List<Address> addresses = singletonList(address);
+
+        when(addressRepository.findByState(state)).thenReturn(addresses);
+
+        //when
+        List<Address> resultAddresses = addressService.findByState(state);
+
+        //then
+        assertEquals(addresses, resultAddresses);
+        verify(addressRepository).findByState(state);
+    }
+
+    @Test
+    @DisplayName("Find by zip code")
+    void shouldFindAllAddressesByZipCode() {
+        //given
+        String zipCode = "05-100";
+        List<Address> addresses = singletonList(address);
+
+        when(addressRepository.findByZipCode(zipCode)).thenReturn(addresses);
+
+        //when
+        List<Address> resultAddresses = addressService.findByZipCode(zipCode);
+
+        //then
+        assertEquals(addresses, resultAddresses);
+        verify(addressRepository).findByZipCode(zipCode);
+    }
+
+    @Test
+    void shouldFindAllAddresses() {
+        //given
+        List<Address> addresses = new ArrayList<>();
+
+        when(addressRepository.findAll()).thenReturn(addresses);
+
+        //when
+        List<Address> resultAddresses = addressService.findAll();
+
+        //then
+        assertEquals(addresses, resultAddresses);
+        verify(addressRepository).findAll();
     }
 }

@@ -13,6 +13,8 @@ public class AddressRepositoryImpl implements AddressRepository {
 
     private final static String ADDRESS = "address";
 
+    private QueryExecutor queryExecutor;
+
     @Override
     public boolean insert(Address address) {
         try (var queryExecution = new QueryExecutor();
