@@ -5,6 +5,7 @@ import org.movierental.address.entity.Address;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class AddressServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("Insert address")
+    @DisplayName("Insert test data")
     @Order(2)
     void testInsert() throws SQLException {
         //given + then
@@ -83,14 +84,13 @@ public class AddressServiceIntegrationTest {
         try (var statement = connection.prepareStatement(
                 "insert into address (city, phone, state, street, zip_code) values " +
                         "('Poznan', '500 300 500', 'Greater Poland', 'Poznanska', '99-100'), " +
-                        "('Warsaw', '300 500', 'Masovian', 'Warszawska', '02-508')," +
+                        "('Warsaw', '300 500', 'Greater Poland', 'Mokotowska', '02-508')," +
                         "('Warsaw', '+48 500 600 600', 'Masovian', 'Mokotowska', '05-120')," +
-                        "('Krakow', '+48 200 300 600', 'Lesser Poland', 'Krakowska', '99-100')")) {
+                        "('Krakow', '+48 200 300 600', 'Greater Poland', 'Krakowska', '99-100')")) {
 
             rows = statement.executeUpdate();
         }
         assertEquals(4, rows);
-
     }
 
     @Test
@@ -159,7 +159,7 @@ public class AddressServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("Add more data")
+    @DisplayName("Find all by city")
     @Order(5)
     void shouldFindAllByCity() throws SQLException {
         //given
@@ -171,14 +171,7 @@ public class AddressServiceIntegrationTest {
              var rs = statement.executeQuery(
                      "SELECT * FROM address WHERE city like '" + providedCity + "';")) {
             while (rs.next()) {
-                long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                addresses.add(new Address(id, street, city, state, zipCode, phone));
+                addAddressToList(addresses, rs);
             }
         }
 
@@ -189,6 +182,93 @@ public class AddressServiceIntegrationTest {
                 () -> assertEquals(providedCity, addresses.get(0).getCity()),
                 () -> assertEquals(providedCity, addresses.get(1).getCity())
         );
+    }
 
+    @Test
+    @DisplayName("Find all by street")
+    @Order(6)
+    void shouldFindAllByStreet() throws SQLException {
+        //given
+        String providedStreet = "Mokotowska";
+        List<Address> addresses = new ArrayList<>();
+
+        //when
+        try (var statement = connection.createStatement();
+             var rs = statement.executeQuery(
+                     "SELECT * FROM address WHERE street like '" + providedStreet + "';")) {
+            while (rs.next()) {
+                addAddressToList(addresses, rs);
+            }
+        }
+
+        //then
+        assertAll(
+                () -> assertNotNull(addresses),
+                () -> assertEquals(2, addresses.size()),
+                () -> assertEquals(providedStreet, addresses.get(0).getStreet()),
+                () -> assertEquals(providedStreet, addresses.get(1).getStreet())
+        );
+    }
+
+    @Test
+    @DisplayName("Find all by zip code")
+    @Order(7)
+    void shouldFindAllByZipCode() throws SQLException {
+        //given
+        String providedZipCode = "99-100";
+        List<Address> addresses = new ArrayList<>();
+
+        //when
+        try (var statement = connection.createStatement();
+             var rs = statement.executeQuery(
+                     "SELECT * FROM address WHERE zip_code like '" + providedZipCode + "';")) {
+            while (rs.next()) {
+                addAddressToList(addresses, rs);
+            }
+        }
+
+        //then
+        assertAll(
+                () -> assertNotNull(addresses),
+                () -> assertEquals(1, addresses.size()),
+                () -> assertEquals(providedZipCode, addresses.get(0).getZip_code())
+        );
+    }
+
+    @Test
+    @DisplayName("Find all by state")
+    @Order(8)
+    void shouldFindAllByState() throws SQLException {
+        //given
+        String providedState = "Greater Poland";
+        List<Address> addresses = new ArrayList<>();
+
+        //when
+        try (var statement = connection.createStatement();
+             var rs = statement.executeQuery(
+                     "SELECT * FROM address WHERE state like '" + providedState + "';")) {
+            while (rs.next()) {
+                addAddressToList(addresses, rs);
+            }
+        }
+
+        //then
+        assertAll(
+                () -> assertNotNull(addresses),
+                () -> assertEquals(2, addresses.size()),
+                () -> assertEquals(providedState, addresses.get(0).getState()),
+                () -> assertEquals(providedState, addresses.get(1).getState())
+        );
+    }
+
+    private static void addAddressToList(List<Address> addresses, ResultSet rs) throws SQLException {
+        long id = rs.getLong("address_id");
+        String street = rs.getString("street");
+        String city = rs.getString("city");
+        String state = rs.getString("state");
+        String zipCode = rs.getString("zip_code");
+        String phone = rs.getString("phone");
+
+        addresses.add(new Address(id, street, city, state, zipCode, phone));
     }
 }
