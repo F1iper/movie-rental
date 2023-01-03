@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.movierental.address.entity.Address;
 import org.movierental.address.repository.AddressRepository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,7 +82,7 @@ class AddressServiceImplTest {
 
     @Test
     @DisplayName("Find by street")
-    void shouldReturnListOfAddressesWithProvidedStreet() {
+    void shouldFindAllAddressesByStreet() {
         //given
         String street = "Mokotowska";
         List<Address> addresses = Arrays.asList(address, address2);
@@ -152,9 +151,10 @@ class AddressServiceImplTest {
     }
 
     @Test
+    @DisplayName("Find all")
     void shouldFindAllAddresses() {
         //given
-        List<Address> addresses = new ArrayList<>();
+        List<Address> addresses = Arrays.asList(address, address2);
 
         when(addressRepository.findAll()).thenReturn(addresses);
 
@@ -164,5 +164,21 @@ class AddressServiceImplTest {
         //then
         assertEquals(addresses, resultAddresses);
         verify(addressRepository).findAll();
+    }
+
+    @Test
+    @DisplayName("Remove by id")
+    void shouldRemoveById() {
+        //given
+        Long id = 1L;
+
+        when(addressRepository.removeById(id)).thenReturn(true);
+
+        //when
+        boolean result = addressService.removeById(id);
+
+        //then
+        assertTrue(result);
+        verify(addressRepository).removeById(id);
     }
 }
