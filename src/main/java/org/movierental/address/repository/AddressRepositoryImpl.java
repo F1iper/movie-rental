@@ -13,6 +13,8 @@ public class AddressRepositoryImpl implements AddressRepository {
 
     private final static String ADDRESS = "address";
 
+    private QueryExecutor queryExecutor;
+
     @Override
     public boolean insert(Address address) {
         try (var queryExecution = new QueryExecutor();
@@ -111,9 +113,14 @@ public class AddressRepositoryImpl implements AddressRepository {
 
     @Override
     public boolean removeById(Long id) {
-        try (var queryExecution = new QueryExecutor()) {
-            queryExecution.executeQuery("DELETE FROM " + ADDRESS + " WHERE address_id = " + id);
-            return true;
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var preparedStatement = connection.prepareStatement("DELETE FROM " + ADDRESS + " WHERE address_id = " + id)) {
+            preparedStatement.setLong(1, id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            return false;
         }
     }
 }

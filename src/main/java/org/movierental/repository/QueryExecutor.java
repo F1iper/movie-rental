@@ -4,18 +4,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class QueryExecutor implements AutoCloseable {
-    private final Connection connection;
+    private final DatabaseConnection databaseConnection;
 
     public QueryExecutor() {
-        connection = new DatabaseConnection().connect();
+        databaseConnection = new DatabaseConnection();
     }
 
     public Connection getConnection() {
-        return connection;
+        return databaseConnection.connect();
     }
 
     public void executeQuery(String query) {
-        try (var statement = connection.createStatement()) {
+        try (var statement = databaseConnection.connect().createStatement()) {
             statement.execute(query);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -25,7 +25,7 @@ public class QueryExecutor implements AutoCloseable {
     @Override
     public void close() {
         try {
-            connection.close();
+            databaseConnection.connect().close();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
