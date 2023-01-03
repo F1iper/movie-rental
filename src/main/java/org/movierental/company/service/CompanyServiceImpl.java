@@ -17,8 +17,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void update(long id, String newName) {
-        companyRepository.update(id, newName);
+    public boolean update(long id, String newName) {
+        return companyRepository.update(id, newName);
     }
 
     @Override
@@ -38,7 +38,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public boolean removeById(Long id) {
-        companyRepository.removeById(id);
-        return false;
+        return companyRepository.removeById(id);
     }
 }

@@ -76,6 +76,7 @@ public class UserInterfaceTerminal {
             companyController.findById(id);
             System.out.println("Provide new name: ");
             String newName = scanner.nextLine();
+            // TODO: 1/3/2023 return value is boolean now, test it
             companyController.updateName(id, newName);
         }
     }

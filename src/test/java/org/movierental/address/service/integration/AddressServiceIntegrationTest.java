@@ -1,4 +1,4 @@
-package org.movierental.integration.address.service;
+package org.movierental.address.service.integration;
 
 import org.junit.jupiter.api.*;
 import org.movierental.address.entity.Address;

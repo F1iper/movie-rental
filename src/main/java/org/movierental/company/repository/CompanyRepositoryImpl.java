@@ -34,15 +34,21 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 
     @Override
-    public void update(long id, String newName) {
+    public boolean update(long id, String newName) {
+        boolean updated = false;
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement()) {
-            statement.executeUpdate("UPDATE " + COMPANY + " SET name = '" + newName + "' WHERE company_id = " + id + ";");
+            int rowsAffected = statement.executeUpdate("UPDATE " + COMPANY + " SET name = '" + newName + "' WHERE company_id = " + id + ";");
+
+            if (rowsAffected > 0) {
+                updated = true;
+            }
             execute("SELECT * FROM " + COMPANY + " WHERE company_id = " + id);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return updated;
     }
 
     @Override
@@ -57,10 +63,15 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 
     @Override
     public boolean removeById(Long id) {
-        try (var queryExecution = new QueryExecutor()) {
-            queryExecution.executeQuery("DELETE FROM " + COMPANY + " WHERE company_id = " + id);
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var preparedStatement = connection.prepareStatement("DELETE FROM " + COMPANY + " WHERE company_id = " + id)) {
+            preparedStatement.setLong(1, id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            return false;
         }
-        return true;
     }
 
     @Override
