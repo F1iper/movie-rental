@@ -30,7 +30,7 @@ public class AddressServiceIntegrationTest {
              var statement = connection.createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS address\n" +
                     "(\n" +
-                    "    address_id BIGINT PRIMARY KEY auto_increment,\n" +
+                    "    address_id BIGINT PRIMARY KEY AUTO_INCREMENT,\n" +
                     "    city       VARCHAR(255) DEFAULT NULL,\n" +
                     "    phone      VARCHAR(255) DEFAULT NULL,\n" +
                     "    state      VARCHAR(255) DEFAULT NULL,\n" +
@@ -78,8 +78,8 @@ public class AddressServiceIntegrationTest {
     @Test
     @DisplayName("Insert test data")
     @Order(2)
-    void testInsert() throws SQLException {
-        //given + then
+    void testInsertData() throws SQLException {
+        //given + when
         int rows;
         try (var statement = connection.prepareStatement(
                 "insert into address (city, phone, state, street, zip_code) values " +

@@ -59,6 +59,7 @@ class CompanyServiceImplTest {
     }
 
     @Test
+    @DisplayName("Update company name when given ID")
     void shouldUpdateCompanyNameOfGivenId() {
         //given
         String newName = "ROLEX";
