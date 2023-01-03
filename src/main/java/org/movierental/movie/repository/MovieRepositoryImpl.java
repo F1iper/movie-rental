@@ -1,6 +1,9 @@
 package org.movierental.movie.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.entity.Movie;
 import org.movierental.repository.QueryExecutor;
 
@@ -36,7 +39,6 @@ public class MovieRepositoryImpl implements MovieRepository {
             int rows = statement.executeUpdate();
             if (rows > 0) {
                 System.out.println(("New Movie [" + movie.getTitle() + "] has been inserted successfully."));
-                System.out.println(movie);
                 return true;
             } else {
                 return false;
@@ -57,7 +59,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> findByCategoryId(Long categoryId) {
+    public List<Movie> findByMovieTypeId(Long categoryId) {
         return execute("SELECT * FROM " + MOVIES + " WHERE category_id = " + categoryId);
     }
 
@@ -67,46 +69,37 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Movie updateName(Long id, String name) {
-        // TODO: 12/31/2022 implement UPDATE method
-        return executeFindById("SELECT * FROM " + MOVIES + " WHERE movie_id = " + id);
+    public boolean updateTitle(Long id, String title) {
+        return executeUpdate("UPDATE " + MOVIES + " SET title = " + title + " WHERE movie_id = " + id);
     }
 
     @Override
-    public Movie updateDescription(Long id, String description) {
-        // TODO: 12/31/2022 implement UPDATE method
-        return executeFindById("SELECT * FROM " + MOVIES + " WHERE movie_id =" + id);
+    public boolean updateDescription(Long id, String description) {
+        return executeUpdate("UPDATE " + MOVIES + " SET description = " + description + " WHERE movie_id = " + id);
     }
 
     @Override
     public boolean removeById(Long id) {
-        try (var queryExecution = new QueryExecutor()) {
-            queryExecution.executeQuery("DELETE FROM " + MOVIES + " WHERE movie_id = " + id);
-        }
-        // TODO: 12/31/2022 fix returning proper value after removal - ?
-        return true;
+        return executeRemove("DELETE FROM " + MOVIES + " WHERE movie_id = " + id);
     }
 
     @Override
-    public void findStatuses() {
-        // TODO: 12/31/2022 make it object oriented
-        printStatuses("SELECT * FROM " + STATUS);
+    public List<Status> findStatuses() {
+        return statuses("SELECT * FROM " + STATUS);
     }
 
     @Override
-    public void findMovieTypes() {
-        // TODO: 12/31/2022 make it object oriented
-        printMovieTypes("SELECT * FROM " + MOVIE_TYPE);
+    public List<MovieType> findMovieTypes() {
+        return movieTypes("SELECT * FROM " + MOVIE_TYPE);
     }
 
     @Override
-    public void findLanguages() {
-        // TODO: 12/31/2022 make it object oriented
-        printLanguages("SELECT * FROM " + LANGUAGE);
+    public List<Language> findLanguages() {
+        return languages("SELECT * FROM " + LANGUAGE);
     }
 
     @Override
-    public List<Movie> findByCostRange(int min, int max) {
+    public List<Movie> findByCostRange(double min, double max) {
         return execute("SELECT * FROM " + MOVIES + " BETWEEN " + min + " AND " + max);
     }
 
@@ -123,12 +116,35 @@ public class MovieRepositoryImpl implements MovieRepository {
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
                 movies.add(movieCreator(rs));
-
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
         }
         return movies;
+    }
+
+    private boolean executeUpdate(String sql) {
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.prepareStatement(sql)) {
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean executeRemove(String sql) {
+        try (var queryExecution = new QueryExecutor();
+        var connection = queryExecution.getConnection();
+        var statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(sql);
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private Movie executeFindById(String sql) {
@@ -162,45 +178,57 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
 
-    private void printMovieTypes(String sql) {
+    private List<MovieType> movieTypes(String sql) {
+        List<MovieType> movieTypes = new ArrayList<>();
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                System.out.print("[" + rs.getString("movie_type_id") + "] - ");
-                System.out.println(rs.getString("name"));
+                Long id = rs.getLong("movie_type_id");
+                String name = rs.getString("name");
+
+                movieTypes.add(new MovieType(id, name));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
         }
+        return movieTypes;
     }
 
-    private void printStatuses(String sql) {
+    private List<Status> statuses(String sql) {
+        List<Status> statuses = new ArrayList<>();
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                System.out.print("[" + rs.getString("status_id") + "] - ");
-                System.out.println(rs.getString("name"));
+                Long id = rs.getLong("status_id");
+                String name = rs.getString("name");
+
+                statuses.add(new Status(id, name));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
         }
+        return statuses;
     }
 
-    private void printLanguages(String sql) {
+    private List<Language> languages(String sql) {
+        List<Language> languages = new ArrayList<>();
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                System.out.print("[" + rs.getString("language_id") + "] - ");
-                System.out.println(rs.getString("name"));
+                Long id = rs.getLong("language_id");
+                String name = rs.getString("name");
+
+                languages.add(new Language(id, name));
             }
         } catch (SQLException e) {
             log.warn(e.getMessage());
         }
+        return languages;
     }
 }

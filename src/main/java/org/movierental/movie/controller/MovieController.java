@@ -23,16 +23,16 @@ public class MovieController {
         return movieService.findById(id);
     }
 
-    public Movie updateName(Long id, String name) {
-        return movieService.updateName(id, name);
+    public boolean updateName(Long id, String name) {
+        return movieService.updateTitle(id, name);
     }
 
-    public Movie updateDescription(Long id, String description) {
+    public boolean updateDescription(Long id, String description) {
         return movieService.updateDescription(id, description);
     }
 
-    public List<Movie> findByCategoryId(Long categoryId) {
-        return movieService.findByCategoryId(categoryId);
+    public List<Movie> findByMovieTypeId(Long categoryId) {
+        return movieService.findByMovieTypeId(categoryId);
     }
 
     public boolean removeById(Long id) {
