@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
 import org.movierental.repository.QueryExecutor;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,14 +73,7 @@ public class AddressRepositoryImpl implements AddressRepository {
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                Long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                addresses.add(new Address(id, street, city, state, zipCode, phone));
+                addresses.add(createAddress(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -94,18 +88,24 @@ public class AddressRepositoryImpl implements AddressRepository {
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                Long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                address = new Address(id, street, city, state, zipCode, phone);
+                address = createAddress(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return address;
+    }
+
+    private static Address createAddress(ResultSet rs) throws SQLException {
+        Address address;
+        Long id = rs.getLong("address_id");
+        String street = rs.getString("street");
+        String city = rs.getString("city");
+        String state = rs.getString("state");
+        String zipCode = rs.getString("zip_code");
+        String phone = rs.getString("phone");
+
+        address = new Address(id, street, city, state, zipCode, phone);
         return address;
     }
 
