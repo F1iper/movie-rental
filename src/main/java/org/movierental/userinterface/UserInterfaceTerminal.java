@@ -73,12 +73,65 @@ public class UserInterfaceTerminal {
             System.out.println("Provide Company ID: ");
             long id = Long.parseLong(scanner.nextLine());
             System.out.println("Company to update: ");
-            companyController.findById(id);
+            System.out.println(companyController.findById(id));
             System.out.println("Provide new name: ");
             String newName = scanner.nextLine();
             // TODO: 1/3/2023 return value is boolean now, test it
             companyController.updateName(id, newName);
         }
+        if ("4".equals(command)) {
+//            printMovieUpdateOptions();
+            System.out.println("Movies available: ");
+            System.out.println(movieController.findAll());
+            System.out.println("Provide movie ID to update: ");
+            Long movieId = Long.parseLong(scanner.nextLine());
+            System.out.println("Choose option: ");
+            System.out.println("1 - Update title");
+            System.out.println("2 - Update description");
+            System.out.println("0 - Back");
+            String num = scanner.nextLine();
+            if ("0".equals(num)) {
+                return;
+            }
+            if ("1".equals(num)) {
+                Long foundMovieId = movieController.findById(movieId).getMovieId();
+                System.out.println("Movie to update: ");
+                // TODO: 1/4/2023 Possible to find not existing movie QQ
+                Movie old = movieController.findById(foundMovieId);
+                System.out.println(old);
+                System.out.println("Provide new title: ");
+                String newTitle = scanner.nextLine();
+                movieController.updateTitle(foundMovieId, newTitle);
+                System.out.println("Movie title updated from: " +
+                        old.getTitle()  +
+                        " to: " + newTitle + ". Congratulations!");
+            }
+            if ("2".equals(num)) {
+                Long foundMovieId = movieController.findById(movieId).getMovieId();
+                System.out.println("Movie to update: ");
+                Movie old = movieController.findById(foundMovieId);
+                // TODO: 1/4/2023 Possible to find not existing movie QQ
+                System.out.println(old);
+                System.out.println("Provide new description: ");
+                String newDescription = scanner.nextLine();
+                movieController.updateDescription(foundMovieId, newDescription);
+                System.out.println("Movie description updated from: " +
+                        old.getDescription() +
+                        " to: " + newDescription + ". Congratulations!");
+            }
+
+        }
+    }
+
+    private void chooseMovieUpdateOption(String command) {
+        if ("0".equals(command)) {
+            return;
+        }
+        if ("1".equals(command)) {
+            System.out.println("Provide movie ID: ");
+            System.out.println(movieController.findById(Long.parseLong(scanner.nextLine())));
+        }
+        // TODO: 1/4/2023 Extract update methods here + other methods
     }
 
     private void chooseCompanySearchOption(String command) {
@@ -337,6 +390,13 @@ public class UserInterfaceTerminal {
         System.out.println("5 - Actor");
         System.out.println("6 - Branch");
         System.out.println("7 - Customer");
+        System.out.println("0 - Back to Main Menu");
+    }
+
+    private void printMovieUpdateOptions() {
+        System.out.println("Choose an option: ");
+        System.out.println("1 - Update title");
+        System.out.println("2 - Update description");
         System.out.println("0 - Back to Main Menu");
     }
 

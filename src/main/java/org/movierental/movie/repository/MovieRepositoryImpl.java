@@ -70,12 +70,12 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public boolean updateTitle(Long id, String title) {
-        return executeUpdate("UPDATE " + MOVIES + " SET title = " + title + " WHERE movie_id = " + id);
+        return executeUpdate("UPDATE " + MOVIES + " SET title = '" + title + "' WHERE movie_id = " + id);
     }
 
     @Override
     public boolean updateDescription(Long id, String description) {
-        return executeUpdate("UPDATE " + MOVIES + " SET description = " + description + " WHERE movie_id = " + id);
+        return executeUpdate("UPDATE " + MOVIES + " SET description = '" + description + "' WHERE movie_id = " + id);
     }
 
     @Override

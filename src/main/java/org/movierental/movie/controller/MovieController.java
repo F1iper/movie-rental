@@ -23,7 +23,7 @@ public class MovieController {
         return movieService.findById(id);
     }
 
-    public boolean updateName(Long id, String name) {
+    public boolean updateTitle(Long id, String name) {
         return movieService.updateTitle(id, name);
     }
 
