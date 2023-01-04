@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS movierental;
+CREATE
+DATABASE IF NOT EXISTS movierental;
 USE movierental;
 
 CREATE TABLE IF NOT EXISTS company
@@ -32,26 +33,22 @@ CREATE TABLE IF NOT EXISTS director
 
 CREATE TABLE IF NOT EXISTS movies
 (
-    movie_id     BIGINT           NOT NULL AUTO_INCREMENT,
-    title        VARCHAR(255)     NOT NULL,
-    description  TEXT,
-    release_year INT              NOT NULL,
-    length       INT              NOT NULL,
-    language_id  BIGINT           NOT NULL,
-    category_id  BIGINT           NOT NULL,
-    cost         DOUBLE PRECISION NOT NULL,
-    status_id    BIGINT           NOT NULL,
-    rental_rate  DOUBLE PRECISION NOT NULL,
-    PRIMARY KEY (movie_id)
+    movie_id      BIGINT           NOT NULL AUTO_INCREMENT,
+    title         VARCHAR(255)     NOT NULL,
+    description   TEXT,
+    release_year  INT              NOT NULL,
+    length        INT              NOT NULL,
+    language_id   BIGINT           NOT NULL,
+    movie_type_id BIGINT           NOT NULL,
+    cost          DOUBLE PRECISION NOT NULL,
+    status_id     BIGINT           NOT NULL,
+    rental_rate   DOUBLE PRECISION NOT NULL,
+    PRIMARY KEY (movie_id),
+    FOREIGN KEY (language_id) REFERENCES language (language_id),
+    FOREIGN KEY (movie_type_id) REFERENCES movie_type (movie_type_id),
+    FOREIGN KEY (status_id) REFERENCES status (status_id)
 );
 
-CREATE TABLE IF NOT EXISTS movie_type
-(
-    movie_type_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name          VARCHAR(50),
-    movie_id      BIGINT DEFAULT NULL,
-    FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
-);
 
 CREATE TABLE IF NOT EXISTS movie_actor
 (
@@ -186,4 +183,10 @@ CREATE TABLE IF NOT EXISTS language
 (
     language_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name        VARCHAR(255)       NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS movie_type
+(
+    movie_type_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(50)
 );

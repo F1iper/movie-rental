@@ -31,11 +31,11 @@ public class AddressServiceIntegrationTest {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS address\n" +
                     "(\n" +
                     "    address_id BIGINT PRIMARY KEY AUTO_INCREMENT,\n" +
-                    "    city       VARCHAR(255) DEFAULT NULL,\n" +
-                    "    phone      VARCHAR(255) DEFAULT NULL,\n" +
-                    "    state      VARCHAR(255) DEFAULT NULL,\n" +
-                    "    street     VARCHAR(255) DEFAULT NULL,\n" +
-                    "    zip_code   VARCHAR(255) DEFAULT NULL\n" +
+                    "    city       VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
+                    "    phone      VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
+                    "    state      VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
+                    "    street     VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
+                    "    zip_code   VARCHAR(255) NOT NULL DEFAULT NULL\n" +
                     ");\n");
         }
     }
@@ -59,14 +59,7 @@ public class AddressServiceIntegrationTest {
         try (var statement = connection.createStatement();
              var rs = statement.executeQuery("SELECT * FROM address")) {
             if (rs.next()) {
-                Long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                addresses.add(new Address(id, street, city, state, zipCode, phone));
+                addAddressToList(addresses, rs);
             }
         }
 
@@ -90,6 +83,8 @@ public class AddressServiceIntegrationTest {
 
             rows = statement.executeUpdate();
         }
+
+        //then
         assertEquals(4, rows);
     }
 
@@ -105,14 +100,7 @@ public class AddressServiceIntegrationTest {
              var rs = statement.executeQuery("SELECT * FROM address")) {
 
             while (rs.next()) {
-                Long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                addresses.add(new Address(id, street, city, state, zipCode, phone));
+               addAddressToList(addresses, rs);
             }
         }
 
@@ -261,7 +249,7 @@ public class AddressServiceIntegrationTest {
         );
     }
 
-    private static void addAddressToList(List<Address> addresses, ResultSet rs) throws SQLException {
+    private void addAddressToList(List<Address> addresses, ResultSet rs) throws SQLException {
         long id = rs.getLong("address_id");
         String street = rs.getString("street");
         String city = rs.getString("city");
