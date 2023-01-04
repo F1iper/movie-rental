@@ -100,7 +100,7 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public List<Movie> findByCostRange(double min, double max) {
-        return execute("SELECT * FROM " + MOVIES + " BETWEEN " + min + " AND " + max);
+        return execute("SELECT * FROM " + MOVIES + " WHERE cost BETWEEN " + min + " AND " + max);
     }
 
     @Override

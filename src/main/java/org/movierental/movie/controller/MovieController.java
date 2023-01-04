@@ -51,7 +51,7 @@ public class MovieController {
         movieService.findLanguages();
     }
 
-    public List<Movie> findByCostRange(int min, int max) {
+    public List<Movie> findByCostRange(double min, double max) {
         return movieService.findByCostRange(min, max);
     }
 

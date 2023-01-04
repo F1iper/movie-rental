@@ -160,8 +160,8 @@ public class UserInterfaceTerminal {
         }
         if ("4".equals(command)) {
             System.out.println("Provide cost range, \nfirst number - minimum, \nsecond number - maximum ");
-            System.out.println(movieController.findByCostRange(Integer.parseInt(scanner.nextLine()),
-                    Integer.parseInt(scanner.nextLine())));
+            System.out.println(movieController.findByCostRange(Double.parseDouble(scanner.nextLine()),
+                    Double.parseDouble(scanner.nextLine())));
         }
         if ("5".equals(command)) {
             System.out.println(movieController.findAll());
