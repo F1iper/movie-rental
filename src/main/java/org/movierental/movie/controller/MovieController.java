@@ -1,6 +1,9 @@
 package org.movierental.movie.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.entity.Movie;
 import org.movierental.movie.service.MovieService;
 
@@ -39,16 +42,16 @@ public class MovieController {
         return movieService.removeById(id);
     }
 
-    public void getStatuses() {
-        movieService.findStatuses();
+    public List<Status> getStatuses() {
+        return movieService.findStatuses();
     }
 
-    public void getMovieTypes() {
-        movieService.findMovieTypes();
+    public List<MovieType> getMovieTypes() {
+        return movieService.findMovieTypes();
     }
 
-    public void getLanguages() {
-        movieService.findLanguages();
+    public List<Language> getLanguages() {
+        return movieService.findLanguages();
     }
 
     public List<Movie> findByCostRange(double min, double max) {

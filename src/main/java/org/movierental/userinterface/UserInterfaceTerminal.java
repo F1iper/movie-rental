@@ -5,6 +5,9 @@ import org.movierental.address.controller.AddressController;
 import org.movierental.address.entity.Address;
 import org.movierental.company.controller.CompanyController;
 import org.movierental.company.entity.Company;
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.controller.MovieController;
 import org.movierental.movie.entity.Movie;
 import org.movierental.staff.controller.StaffController;
@@ -71,7 +74,7 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-           updateCompany();
+            updateCompany();
         }
         if ("2".equals(command)) {
 
@@ -120,19 +123,25 @@ public class UserInterfaceTerminal {
         System.out.println("1 - Update title");
         System.out.println("2 - Update description");
         System.out.println("0 - Back");
-        int option = Integer.parseInt(scanner.nextLine());
-        switch (option) {
+        int command = Integer.parseInt(scanner.nextLine());
+        switch (command) {
             case 1:
                 System.out.println("Enter new title: ");
-                String title = scanner.nextLine();
-                movieController.updateDescription(selectedMovie.getMovieId(), title);
-                System.out.println("Movie title updated.");
+                boolean titleUpdated = movieController.updateTitle(selectedMovie.getMovieId(), scanner.nextLine());
+                if (titleUpdated) {
+                    System.out.println("Movie title updated.");
+                } else {
+                    System.out.println("Failed to update movie title.");
+                }
                 break;
             case 2:
                 System.out.println("Enter new description: ");
-                String description = scanner.nextLine();
-                movieController.updateDescription(selectedMovie.getMovieId(), description);
-                System.out.println("Movie description updated.");
+                boolean descriptionUpdated = movieController.updateDescription(selectedMovie.getMovieId(), scanner.nextLine());
+                if (descriptionUpdated) {
+                    System.out.println("Movie description updated.");
+                } else {
+                    System.out.println("Failed to update movie description.");
+                }
                 break;
             case 0:
                 break;
@@ -225,10 +234,37 @@ public class UserInterfaceTerminal {
                     Double.parseDouble(scanner.nextLine())));
         }
         if ("5".equals(command)) {
-            System.out.println(movieController.findAll());
+            findMovieByMovieType();
+        }
+        if ("6".equals(command)) {
+            printAllMovies();
         }
     }
 
+    private void findMovieByMovieType() {
+        System.out.println("Available movie types: ");
+        List<MovieType> movieTypes = movieController.getMovieTypes();
+        movieTypes.forEach(mt -> System.out.println(mt.getMovieTypeId() + " - " + mt.getName()));
+        System.out.println("Provide movie type ID: ");
+        Long typeId = Long.parseLong(scanner.nextLine());
+        MovieType selectedType = movieTypes.stream()
+                .filter(mt -> mt.getMovieTypeId().equals(typeId))
+                .findFirst()
+                .orElse(null);
+        if (selectedType == null) {
+            System.out.println("Invalid movie type ID.");
+            return;
+        }
+        List<Movie> movies = movieController.findByMovieTypeId(selectedType.getMovieTypeId());
+        if (movies.isEmpty()) {
+            System.out.println("No movies found for the given type.");
+        } else {
+            System.out.println("Movies found for the given type: ");
+            for (Movie movie : movies) {
+                System.out.println(movie.getTitle());
+            }
+        }
+    }
 
     private void chooseStaffSearchOption(String command) {
         if ("0".equals(command)) {
@@ -374,20 +410,38 @@ public class UserInterfaceTerminal {
         return staff;
     }
 
-    private void printLanguages() {
-        movieController.getLanguages();
+    private List<Language> printLanguages() {
+        return movieController.getLanguages();
     }
 
     private void printPositions() {
         staffController.getPositions();
     }
 
-    private void printStatuses() {
-        movieController.getStatuses();
+    private List<Status> printStatuses() {
+        return movieController.getStatuses();
     }
 
-    private void printMovieTypes() {
-        movieController.getMovieTypes();
+    private List<MovieType> printMovieTypes() {
+        return movieController.getMovieTypes();
+    }
+
+    private void printAllMovies() {
+        List<Movie> movies = movieController.findAll();
+        if (movies.isEmpty()) {
+            System.out.println("No movies found.");
+        } else {
+            System.out.println("Movies: ");
+            for (Movie movie : movies) {
+                System.out.println("ID: " + movie.getMovieId());
+                System.out.println("Title: " + movie.getTitle());
+                System.out.println("Description: " + movie.getDescription());
+//                System.out.println("Movie type: " + movieController.getMovieTypes().);
+                // TODO: 1/4/2023 PRINT movie type
+                System.out.println("Duration: " + movie.getLength() + " minutes");
+                System.out.println("Released: " + movie.getReleaseYear());
+            }
+        }
     }
 
     private void printOptions() {
@@ -437,7 +491,8 @@ public class UserInterfaceTerminal {
         System.out.println("2 - Search by title");
         System.out.println("3 - Search by release year");
         System.out.println("4 - Search by cost with range (min, max)");
-        System.out.println("5 - Search all movies");
+        System.out.println("5 - Search by movie type");
+        System.out.println("6 - Search all movies");
         System.out.println("0 - Back to Main Menu");
     }
 }

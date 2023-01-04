@@ -59,8 +59,8 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> findByMovieTypeId(Long categoryId) {
-        return execute("SELECT * FROM " + MOVIES + " WHERE category_id = " + categoryId);
+    public List<Movie> findByMovieTypeId(Long movieTypeId) {
+        return execute("SELECT * FROM " + MOVIES + " WHERE movie_type_id = " + movieTypeId);
     }
 
     @Override
