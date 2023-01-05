@@ -88,7 +88,7 @@ public class MovieServiceIntegrationTest {
     @Test
     @DisplayName("Movie table is empty")
     @Order(1)
-    void shouldReturnEmptyTable() throws SQLException {
+    void shouldReturnEmptyMovieTable() throws SQLException {
         //given
         List<Movie> movies = new ArrayList<>();
 
@@ -275,6 +275,8 @@ public class MovieServiceIntegrationTest {
         //given
         long id = 2;
         Movie movie = null;
+
+        //when
         try (var statement = connection.createStatement();
              var rs = statement.executeQuery("SELECT * FROM movies WHERE movie_id = " + id)) {
             if (rs.next()) {
