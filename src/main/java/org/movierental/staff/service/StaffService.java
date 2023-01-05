@@ -17,7 +17,7 @@ public interface StaffService {
 
     List<Staff> findByLastname(String lastname);
 
-    List<Staff> findBySalaryRange(int min, int max);
+    List<Staff> findBySalaryRange(double min, double max);
 
     List<Staff> findByPositionId(Long positionId);
 

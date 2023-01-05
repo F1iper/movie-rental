@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface StaffRepository {
 
-    boolean insert(Staff staff);
+    boolean add(Staff staff);
 
     Staff findById(Long id);
 
@@ -17,7 +17,7 @@ public interface StaffRepository {
 
     List<Staff> findByPositionId(Long positionId);
 
-    List<Staff> findBySalaryRange(int min, int max);
+    List<Staff> findBySalaryRange(double min, double max);
 
     List<Staff> findAll();
 

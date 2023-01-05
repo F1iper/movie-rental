@@ -17,7 +17,7 @@ public class StaffRepositoryImpl implements StaffRepository {
     private final static String POSITIONS = "positions";
 
     @Override
-    public boolean insert(Staff staff) {
+    public boolean add(Staff staff) {
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var preparedStatement = connection.prepareStatement(
@@ -57,7 +57,7 @@ public class StaffRepositoryImpl implements StaffRepository {
     }
 
     @Override
-    public List<Staff> findBySalaryRange(int min, int max) {
+    public List<Staff> findBySalaryRange(double min, double max) {
         return execute("SELECT * FROM " + STAFF + " WHERE salary BETWEEN " + min + " AND " + max);
     }
 
