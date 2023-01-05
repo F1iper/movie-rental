@@ -1,47 +1,50 @@
 package org.movierental.staff.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 import org.movierental.staff.service.StaffService;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class StaffController {
 
     private final StaffService staffService;
 
-    public void add(Staff staff) {
-        staffService.add(staff);
+    public boolean add(Staff staff) {
+        return staffService.add(staff);
     }
 
-    public void removeById(Long id) {
-        staffService.removeById(id);
+    public boolean removeById(Long id) {
+        return staffService.removeById(id);
     }
 
-    public void findAll() {
-        staffService.findAll();
+    public List<Staff> findAll() {
+        return staffService.findAll();
     }
 
-    public void getPositions() {
-        staffService.getPositions();
+    public List<Position> getPositions() {
+        return staffService.getPositions();
     }
 
-    public void findStaffById(long id) {
-        staffService.findById(id);
+    public Staff findStaffById(long id) {
+        return staffService.findById(id);
     }
 
-    public void findByFirstname(String firstname) {
-        staffService.findByFirstname(firstname);
+    public List<Staff> findByFirstname(String firstname) {
+        return staffService.findByFirstname(firstname);
     }
 
-    public void findByLastname(String lastname) {
-        staffService.findByLastname(lastname);
+    public List<Staff> findByLastname(String lastname) {
+        return staffService.findByLastname(lastname);
     }
 
-    public void findBySalaryRange(int min, int max) {
-        staffService.findBySalaryRange(min, max);
+    public List<Staff> findBySalaryRange(int min, int max) {
+        return staffService.findBySalaryRange(min, max);
     }
 
-    public void findByPositionId(long positionId) {
-        staffService.findByPositionId(positionId);
+    public List<Staff> findByPositionId(long positionId) {
+        return staffService.findByPositionId(positionId);
     }
 }

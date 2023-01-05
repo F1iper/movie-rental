@@ -1,8 +1,10 @@
 package org.movierental.address.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString(exclude = "addressId")
 public class Address {
 
     private Long addressId;
@@ -22,11 +24,5 @@ public class Address {
     }
 
     public Address() {
-    }
-
-    @Override
-    public String toString() {
-        return "\nid: " + addressId + ", street: " + street + ", city: " + city + ", state: " + state +
-                ", zip code: " + zip_code + ", phone: " + phone;
     }
 }

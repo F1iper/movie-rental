@@ -1,24 +1,27 @@
 package org.movierental.staff.service;
 
+import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
+
+import java.util.List;
 
 public interface StaffService {
 
-    void add(Staff staff);
+    boolean add(Staff staff);
 
-    void getPositions();
+    List<Position> getPositions();
 
-    void findById(Long id);
+    Staff findById(Long id);
 
-    void findByFirstname(String firstname);
+    List<Staff> findByFirstname(String firstname);
 
-    void findByLastname(String lastname);
+    List<Staff> findByLastname(String lastname);
 
-    void findBySalaryRange(int min, int max);
+    List<Staff> findBySalaryRange(int min, int max);
 
-    void findByPositionId(Long positionId);
+    List<Staff> findByPositionId(Long positionId);
 
-    void findAll();
+    List<Staff> findAll();
 
-    void removeById(Long id);
+    boolean removeById(Long id);
 }

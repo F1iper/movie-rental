@@ -11,6 +11,7 @@ import org.movierental.entity.Status;
 import org.movierental.movie.controller.MovieController;
 import org.movierental.movie.entity.Movie;
 import org.movierental.staff.controller.StaffController;
+import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 
 import java.util.List;
@@ -272,27 +273,27 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide staff ID: ");
-            staffController.findStaffById(Long.parseLong(scanner.nextLine()));
+            System.out.println(staffController.findStaffById(Long.parseLong(scanner.nextLine())));
         }
         if ("2".equals(command)) {
             System.out.println("Provide firstname: ");
-            staffController.findByFirstname(scanner.nextLine());
+            System.out.println(staffController.findByFirstname(scanner.nextLine()));
         }
         if ("3".equals(command)) {
             System.out.println("Provide lastname: ");
-            staffController.findByLastname(scanner.nextLine());
+            System.out.println(staffController.findByLastname(scanner.nextLine()));
         }
         if ("4".equals(command)) {
             System.out.println("Provide salary range, \nfirst number - minimum, \nsecond number - maximum ");
-            staffController.findBySalaryRange(Integer.parseInt(scanner.nextLine()),
-                    Integer.parseInt(scanner.nextLine()));
+            System.out.println(staffController.findBySalaryRange(Integer.parseInt(scanner.nextLine()),
+                    Integer.parseInt(scanner.nextLine())));
         }
         if ("5".equals(command)) {
             System.out.println("Provide position ID: ");
-            staffController.findByPositionId(Long.parseLong(scanner.nextLine()));
+            System.out.println(staffController.findByPositionId(Long.parseLong(scanner.nextLine())));
         }
         if ("6".equals(command)) {
-            staffController.findAll();
+            System.out.println(staffController.findAll());
         }
     }
 
@@ -354,7 +355,7 @@ public class UserInterfaceTerminal {
         System.out.println("length: ");
         movie.setLength(Integer.parseInt(scanner.nextLine()));
         System.out.println("Possible languages");
-        getLanguages();
+        System.out.println(getLanguages());
         System.out.println("Language ID: ");
         movie.setLanguageId(Long.parseLong(scanner.nextLine()));
         System.out.println("cost: ");
@@ -371,7 +372,7 @@ public class UserInterfaceTerminal {
         return movie;
     }
 
-    private static Company provideCompany() {
+    private Company provideCompany() {
         Company company = new Company();
         while (true) {
             try {
@@ -389,21 +390,62 @@ public class UserInterfaceTerminal {
 
     private Staff provideStaffData() {
         Staff staff = new Staff();
-        System.out.println("Please provide firstname: ");
-        staff.setFirstname(scanner.nextLine());
-        System.out.println("Lastname: ");
-        staff.setLastname(scanner.nextLine());
-        System.out.println("Possible positions: ");
-        printPositions();
+        while (true) {
+            try {
+                System.out.println("Please provide firstname: ");
+                String firstname = scanner.nextLine();
+                validateNotEmpty(firstname, "Firstname");
 
-        System.out.println("Please provide position ID: ");
-        staff.setPositionId(Long.parseLong(scanner.nextLine()));
-        System.out.println("Salary: ");
-        staff.setSalary(Double.parseDouble(scanner.nextLine()));
+                System.out.println("Lastname: ");
+                String lastname = scanner.nextLine();
+                validateNotEmpty(lastname, "Lastname");
+
+                System.out.println("Possible positions: ");
+                System.out.println(getPositions());
+                System.out.println("Please provide position ID: ");
+                long positionId = Long.parseLong(scanner.nextLine());
+
+                if (!validatePositionId(positionId)) {
+                    break;
+                }
+
+                System.out.println("Salary: ");
+                double salary = Double.parseDouble(scanner.nextLine());
+                validateSalary(salary);
+
+                staff.setFirstname(firstname);
+                staff.setLastname(lastname);
+                staff.setPositionId(positionId);
+                staff.setSalary(salary);
+                System.out.println("Staff member added: " + staff);
+
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid salary or position ID.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return staff;
     }
 
-    private static Address provideAddressData() {
+    private boolean validatePositionId(long positionId) {
+        List<Position> positions = staffController.getPositions();
+        for (Position position : positions) {
+            if (position.getPositionId() == positionId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void validateSalary(double salary) {
+        if (salary <= 0) {
+            throw new IllegalArgumentException("Salary must be a positive value.");
+        }
+    }
+
+    private Address provideAddressData() {
         Address address = new Address();
         while (true) {
             try {
@@ -433,6 +475,7 @@ public class UserInterfaceTerminal {
                 address.setState(state);
                 address.setZip_code(zipCode);
                 address.setPhone(phone);
+                System.out.println("Address added: " + address);
 
                 break;
             } catch (IllegalArgumentException e) {
@@ -442,21 +485,18 @@ public class UserInterfaceTerminal {
         return address;
     }
 
-    private static void validateNotEmpty(String value, String fieldName) {
+    private void validateNotEmpty(String value, String fieldName) {
         if (value.isEmpty()) {
             throw new IllegalArgumentException(fieldName + " cannot be empty.");
         }
     }
 
-
-
-
     private List<Language> getLanguages() {
         return movieController.getLanguages();
     }
 
-    private void printPositions() {
-        staffController.getPositions();
+    private List<Position> getPositions() {
+        return staffController.getPositions();
     }
 
     private List<Status> getStatuses() {
