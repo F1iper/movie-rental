@@ -1,8 +1,11 @@
 package org.movierental.staff.service;
 
 import lombok.RequiredArgsConstructor;
+import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 import org.movierental.staff.repository.StaffRepository;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
@@ -10,47 +13,47 @@ public class StaffServiceImpl implements StaffService {
     private final StaffRepository staffRepository;
 
     @Override
-    public void add(Staff staff) {
-        staffRepository.insert(staff);
+    public boolean add(Staff staff) {
+        return staffRepository.add(staff);
     }
 
     @Override
-    public void getPositions() {
-        staffRepository.getPositions();
+    public List<Position> getPositions() {
+        return staffRepository.getPositions();
     }
 
     @Override
-    public void findById(Long id) {
-        staffRepository.findById(id);
+    public Staff findById(Long id) {
+        return staffRepository.findById(id);
     }
 
     @Override
-    public void findByFirstname(String firstname) {
-        staffRepository.findByFirstname(firstname);
+    public List<Staff> findByFirstname(String firstname) {
+        return staffRepository.findByFirstname(firstname);
     }
 
     @Override
-    public void findByLastname(String lastname) {
-        staffRepository.findByLastname(lastname);
+    public List<Staff> findByLastname(String lastname) {
+        return staffRepository.findByLastname(lastname);
     }
 
     @Override
-    public void findBySalaryRange(int min, int max) {
-        staffRepository.findBySalaryRange(min, max);
+    public List<Staff> findBySalaryRange(double min, double max) {
+        return staffRepository.findBySalaryRange(min, max);
     }
 
     @Override
-    public void findByPositionId(Long positionId) {
-        staffRepository.findByPositionId(positionId);
+    public List<Staff> findByPositionId(Long positionId) {
+        return staffRepository.findByPositionId(positionId);
     }
 
     @Override
-    public void findAll() {
-        staffRepository.findAll();
+    public List<Staff> findAll() {
+        return staffRepository.findAll();
     }
 
     @Override
-    public void removeById(Long id) {
-        staffRepository.removeById(id);
+    public boolean removeById(Long id) {
+        return staffRepository.removeById(id);
     }
 }

@@ -1,6 +1,9 @@
 package org.movierental.movie.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.entity.Movie;
 import org.movierental.movie.service.MovieService;
 
@@ -23,35 +26,35 @@ public class MovieController {
         return movieService.findById(id);
     }
 
-    public Movie updateName(Long id, String name) {
-        return movieService.updateName(id, name);
+    public boolean updateTitle(Long id, String name) {
+        return movieService.updateTitle(id, name);
     }
 
-    public Movie updateDescription(Long id, String description) {
+    public boolean updateDescription(Long id, String description) {
         return movieService.updateDescription(id, description);
     }
 
-    public List<Movie> findByCategoryId(Long categoryId) {
-        return movieService.findByCategoryId(categoryId);
+    public List<Movie> findByMovieTypeId(Long categoryId) {
+        return movieService.findByMovieTypeId(categoryId);
     }
 
     public boolean removeById(Long id) {
         return movieService.removeById(id);
     }
 
-    public void getStatuses() {
-        movieService.findStatuses();
+    public List<Status> getStatuses() {
+        return movieService.findStatuses();
     }
 
-    public void getMovieTypes() {
-        movieService.findMovieTypes();
+    public List<MovieType> getMovieTypes() {
+        return movieService.findMovieTypes();
     }
 
-    public void getLanguages() {
-        movieService.findLanguages();
+    public List<Language> getLanguages() {
+        return movieService.findLanguages();
     }
 
-    public List<Movie> findByCostRange(int min, int max) {
+    public List<Movie> findByCostRange(double min, double max) {
         return movieService.findByCostRange(min, max);
     }
 

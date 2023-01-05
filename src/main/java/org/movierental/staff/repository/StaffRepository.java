@@ -1,24 +1,27 @@
 package org.movierental.staff.repository;
 
+import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
+
+import java.util.List;
 
 public interface StaffRepository {
 
-    void insert(Staff staff);
+    boolean add(Staff staff);
 
-    void findById(Long id);
+    Staff findById(Long id);
 
-    void findByFirstname(String firstname);
+    List<Staff> findByFirstname(String firstname);
 
-    void findByLastname(String lastname);
+    List<Staff> findByLastname(String lastname);
 
-    void findByPositionId(Long positionId);
+    List<Staff> findByPositionId(Long positionId);
 
-    void findBySalaryRange(int min, int max);
+    List<Staff> findBySalaryRange(double min, double max);
 
-    void findAll();
+    List<Staff> findAll();
 
-    void getPositions();
+    List<Position> getPositions();
 
-    void removeById(Long id);
+    boolean removeById(Long id);
 }

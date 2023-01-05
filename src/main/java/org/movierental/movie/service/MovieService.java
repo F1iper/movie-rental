@@ -1,5 +1,8 @@
 package org.movierental.movie.service;
 
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.entity.Movie;
 
 import java.util.List;
@@ -12,23 +15,23 @@ public interface MovieService {
 
     Movie findById(Long id);
 
-    List<Movie> findByCategoryId(Long categoryId);
+    List<Movie> findByMovieTypeId(Long categoryId);
 
     List<Movie> findByReleaseYear(int year);
 
-    Movie updateName(Long id, String name);
+    boolean updateTitle(Long id, String name);
 
-    Movie updateDescription(Long id, String description);
+    boolean updateDescription(Long id, String description);
 
     boolean removeById(Long id);
 
-    void findStatuses();
+    List<Status> findStatuses();
 
-    void findMovieTypes();
+    List<MovieType> findMovieTypes();
 
-    void findLanguages();
+    List<Language> findLanguages();
 
-    List<Movie> findByCostRange(int min, int max);
+    List<Movie> findByCostRange(double min, double max);
 
     List<Movie> findAll();
 }

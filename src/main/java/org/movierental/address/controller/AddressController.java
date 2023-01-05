@@ -11,8 +11,8 @@ public class AddressController {
 
     private final AddressService addressService;
 
-    public void add(Address address) {
-        addressService.add(address);
+    public boolean add(Address address) {
+        return addressService.add(address);
     }
 
     public Address findById(Long id) {

@@ -14,4 +14,15 @@ public class Staff {
     private Long positionId;
     private Long branchId;
 
+    public Staff(Long staffId, String firstname, String lastname, Double salary, Long positionId, Long branchId) {
+        this.staffId = staffId;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.salary = salary;
+        this.positionId = positionId;
+        this.branchId = branchId;
+    }
+
+    public Staff() {
+    }
 }

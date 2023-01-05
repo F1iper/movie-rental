@@ -8,7 +8,7 @@ public interface CompanyService {
 
     boolean add(Company company);
 
-    void update(long id, String newName);
+    boolean update(long id, String newName);
 
     Company findById(Long id);
 

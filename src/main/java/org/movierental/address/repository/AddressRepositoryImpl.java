@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
 import org.movierental.repository.QueryExecutor;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +18,15 @@ public class AddressRepositoryImpl implements AddressRepository {
     public boolean insert(Address address) {
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
-             var statement = connection.prepareStatement("INSERT INTO " + ADDRESS + " (street, city, state, zip_code, phone) " +
+             var preparedStatement = connection.prepareStatement("INSERT INTO " + ADDRESS + " (street, city, state, zip_code, phone) " +
                      "VALUES (?, ?, ?, ?, ?)")) {
-            statement.setString(1, address.getStreet());
-            statement.setString(2, address.getCity());
-            statement.setString(3, address.getState());
-            statement.setString(4, address.getZip_code());
-            statement.setString(5, address.getPhone());
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println(("New address has been inserted successfully.\n" + address));
-            }
-            return true;
+            preparedStatement.setString(1, address.getStreet());
+            preparedStatement.setString(2, address.getCity());
+            preparedStatement.setString(3, address.getState());
+            preparedStatement.setString(4, address.getZip_code());
+            preparedStatement.setString(5, address.getPhone());
+            int rows = preparedStatement.executeUpdate();
+            return rows > 0;
         } catch (SQLException e) {
             log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
@@ -72,14 +70,7 @@ public class AddressRepositoryImpl implements AddressRepository {
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                Long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                addresses.add(new Address(id, street, city, state, zipCode, phone));
+                addresses.add(createAddress(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -94,19 +85,23 @@ public class AddressRepositoryImpl implements AddressRepository {
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                Long id = rs.getLong("address_id");
-                String street = rs.getString("street");
-                String city = rs.getString("city");
-                String state = rs.getString("state");
-                String zipCode = rs.getString("zip_code");
-                String phone = rs.getString("phone");
-
-                address = new Address(id, street, city, state, zipCode, phone);
+                address = createAddress(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
         return address;
+    }
+
+    private static Address createAddress(ResultSet rs) throws SQLException {
+        Long id = rs.getLong("address_id");
+        String street = rs.getString("street");
+        String city = rs.getString("city");
+        String state = rs.getString("state");
+        String zipCode = rs.getString("zip_code");
+        String phone = rs.getString("phone");
+
+        return new Address(id, street, city, state, zipCode, phone);
     }
 
     @Override
@@ -118,7 +113,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            return false;
+            throw new RuntimeException(e);
         }
     }
 }

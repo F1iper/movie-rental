@@ -31,7 +31,7 @@ public class CompanyController {
         return companyService.findAll();
     }
 
-    public void updateName(Long id, String name) {
-        companyService.update(id, name);
+    public boolean updateName(Long id, String name) {
+        return companyService.update(id, name);
     }
 }

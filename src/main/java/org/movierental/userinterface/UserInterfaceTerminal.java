@@ -5,11 +5,16 @@ import org.movierental.address.controller.AddressController;
 import org.movierental.address.entity.Address;
 import org.movierental.company.controller.CompanyController;
 import org.movierental.company.entity.Company;
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.controller.MovieController;
 import org.movierental.movie.entity.Movie;
 import org.movierental.staff.controller.StaffController;
+import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 
+import java.util.List;
 import java.util.Scanner;
 
 @RequiredArgsConstructor
@@ -70,13 +75,80 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-            System.out.println("Provide Company ID: ");
-            long id = Long.parseLong(scanner.nextLine());
-            System.out.println("Company to update: ");
-            companyController.findById(id);
-            System.out.println("Provide new name: ");
-            String newName = scanner.nextLine();
-            companyController.updateName(id, newName);
+            updateCompany();
+        }
+        if ("2".equals(command)) {
+
+        }
+        if ("4".equals(command)) {
+            updateMovie();
+        }
+    }
+
+    private void updateCompany() {
+        System.out.println("Provide company ID: ");
+        long id = Long.parseLong(scanner.nextLine());
+        Company company = companyController.findById(id);
+        if (company == null) {
+            System.out.println("Company not found.");
+            return;
+        }
+        System.out.println("Company to update: " + company.getName());
+        System.out.println("Provide new name: ");
+        String newName = scanner.nextLine();
+        boolean success = companyController.updateName(id, newName);
+        if (success) {
+            System.out.println("Company name updated.");
+        } else {
+            System.out.println("Failed to update company name.");
+        }
+    }
+
+    private void updateMovie() {
+        System.out.println("Movies available: ");
+        List<Movie> allMovies = movieController.findAll();
+        for (Movie movie : allMovies) {
+            System.out.println(movie.getMovieId() + " - " + movie.getTitle());
+        }
+        System.out.println("Choose a movie id to update: ");
+        Long movieId = Long.parseLong(scanner.nextLine());
+        Movie selectedMovie = allMovies.stream()
+                .filter(movie -> movie.getMovieId().equals(movieId))
+                .findFirst()
+                .orElse(null);
+        if (selectedMovie == null) {
+            System.out.println("Invalid movie id.");
+            return;
+        }
+        System.out.println("Choose option: ");
+        System.out.println("1 - Update title");
+        System.out.println("2 - Update description");
+        System.out.println("0 - Back");
+        int command = Integer.parseInt(scanner.nextLine());
+        switch (command) {
+            case 1:
+                System.out.println("Enter new title: ");
+                boolean titleUpdated = movieController.updateTitle(selectedMovie.getMovieId(), scanner.nextLine());
+                if (titleUpdated) {
+                    System.out.println("Movie title updated.");
+                } else {
+                    System.out.println("Failed to update movie title.");
+                }
+                break;
+            case 2:
+                System.out.println("Enter new description: ");
+                boolean descriptionUpdated = movieController.updateDescription(selectedMovie.getMovieId(), scanner.nextLine());
+                if (descriptionUpdated) {
+                    System.out.println("Movie description updated.");
+                } else {
+                    System.out.println("Failed to update movie description.");
+                }
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Invalid option.");
+                break;
         }
     }
 
@@ -159,14 +231,41 @@ public class UserInterfaceTerminal {
         }
         if ("4".equals(command)) {
             System.out.println("Provide cost range, \nfirst number - minimum, \nsecond number - maximum ");
-            System.out.println(movieController.findByCostRange(Integer.parseInt(scanner.nextLine()),
-                    Integer.parseInt(scanner.nextLine())));
+            System.out.println(movieController.findByCostRange(Double.parseDouble(scanner.nextLine()),
+                    Double.parseDouble(scanner.nextLine())));
         }
         if ("5".equals(command)) {
-            System.out.println(movieController.findAll());
+            findMovieByMovieType();
+        }
+        if ("6".equals(command)) {
+            printAllMovies();
         }
     }
 
+    private void findMovieByMovieType() {
+        System.out.println("Available movie types: ");
+        List<MovieType> movieTypes = movieController.getMovieTypes();
+        movieTypes.forEach(mt -> System.out.println(mt.getMovieTypeId() + " - " + mt.getName()));
+        System.out.println("Provide movie type ID: ");
+        Long typeId = Long.parseLong(scanner.nextLine());
+        MovieType selectedType = movieTypes.stream()
+                .filter(mt -> mt.getMovieTypeId().equals(typeId))
+                .findFirst()
+                .orElse(null);
+        if (selectedType == null) {
+            System.out.println("Invalid movie type ID.");
+            return;
+        }
+        List<Movie> movies = movieController.findByMovieTypeId(selectedType.getMovieTypeId());
+        if (movies.isEmpty()) {
+            System.out.println("No movies found for the given type.");
+        } else {
+            System.out.println("Movies found for the given type: ");
+            for (Movie movie : movies) {
+                System.out.println(movie.getTitle());
+            }
+        }
+    }
 
     private void chooseStaffSearchOption(String command) {
         if ("0".equals(command)) {
@@ -174,27 +273,27 @@ public class UserInterfaceTerminal {
         }
         if ("1".equals(command)) {
             System.out.println("Provide staff ID: ");
-            staffController.findStaffById(Long.parseLong(scanner.nextLine()));
+            System.out.println(staffController.findStaffById(Long.parseLong(scanner.nextLine())));
         }
         if ("2".equals(command)) {
             System.out.println("Provide firstname: ");
-            staffController.findByFirstname(scanner.nextLine());
+            System.out.println(staffController.findByFirstname(scanner.nextLine()));
         }
         if ("3".equals(command)) {
             System.out.println("Provide lastname: ");
-            staffController.findByLastname(scanner.nextLine());
+            System.out.println(staffController.findByLastname(scanner.nextLine()));
         }
         if ("4".equals(command)) {
             System.out.println("Provide salary range, \nfirst number - minimum, \nsecond number - maximum ");
-            staffController.findBySalaryRange(Integer.parseInt(scanner.nextLine()),
-                    Integer.parseInt(scanner.nextLine()));
+            System.out.println(staffController.findBySalaryRange(Integer.parseInt(scanner.nextLine()),
+                    Integer.parseInt(scanner.nextLine())));
         }
         if ("5".equals(command)) {
             System.out.println("Provide position ID: ");
-            staffController.findByPositionId(Long.parseLong(scanner.nextLine()));
+            System.out.println(staffController.findByPositionId(Long.parseLong(scanner.nextLine())));
         }
         if ("6".equals(command)) {
-            staffController.findAll();
+            System.out.println(staffController.findAll());
         }
     }
 
@@ -256,76 +355,174 @@ public class UserInterfaceTerminal {
         System.out.println("length: ");
         movie.setLength(Integer.parseInt(scanner.nextLine()));
         System.out.println("Possible languages");
-        printLanguages();
+        System.out.println(getLanguages());
         System.out.println("Language ID: ");
         movie.setLanguageId(Long.parseLong(scanner.nextLine()));
         System.out.println("cost: ");
         movie.setCost(Double.parseDouble(scanner.nextLine()));
         System.out.println("Possible statuses: ");
-        printStatuses();
+        getStatuses();
         System.out.println("Choose status: ");
         movie.setStatusId(Long.parseLong(scanner.nextLine()));
         System.out.println("Possible movie types: ");
-        printMovieTypes();
+        getMovieTypes();
         System.out.println("Choose movie type: ");
         movie.setMovieTypeId(Long.parseLong(scanner.nextLine()));
 
         return movie;
     }
 
-    private static Company provideCompany() {
-        System.out.println("Provide company name to insert: ");
+    private Company provideCompany() {
         Company company = new Company();
-        company.setName(scanner.nextLine());
+        while (true) {
+            try {
+                System.out.println("Provide company name to insert: ");
+                String name = scanner.nextLine();
+                validateNotEmpty(name, "Company name");
+                company.setName(name);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return company;
-    }
-
-    private static Address provideAddressData() {
-        Address address = new Address();
-        System.out.println("Please provide Address");
-        System.out.println("Street: ");
-        address.setStreet(scanner.nextLine());
-        System.out.println("City: ");
-        address.setCity(scanner.nextLine());
-        System.out.println("State: ");
-        address.setState(scanner.nextLine());
-        System.out.println("Zip code");
-        address.setZip_code(scanner.nextLine());
-        System.out.println("Phone: ");
-        address.setPhone(scanner.nextLine());
-        return address;
     }
 
     private Staff provideStaffData() {
         Staff staff = new Staff();
-        System.out.println("Please provide firstname: ");
-        staff.setFirstname(scanner.nextLine());
-        System.out.println("Lastname: ");
-        staff.setLastname(scanner.nextLine());
-        System.out.println("Possible positions: ");
-        printPositions();
+        while (true) {
+            try {
+                System.out.println("Please provide firstname: ");
+                String firstname = scanner.nextLine();
+                validateNotEmpty(firstname, "Firstname");
 
-        System.out.println("Please provide position ID: ");
-        staff.setPositionId(Long.parseLong(scanner.nextLine()));
-        System.out.println("Salary: ");
-        staff.setSalary(Double.parseDouble(scanner.nextLine()));
+                System.out.println("Lastname: ");
+                String lastname = scanner.nextLine();
+                validateNotEmpty(lastname, "Lastname");
+
+                System.out.println("Possible positions: ");
+                System.out.println(getPositions());
+                System.out.println("Please provide position ID: ");
+                long positionId = Long.parseLong(scanner.nextLine());
+
+                if (!validatePositionId(positionId)) {
+                    break;
+                }
+
+                System.out.println("Salary: ");
+                double salary = Double.parseDouble(scanner.nextLine());
+                validateSalary(salary);
+
+                staff.setFirstname(firstname);
+                staff.setLastname(lastname);
+                staff.setPositionId(positionId);
+                staff.setSalary(salary);
+                System.out.println("Staff member added: " + staff);
+
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid salary or position ID.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return staff;
     }
 
-    private void printLanguages() {
-        movieController.getLanguages();
+    private boolean validatePositionId(long positionId) {
+        List<Position> positions = staffController.getPositions();
+        for (Position position : positions) {
+            if (position.getPositionId() == positionId) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private void printPositions() {
-        staffController.getPositions();
+    private void validateSalary(double salary) {
+        if (salary <= 0) {
+            throw new IllegalArgumentException("Salary must be a positive value.");
+        }
     }
 
-    private void printStatuses() {
-        movieController.getStatuses();
+    private Address provideAddressData() {
+        Address address = new Address();
+        while (true) {
+            try {
+                System.out.println("Please provide Address");
+                System.out.println("Street: ");
+                String street = scanner.nextLine();
+                validateNotEmpty(street, "Street");
+
+                System.out.println("City: ");
+                String city = scanner.nextLine();
+                validateNotEmpty(city, "City");
+
+                System.out.println("State: ");
+                String state = scanner.nextLine();
+                validateNotEmpty(state, "State");
+
+                System.out.println("Zip code");
+                String zipCode = scanner.nextLine();
+                validateNotEmpty(zipCode, "Zip code");
+
+                System.out.println("Phone: ");
+                String phone = scanner.nextLine();
+                validateNotEmpty(phone, "Phone");
+
+                address.setStreet(street);
+                address.setCity(city);
+                address.setState(state);
+                address.setZip_code(zipCode);
+                address.setPhone(phone);
+                System.out.println("Address added: " + address);
+
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return address;
     }
 
-    private void printMovieTypes() {
-        movieController.getMovieTypes();
+    private void validateNotEmpty(String value, String fieldName) {
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " cannot be empty.");
+        }
+    }
+
+    private List<Language> getLanguages() {
+        return movieController.getLanguages();
+    }
+
+    private List<Position> getPositions() {
+        return staffController.getPositions();
+    }
+
+    private List<Status> getStatuses() {
+        return movieController.getStatuses();
+    }
+
+    private List<MovieType> getMovieTypes() {
+        return movieController.getMovieTypes();
+    }
+
+    private void printAllMovies() {
+        List<Movie> movies = movieController.findAll();
+        if (movies.isEmpty()) {
+            System.out.println("No movies found.");
+        } else {
+            System.out.println("Movies: ");
+            for (Movie movie : movies) {
+                System.out.println("ID: " + movie.getMovieId());
+                System.out.println("Title: " + movie.getTitle());
+                System.out.println("Description: " + movie.getDescription());
+//                System.out.println("Movie type: " + movieController.getMovieTypes().);
+                // TODO: 1/4/2023 PRINT movie type
+                System.out.println("Duration: " + movie.getLength() + " minutes");
+                System.out.println("Released: " + movie.getReleaseYear());
+            }
+        }
     }
 
     private void printOptions() {
@@ -375,7 +572,8 @@ public class UserInterfaceTerminal {
         System.out.println("2 - Search by title");
         System.out.println("3 - Search by release year");
         System.out.println("4 - Search by cost with range (min, max)");
-        System.out.println("5 - Search all movies");
+        System.out.println("5 - Search by movie type");
+        System.out.println("6 - Search all movies");
         System.out.println("0 - Back to Main Menu");
     }
 }

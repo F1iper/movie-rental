@@ -1,6 +1,9 @@
 package org.movierental.movie.service;
 
 import lombok.RequiredArgsConstructor;
+import org.movierental.entity.Language;
+import org.movierental.entity.MovieType;
+import org.movierental.entity.Status;
 import org.movierental.movie.entity.Movie;
 import org.movierental.movie.repository.MovieRepository;
 
@@ -27,8 +30,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> findByCategoryId(Long categoryId) {
-        return movieRepository.findByCategoryId(categoryId);
+    public List<Movie> findByMovieTypeId(Long categoryId) {
+        return movieRepository.findByMovieTypeId(categoryId);
     }
 
     @Override
@@ -37,12 +40,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie updateName(Long id, String name) {
-        return movieRepository.updateName(id, name);
+    public boolean updateTitle(Long id, String name) {
+        return movieRepository.updateTitle(id, name);
     }
 
     @Override
-    public Movie updateDescription(Long id, String description) {
+    public boolean updateDescription(Long id, String description) {
         return movieRepository.updateDescription(id, description);
     }
 
@@ -52,22 +55,22 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void findStatuses() {
-        movieRepository.findStatuses();
+    public List<Status> findStatuses() {
+        return movieRepository.findStatuses();
     }
 
     @Override
-    public void findMovieTypes() {
-        movieRepository.findMovieTypes();
+    public List<MovieType> findMovieTypes() {
+        return movieRepository.findMovieTypes();
     }
 
     @Override
-    public void findLanguages() {
-        movieRepository.findLanguages();
+    public List<Language> findLanguages() {
+        return movieRepository.findLanguages();
     }
 
     @Override
-    public List<Movie> findByCostRange(int min, int max) {
+    public List<Movie> findByCostRange(double min, double max) {
         return movieRepository.findByCostRange(min, max);
     }
 
