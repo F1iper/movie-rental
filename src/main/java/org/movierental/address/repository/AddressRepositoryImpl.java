@@ -27,9 +27,10 @@ public class AddressRepositoryImpl implements AddressRepository {
             statement.setString(5, address.getPhone());
             int rows = statement.executeUpdate();
             if (rows > 0) {
-                System.out.println(("New address has been inserted successfully.\n" + address));
+                return true;
+            } else {
+                return false;
             }
-            return true;
         } catch (SQLException e) {
             log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());

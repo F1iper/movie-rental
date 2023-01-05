@@ -354,17 +354,17 @@ public class UserInterfaceTerminal {
         System.out.println("length: ");
         movie.setLength(Integer.parseInt(scanner.nextLine()));
         System.out.println("Possible languages");
-        printLanguages();
+        getLanguages();
         System.out.println("Language ID: ");
         movie.setLanguageId(Long.parseLong(scanner.nextLine()));
         System.out.println("cost: ");
         movie.setCost(Double.parseDouble(scanner.nextLine()));
         System.out.println("Possible statuses: ");
-        printStatuses();
+        getStatuses();
         System.out.println("Choose status: ");
         movie.setStatusId(Long.parseLong(scanner.nextLine()));
         System.out.println("Possible movie types: ");
-        printMovieTypes();
+        getMovieTypes();
         System.out.println("Choose movie type: ");
         movie.setMovieTypeId(Long.parseLong(scanner.nextLine()));
 
@@ -372,26 +372,19 @@ public class UserInterfaceTerminal {
     }
 
     private static Company provideCompany() {
-        System.out.println("Provide company name to insert: ");
         Company company = new Company();
-        company.setName(scanner.nextLine());
+        while (true) {
+            try {
+                System.out.println("Provide company name to insert: ");
+                String name = scanner.nextLine();
+                validateNotEmpty(name, "Company name");
+                company.setName(name);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return company;
-    }
-
-    private static Address provideAddressData() {
-        Address address = new Address();
-        System.out.println("Please provide Address");
-        System.out.println("Street: ");
-        address.setStreet(scanner.nextLine());
-        System.out.println("City: ");
-        address.setCity(scanner.nextLine());
-        System.out.println("State: ");
-        address.setState(scanner.nextLine());
-        System.out.println("Zip code");
-        address.setZip_code(scanner.nextLine());
-        System.out.println("Phone: ");
-        address.setPhone(scanner.nextLine());
-        return address;
     }
 
     private Staff provideStaffData() {
@@ -410,7 +403,55 @@ public class UserInterfaceTerminal {
         return staff;
     }
 
-    private List<Language> printLanguages() {
+    private static Address provideAddressData() {
+        Address address = new Address();
+        while (true) {
+            try {
+                System.out.println("Please provide Address");
+                System.out.println("Street: ");
+                String street = scanner.nextLine();
+                validateNotEmpty(street, "Street");
+
+                System.out.println("City: ");
+                String city = scanner.nextLine();
+                validateNotEmpty(city, "City");
+
+                System.out.println("State: ");
+                String state = scanner.nextLine();
+                validateNotEmpty(state, "State");
+
+                System.out.println("Zip code");
+                String zipCode = scanner.nextLine();
+                validateNotEmpty(zipCode, "Zip code");
+
+                System.out.println("Phone: ");
+                String phone = scanner.nextLine();
+                validateNotEmpty(phone, "Phone");
+
+                address.setStreet(street);
+                address.setCity(city);
+                address.setState(state);
+                address.setZip_code(zipCode);
+                address.setPhone(phone);
+
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return address;
+    }
+
+    private static void validateNotEmpty(String value, String fieldName) {
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " cannot be empty.");
+        }
+    }
+
+
+
+
+    private List<Language> getLanguages() {
         return movieController.getLanguages();
     }
 
@@ -418,11 +459,11 @@ public class UserInterfaceTerminal {
         staffController.getPositions();
     }
 
-    private List<Status> printStatuses() {
+    private List<Status> getStatuses() {
         return movieController.getStatuses();
     }
 
-    private List<MovieType> printMovieTypes() {
+    private List<MovieType> getMovieTypes() {
         return movieController.getMovieTypes();
     }
 

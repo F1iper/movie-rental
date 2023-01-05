@@ -84,11 +84,11 @@ CREATE TABLE IF NOT EXISTS customers
 CREATE TABLE IF NOT EXISTS address
 (
     address_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    city       VARCHAR(255) DEFAULT NULL,
-    phone      VARCHAR(255) DEFAULT NULL,
-    state      VARCHAR(255) DEFAULT NULL,
-    street     VARCHAR(255) DEFAULT NULL,
-    zip_code   VARCHAR(255) DEFAULT NULL
+    city       VARCHAR(255) NOT NULL,
+    phone      VARCHAR(255) NOT NULL,
+    state      VARCHAR(255) NOT NULL,
+    street     VARCHAR(255) NOT NULL,
+    zip_code   VARCHAR(255) NOT NULL
 );
 
 
