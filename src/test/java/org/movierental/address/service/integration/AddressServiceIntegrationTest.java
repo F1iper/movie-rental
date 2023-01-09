@@ -31,11 +31,11 @@ public class AddressServiceIntegrationTest {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS address\n" +
                     "(\n" +
                     "    address_id BIGINT PRIMARY KEY AUTO_INCREMENT,\n" +
-                    "    city       VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
-                    "    phone      VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
-                    "    state      VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
-                    "    street     VARCHAR(255) NOT NULL DEFAULT NULL,\n" +
-                    "    zip_code   VARCHAR(255) NOT NULL DEFAULT NULL\n" +
+                    "    city       VARCHAR(255) NOT NULL,\n" +
+                    "    phone      VARCHAR(255) NOT NULL,\n" +
+                    "    state      VARCHAR(255) NOT NULL,\n" +
+                    "    street     VARCHAR(255) NOT NULL,\n" +
+                    "    zip_code   VARCHAR(255) NOT NULL\n" +
                     ");\n");
         }
     }
@@ -49,9 +49,9 @@ public class AddressServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("Table should be empty")
+    @DisplayName("Address table should be empty")
     @Order(1)
-    void shouldReturnEmptyTable() throws SQLException {
+    void shouldReturnEmptyAddressTable() throws SQLException {
         //given
         List<Address> addresses = new ArrayList<>();
 

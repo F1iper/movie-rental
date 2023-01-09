@@ -1,11 +1,10 @@
-CREATE
-DATABASE IF NOT EXISTS movierental;
+CREATE DATABASE IF NOT EXISTS movierental;
 USE movierental;
 
 CREATE TABLE IF NOT EXISTS company
 (
     company_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name       VARCHAR(255)       NULL DEFAULT NULL
+    name       VARCHAR(255)       NOT NULL
 );
 
 
@@ -27,8 +26,8 @@ CREATE TABLE IF NOT EXISTS actors
 CREATE TABLE IF NOT EXISTS director
 (
     director_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    firstname   VARCHAR(20) DEFAULT NULL,
-    lastname    VARCHAR(40) DEFAULT NULL
+    firstname   VARCHAR(20)        NOT NULL,
+    lastname    VARCHAR(40)        NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS status
@@ -92,10 +91,10 @@ CREATE TABLE IF NOT EXISTS customers
 (
     customer_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     active      BIT(1)             NOT NULL,
-    created_at  DATETIME(6)  DEFAULT NULL,
-    email       VARCHAR(255) DEFAULT NULL,
-    firstname   VARCHAR(255) DEFAULT NULL,
-    lastname    VARCHAR(255) DEFAULT NULL
+    created_at  DATETIME(6)        NOT NULL,
+    email       VARCHAR(255)       NOT NULL,
+    firstname   VARCHAR(255)       NOT NULL,
+    lastname    VARCHAR(255)       NOT NULL
 );
 
 
@@ -178,11 +177,11 @@ CREATE TABLE IF NOT EXISTS company_branches
 CREATE TABLE IF NOT EXISTS rental
 (
     rental_id   BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    rent_date   DATETIME(6) DEFAULT NULL,
-    return_date DATETIME(6) DEFAULT NULL,
-    customer_id BIGINT      DEFAULT NULL,
-    movie_id    BIGINT      DEFAULT NULL,
-    staff_id    BIGINT      DEFAULT NULL,
+    rent_date   DATETIME(6) NOT NULL,
+    return_date DATETIME(6) NOT NULL,
+    customer_id BIGINT      NOT NULL,
+    movie_id    BIGINT      NOT NULL,
+    staff_id    BIGINT      NOT NULL,
     FOREIGN KEY (staff_id) REFERENCES staff (staff_id),
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
     FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
