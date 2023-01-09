@@ -31,6 +31,24 @@ CREATE TABLE IF NOT EXISTS director
     lastname    VARCHAR(40) DEFAULT NULL
 );
 
+CREATE TABLE IF NOT EXISTS status
+(
+    status_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name      VARCHAR(255)       NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS language
+(
+    language_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(255)       NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS movie_type
+(
+    movie_type_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(50)
+);
+
 CREATE TABLE IF NOT EXISTS movies
 (
     movie_id      BIGINT           NOT NULL AUTO_INCREMENT,
@@ -168,22 +186,4 @@ CREATE TABLE IF NOT EXISTS rental
     FOREIGN KEY (staff_id) REFERENCES staff (staff_id),
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
     FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
-);
-
-CREATE TABLE IF NOT EXISTS status
-(
-    status_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name      VARCHAR(255)       NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS language
-(
-    language_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(255)       NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS movie_type
-(
-    movie_type_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name          VARCHAR(50)
 );
