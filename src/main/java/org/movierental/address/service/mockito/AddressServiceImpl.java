@@ -1,4 +1,4 @@
-package org.movierental.address.service;
+package org.movierental.address.service.mockito;
 
 import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;

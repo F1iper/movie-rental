@@ -2,7 +2,7 @@ package org.movierental;
 
 import org.movierental.address.controller.AddressController;
 import org.movierental.address.repository.AddressRepositoryImpl;
-import org.movierental.address.service.AddressServiceImpl;
+import org.movierental.address.service.mockito.AddressServiceImpl;
 import org.movierental.company.controller.CompanyController;
 import org.movierental.company.repository.CompanyRepositoryImpl;
 import org.movierental.company.service.CompanyServiceImpl;

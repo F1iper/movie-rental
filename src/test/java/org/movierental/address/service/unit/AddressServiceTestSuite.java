@@ -1,4 +1,4 @@
-package org.movierental.address.service.integration;
+package org.movierental.address.service.unit;
 
 import org.junit.jupiter.api.*;
 import org.movierental.address.entity.Address;
@@ -13,14 +13,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AddressServiceIntegrationTest {
+public class AddressServiceTestSuite {
     private static final String URL = "jdbc:h2:~/temp/test2";
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "";
 
     private final Connection connection;
 
-    public AddressServiceIntegrationTest() throws SQLException {
+    public AddressServiceTestSuite() throws SQLException {
         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 

@@ -1,4 +1,4 @@
-package org.movierental.staff.service;
+package org.movierental.staff.service.mockito;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 import org.movierental.staff.repository.StaffRepository;
+import org.movierental.staff.service.StaffServiceImpl;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package org.movierental.company.service;
+package org.movierental.company.service.mockito;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.movierental.company.entity.Company;
 import org.movierental.company.repository.CompanyRepository;
+import org.movierental.company.service.CompanyServiceImpl;
 
 import java.util.Arrays;
 import java.util.Collections;

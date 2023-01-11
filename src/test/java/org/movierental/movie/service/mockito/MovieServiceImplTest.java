@@ -1,4 +1,4 @@
-package org.movierental.movie.service;
+package org.movierental.movie.service.mockito;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +12,7 @@ import org.movierental.entity.MovieType;
 import org.movierental.entity.Status;
 import org.movierental.movie.entity.Movie;
 import org.movierental.movie.repository.MovieRepository;
+import org.movierental.movie.service.MovieServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
