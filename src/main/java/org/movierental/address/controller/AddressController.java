@@ -2,7 +2,7 @@ package org.movierental.address.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;
-import org.movierental.address.service.AddressService;
+import org.movierental.address.service.mockito.AddressService;
 
 import java.util.List;
 

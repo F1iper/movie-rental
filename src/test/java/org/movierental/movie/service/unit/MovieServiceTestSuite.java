@@ -1,4 +1,4 @@
-package org.movierental.movie.service.integration;
+package org.movierental.movie.service.unit;
 
 import org.junit.jupiter.api.*;
 import org.movierental.entity.Language;
@@ -16,14 +16,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MovieServiceIntegrationTest {
+public class MovieServiceTestSuite {
     private static final String URL = "jdbc:h2:~/temp/test2";
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "";
 
     private final Connection connection;
 
-    public MovieServiceIntegrationTest() throws SQLException {
+    public MovieServiceTestSuite() throws SQLException {
         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 

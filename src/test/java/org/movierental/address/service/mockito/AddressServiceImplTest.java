@@ -1,4 +1,4 @@
-package org.movierental.address.service;
+package org.movierental.address.service.mockito;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
