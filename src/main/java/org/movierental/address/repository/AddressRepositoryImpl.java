@@ -1,6 +1,5 @@
 package org.movierental.address.repository;
 
-import lombok.extern.slf4j.Slf4j;
 import org.movierental.address.entity.Address;
 import org.movierental.repository.QueryExecutor;
 
@@ -9,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class AddressRepositoryImpl implements AddressRepository {
 
     private final static String ADDRESS = "address";
@@ -28,7 +26,6 @@ public class AddressRepositoryImpl implements AddressRepository {
             int rows = preparedStatement.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
-            log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }

@@ -1,6 +1,5 @@
 package org.movierental.repository;
 
-import lombok.extern.slf4j.Slf4j;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-@Slf4j
 public class DatabaseConnection {
 
     public Connection connect() {
@@ -23,10 +21,10 @@ public class DatabaseConnection {
 
             return DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            log.warn("Error connecting to the database: " + e.getMessage());
+//            log.warn("Error connecting to the database: " + e.getMessage());
             return null;
         } catch (IOException e) {
-            log.warn("Error reading database configuration: " + e.getMessage());
+//            log.warn("Error reading database configuration: " + e.getMessage());
             return null;
         }
     }

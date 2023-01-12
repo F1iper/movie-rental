@@ -1,6 +1,5 @@
 package org.movierental.staff.repository;
 
-import lombok.extern.slf4j.Slf4j;
 import org.movierental.repository.QueryExecutor;
 import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class StaffRepositoryImpl implements StaffRepository {
 
     private final static String STAFF = "staff";
@@ -31,7 +29,6 @@ public class StaffRepositoryImpl implements StaffRepository {
             return rows > 0;
 
         } catch (SQLException e) {
-            log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -139,7 +136,6 @@ public class StaffRepositoryImpl implements StaffRepository {
                 positions.add(new Position(id, name));
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
         return positions;
     }

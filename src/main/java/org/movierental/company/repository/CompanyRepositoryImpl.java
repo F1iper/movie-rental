@@ -1,6 +1,5 @@
 package org.movierental.company.repository;
 
-import lombok.extern.slf4j.Slf4j;
 import org.movierental.company.entity.Company;
 import org.movierental.repository.QueryExecutor;
 
@@ -8,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class CompanyRepositoryImpl implements CompanyRepository {
 
     private final static String COMPANY = "company";
