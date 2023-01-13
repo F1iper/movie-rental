@@ -1,6 +1,5 @@
 package org.movierental.movie.repository;
 
-import lombok.extern.slf4j.Slf4j;
 import org.movierental.entity.Language;
 import org.movierental.entity.MovieType;
 import org.movierental.entity.Status;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class MovieRepositoryImpl implements MovieRepository {
 
     private final static String MOVIES = "movies";
@@ -118,7 +116,6 @@ public class MovieRepositoryImpl implements MovieRepository {
                 movies.add(movieCreator(rs));
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
         return movies;
     }
@@ -157,7 +154,6 @@ public class MovieRepositoryImpl implements MovieRepository {
                 movie = movieCreator(rs);
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
         return movie;
     }
@@ -191,7 +187,6 @@ public class MovieRepositoryImpl implements MovieRepository {
                 movieTypes.add(new MovieType(id, name));
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
         return movieTypes;
     }
@@ -209,7 +204,6 @@ public class MovieRepositoryImpl implements MovieRepository {
                 statuses.add(new Status(id, name));
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
         return statuses;
     }
@@ -227,7 +221,6 @@ public class MovieRepositoryImpl implements MovieRepository {
                 languages.add(new Language(id, name));
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
         return languages;
     }

@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CompanyServiceTestSuite {
+public class CompanyServiceUnitTest {
 
     private static final String URL = "jdbc:h2:~/temp/test2";
     private static final String USERNAME = "sa";
@@ -20,7 +20,7 @@ public class CompanyServiceTestSuite {
 
     private final Connection connection;
 
-    public CompanyServiceTestSuite() throws SQLException {
+    public CompanyServiceUnitTest() throws SQLException {
         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 

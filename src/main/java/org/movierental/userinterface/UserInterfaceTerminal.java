@@ -27,32 +27,56 @@ public class UserInterfaceTerminal {
     private final MovieController movieController;
 
     public void run() {
+        printMainMenu();
         while (true) {
-            printMainMenu();
-            String command = scanner.nextLine();
-
-            if ("exit".equals(command)) {
-                break;
-            }
-            if ("2".equals(command)) {
-                System.out.println("Update data in: ");
-                printOptions();
-                checkWhereUpdateData(scanner.nextLine());
-            }
-            if ("3".equals(command)) {
-                System.out.println("Insert data to: ");
-                printOptions();
-                checkWhereToInsertData(scanner.nextLine());
-            }
-            if ("4".equals(command)) {
-                System.out.println("Select data from: ");
-                printOptions();
-                chooseTableToSearchOn(scanner.nextLine());
-            }
-            if ("5".equals(command)) {
-                System.out.println("Remove data from: ");
-                printOptions();
-                removeData(scanner.nextLine());
+            if (scanner.hasNextLine()) {
+                String command = scanner.nextLine();
+                switch (command) {
+                    case "exit":
+                        return;
+                    case "2":
+                        System.out.println("Update data in: ");
+                        printOptions();
+                        if (scanner.hasNextLine()) {
+                            checkWhereUpdateData(scanner.nextLine());
+                        }
+                        break;
+                    case "3":
+                        System.out.println("Insert data to: ");
+                        printOptions();
+                        if (scanner.hasNextLine()) {
+                            checkWhereToInsertData(scanner.nextLine());
+                        }
+                        break;
+                    case "4":
+                        System.out.println("Select data from: ");
+                        printOptions();
+                        if (scanner.hasNextLine()) {
+                            chooseTableToSearchOn(scanner.nextLine());
+                        }
+                        break;
+                    case "5":
+                        System.out.println("Remove data from: ");
+                        printOptions();
+                        if (scanner.hasNextLine()) {
+                            removeData(scanner.nextLine());
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid command. Please try again.");
+                        break;
+                }
+                while (true) {
+                    System.out.println("Do you want to continue? (y/n)");
+                    if (scanner.hasNextLine()) {
+                        String continueCommand = scanner.nextLine();
+                        if (continueCommand.equals("y")) {
+                            break;
+                        } else if (continueCommand.equals("n")) {
+                            return;
+                        }
+                    }
+                }
             }
         }
     }

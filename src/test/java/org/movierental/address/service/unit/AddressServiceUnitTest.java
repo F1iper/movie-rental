@@ -13,14 +13,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AddressServiceTestSuite {
+public class AddressServiceUnitTest {
     private static final String URL = "jdbc:h2:~/temp/test2";
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "";
 
     private final Connection connection;
 
-    public AddressServiceTestSuite() throws SQLException {
+    public AddressServiceUnitTest() throws SQLException {
         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 
