@@ -24,4 +24,7 @@ public interface StaffService {
     List<Staff> findAll();
 
     boolean removeById(Long id);
+
+    List<Staff> findAllStaffByBranchId(Long branchId);
+    // TODO: 1/16/2023 make controller use return value
 }

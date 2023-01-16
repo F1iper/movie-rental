@@ -2,16 +2,16 @@ package org.movierental.branch.service;
 
 import org.movierental.branch.entity.Branch;
 
+import java.util.List;
+
 public interface BranchService {
 
-    void add(Branch branch);
+    boolean add(Branch branch);
 
-    void findById(Long id);
+    Branch findById(Long id);
 
-    void findAllStaffByBranchId(Long id);
+    List<Branch> findAllBranches();
 
-    void findAllBranches();
-
-    void removeById(Long id);
+    boolean removeById(Long id);
 
 }

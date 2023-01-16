@@ -13,7 +13,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     private final static String ADDRESS = "address";
 
     /**
-     * Add a address to the database
+     * Add an address to the database
      *
      * @param address the address to add
      * @return true if the address was successfully added, false otherwise
@@ -40,7 +40,7 @@ public class AddressRepositoryImpl implements AddressRepository {
      * Find a address by ID
      *
      * @param id the ID of the address to search for
-     * @return the address that matches the given ID, or null if no match is found
+     * @return the address that matches the given ID, or throw RuntimeException
      */
     @Override
     public Address findById(Long id) {

@@ -10,6 +10,7 @@ import java.util.List;
  * Implementation of the {@link AddressService} interface
  *
  * @author Filip Timofiejew
+ * @version 1.0
  */
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
@@ -17,7 +18,7 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
 
     /**
-     * This method is used to add a address to the address repository.
+     * This method is used to add an address to the address repository.
      *
      * @param address The address object that needs to be added.
      * @return true if address is added successfully, false otherwise
@@ -28,7 +29,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * This method is used to find a address by id
+     * This method is used to find an address by id
      *
      * @param id The id of the address
      * @return The address with the given id
@@ -72,7 +73,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /**
-     * This method is used to find movies by title
+     * This method is used to find addresses by title
      *
      * @param zipCode The zip code of the address
      * @return The list of addresses with the given zip code

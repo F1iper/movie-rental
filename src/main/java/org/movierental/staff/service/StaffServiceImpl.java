@@ -1,7 +1,6 @@
 package org.movierental.staff.service;
 
 import lombok.RequiredArgsConstructor;
-import org.movierental.address.service.AddressService;
 import org.movierental.staff.entity.Position;
 import org.movierental.staff.entity.Staff;
 import org.movierental.staff.repository.StaffRepository;
@@ -117,5 +116,16 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public boolean removeById(Long id) {
         return staffRepository.removeById(id);
+    }
+
+    /**
+     * This method is used to return a list of Staff objects with the given branch ID.
+     *
+     * @param branchId ID of the branch that the Staff objects are assigned to.
+     * @return List of Staff objects with the given branch ID.
+     */
+    @Override
+    public List<Staff> findAllStaffByBranchId(Long branchId) {
+        return staffRepository.findByBranchId(branchId);
     }
 }

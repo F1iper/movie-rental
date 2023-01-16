@@ -169,6 +169,17 @@ public class StaffRepositoryImpl implements StaffRepository {
     }
 
     /**
+     * This method is used to return a list of Staff objects from the database with the given branch ID.
+     *
+     * @param branchId ID of the branch that the Staff objects are assigned to.
+     * @return List of Staff objects that are assigned to given branch ID.
+     */
+    @Override
+    public List<Staff> findByBranchId(Long branchId) {
+        return execute("SELECT * FROM " + STAFF + " WHERE branch_id = " + branchId);
+    }
+
+    /**
      * This is helper method to remove a Staff object from the database by its ID.
      *
      * @param id ID of the Staff object to be removed.
