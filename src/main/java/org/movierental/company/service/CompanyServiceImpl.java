@@ -16,6 +16,8 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.insert(company);
     }
 
+
+    // TODO: 1/16/2023 Documentation
     @Override
     public boolean update(long id, String newName) {
         return companyRepository.update(id, newName);

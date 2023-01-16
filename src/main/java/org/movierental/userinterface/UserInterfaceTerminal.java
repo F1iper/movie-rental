@@ -3,6 +3,8 @@ package org.movierental.userinterface;
 import lombok.RequiredArgsConstructor;
 import org.movierental.address.controller.AddressController;
 import org.movierental.address.entity.Address;
+import org.movierental.branch.controller.BranchController;
+import org.movierental.branch.entity.Branch;
 import org.movierental.company.controller.CompanyController;
 import org.movierental.company.entity.Company;
 import org.movierental.entity.Language;
@@ -25,6 +27,7 @@ public class UserInterfaceTerminal {
     private final AddressController addressController;
     private final StaffController staffController;
     private final MovieController movieController;
+    private final BranchController branchController;
 
     public void run() {
 
@@ -102,10 +105,35 @@ public class UserInterfaceTerminal {
             updateCompany();
         }
         if ("2".equals(command)) {
-
+// TODO: 1/16/2023 implement functionality
         }
         if ("4".equals(command)) {
             updateMovie();
+        }
+        if ("5".equals(command)) {
+            // TODO: 1/16/2023 implement
+        }
+        if ("6".equals(command)) {
+            updateBranch();
+        }
+    }
+
+    private void updateBranch() {
+        System.out.println("Provide branch ID: ");
+        long id = Long.parseLong(scanner.nextLine());
+        Branch branch = branchController.findById(id);
+        if (branch == null) {
+            System.out.println("Company not found.");
+            return;
+        }
+        System.out.println("Branch to update: " + branch.getName());
+        System.out.println("Provide new name: ");
+        String newName = scanner.nextLine();
+        boolean success = branchController.updateName(id, newName);
+        if (success) {
+            System.out.println("Branch name updated.");
+        } else {
+            System.out.println("Failed to update branch name.");
         }
     }
 
@@ -219,21 +247,49 @@ public class UserInterfaceTerminal {
         if ("0".equals(command)) {
             return;
         }
-        if ("1".equals(command)) {
-            printCompanySearchOptions();
-            chooseCompanySearchOption(scanner.nextLine());
+        switch (command) {
+            case "1" -> {
+                printCompanySearchOptions();
+                chooseCompanySearchOption(scanner.nextLine());
+            }
+            case "2" -> {
+                printAddressSearchOptions();
+                chooseAddressSearchOption(scanner.nextLine());
+            }
+            case "3" -> {
+                printStaffSearchOptions();
+                chooseStaffSearchOption(scanner.nextLine());
+            }
+            case "4" -> {
+                printMovieSearchOptions();
+                chooseMovieSearchOption(scanner.nextLine());
+            }
+            case "5" -> {
+                // TODO: 1/16/2023 implement
+            }
+            case "6" -> {
+                printBranchSearchOptions();
+                chooseBranchSearchOption(scanner.nextLine());
+            }
+            default -> System.out.println("Invalid command. Please try again.");
         }
-        if ("2".equals(command)) {
-            printAddressSearchOptions();
-            chooseAddressSearchOption(scanner.nextLine());
+    }
+
+    private void chooseBranchSearchOption(String command) {
+        if ("0".equals(command)) {
+            return;
         }
-        if ("3".equals(command)) {
-            printStaffSearchOptions();
-            chooseStaffSearchOption(scanner.nextLine());
-        }
-        if ("4".equals(command)) {
-            printMovieSearchOptions();
-            chooseMovieSearchOption(scanner.nextLine());
+        switch (command) {
+            case "1" -> {
+                System.out.println("Provide branch ID: ");
+                System.out.println(branchController.findById(Long.parseLong(scanner.nextLine())));
+            }
+            case "2" -> {
+                System.out.println("Provide branch name: ");
+                System.out.println(branchController.findByName(scanner.nextLine()));
+            }
+            case "3" -> printAllBranches();
+            default -> System.out.println("Wrong option chosen, choose existing one");
         }
     }
 
@@ -241,28 +297,26 @@ public class UserInterfaceTerminal {
         if ("0".equals(command)) {
             return;
         }
-        if ("1".equals(command)) {
-            System.out.println("Provide movie ID: ");
-            System.out.println(movieController.findById(Long.parseLong(scanner.nextLine())));
-        }
-        if ("2".equals(command)) {
-            System.out.println("Provide title: ");
-            System.out.println(movieController.findByTitle(scanner.nextLine()));
-        }
-        if ("3".equals(command)) {
-            System.out.println("Provide release year: ");
-            System.out.println(movieController.findByReleaseYear(Integer.parseInt(scanner.nextLine())));
-        }
-        if ("4".equals(command)) {
-            System.out.println("Provide cost range, \nfirst number - minimum, \nsecond number - maximum ");
-            System.out.println(movieController.findByCostRange(Double.parseDouble(scanner.nextLine()),
-                    Double.parseDouble(scanner.nextLine())));
-        }
-        if ("5".equals(command)) {
-            findMovieByMovieType();
-        }
-        if ("6".equals(command)) {
-            printAllMovies();
+        switch (command) {
+            case "1" -> {
+                System.out.println("Provide movie ID: ");
+                System.out.println(movieController.findById(Long.parseLong(scanner.nextLine())));
+            }
+            case "2" -> {
+                System.out.println("Provide title: ");
+                System.out.println(movieController.findByTitle(scanner.nextLine()));
+            }
+            case "3" -> {
+                System.out.println("Provide release year: ");
+                System.out.println(movieController.findByReleaseYear(Integer.parseInt(scanner.nextLine())));
+            }
+            case "4" -> {
+                System.out.println("Provide cost range, \nfirst number - minimum, \nsecond number - maximum ");
+                System.out.println(movieController.findByCostRange(Double.parseDouble(scanner.nextLine()),
+                        Double.parseDouble(scanner.nextLine())));
+            }
+            case "5" -> findMovieByMovieType();
+            case "6" -> printAllMovies();
         }
     }
 
@@ -366,6 +420,20 @@ public class UserInterfaceTerminal {
         if ("4".equals(command)) {
             movieController.add(provideMovieData());
         }
+        if ("5".equals(command)) {
+            // TODO: 1/16/2023 implement
+        }
+        if ("6".equals(command)) {
+            branchController.add(provideBranchData());
+        }
+    }
+
+    private Branch provideBranchData() {
+        Branch branch = new Branch();
+        System.out.println("Provide name: ");
+        branch.setName(scanner.nextLine());
+
+        return branch;
     }
 
     private Movie provideMovieData() {
@@ -549,6 +617,19 @@ public class UserInterfaceTerminal {
         }
     }
 
+    private void printAllBranches() {
+        List<Branch> branches = branchController.findAll();
+        if (branches.isEmpty()) {
+            System.out.println("No branches found.");
+        } else {
+            System.out.println("Branches: ");
+            for (Branch branch : branches) {
+                System.out.println("ID: " + branch.getBranchId());
+                System.out.println("name: " + branch.getName());
+            }
+        }
+    }
+
     private void printOptions() {
         System.out.println("1 - Company");
         System.out.println("2 - Address");
@@ -564,6 +645,14 @@ public class UserInterfaceTerminal {
         System.out.println("Choose an option: ");
         System.out.println("1 - Search by ID");
         System.out.println("2 - Search by company name");
+        System.out.println("3 - Search all records");
+        System.out.println("0 - Back to Main Menu");
+    }
+
+    private void printBranchSearchOptions() {
+        System.out.println("Choose an option: ");
+        System.out.println("1 - Search by ID");
+        System.out.println("2 - Search by branch name");
         System.out.println("3 - Search all records");
         System.out.println("0 - Back to Main Menu");
     }

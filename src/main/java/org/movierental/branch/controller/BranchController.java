@@ -35,18 +35,18 @@ public class BranchController {
      *
      * @param id The ID of the Branch to be found.
      */
-    public void findById(Long id) {
-        branchService.findById(id);
+    public Branch findById(Long id) {
+        return branchService.findById(id);
     }
 
     /**
      * Finds all staff members associated with a specific Branch in the data storage.
      *
      * @param id The ID of the Branch for which to find staff members.
+     * @return List of all staff assigned to branch by given branch id
      */
     public List<Staff> findAllStaffByBranchId(Long id) {
         return staffService.findAllStaffByBranchId(id);
-        // TODO: 1/16/2023 implement find all staff in staff UI
     }
 
     /**
@@ -56,5 +56,27 @@ public class BranchController {
      */
     public List<Branch> findAll() {
         return branchService.findAllBranches();
+    }
+
+    /**
+     * This method is used to find a list of Branches by their name.
+     *
+     * @param branchName The name of the Branches to be found.
+     * @return List of Branches with the specified name.
+     */
+    public List<Branch> findByName(String branchName) {
+        return branchService.findByName(branchName);
+    }
+
+
+    /**
+     * This method is used to update the name of a branch in the database by its ID.
+     *
+     * @param id      ID of the branch to be updated.
+     * @param newName The new name of the Branch.
+     * @return true if the Branch name is successfully updated, false otherwise.
+     */
+    public boolean updateName(long id, String newName) {
+        return branchService.updateName(id, newName);
     }
 }

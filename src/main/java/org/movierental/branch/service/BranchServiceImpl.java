@@ -50,6 +50,29 @@ public class BranchServiceImpl implements BranchService {
     }
 
     /**
+     * This method is used to update the name of a Branch in the database by its ID.
+     *
+     * @param id      ID of the Branch to be updated.
+     * @param newName The new name of the Branch.
+     * @return true if the Branch name is successfully updated, false otherwise.
+     */
+    @Override
+    public boolean updateName(long id, String newName) {
+        return branchRepository.updateName(id, newName);
+    }
+
+    /**
+     * This method is used to find branches by branch name
+     *
+     * @param branchName The name of the branch to find
+     * @return List of branches with given branchName
+     */
+    @Override
+    public List<Branch> findByName(String branchName) {
+        return branchRepository.findByName(branchName);
+    }
+
+    /**
      * This method is used to remove a branch by id
      *
      * @param id The id of the branch to remove

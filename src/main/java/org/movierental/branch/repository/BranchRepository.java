@@ -13,4 +13,8 @@ public interface BranchRepository {
     List<Branch> findAll();
 
     boolean removeById(Long id);
+
+    List<Branch> findByName(String branchName);
+
+    boolean updateName(long id, String newName);
 }

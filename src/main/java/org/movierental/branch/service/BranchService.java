@@ -14,4 +14,7 @@ public interface BranchService {
 
     boolean removeById(Long id);
 
+    List<Branch> findByName(String branchName);
+
+    boolean updateName(long id, String newName);
 }

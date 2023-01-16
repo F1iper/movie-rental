@@ -107,6 +107,43 @@ public class BranchRepositoryImpl implements BranchRepository {
         return executeRemove("DELETE FROM " + BRANCH + " WHERE branch_id = " + id);
     }
 
+
+    /**
+     * Find branches by branch name
+     *
+     * @param branchName the name of the branch to search for
+     * @return a list of branches that match the given branch name
+     */
+    @Override
+    public List<Branch> findByName(String branchName) {
+        return execute("SELECT * FROM " + BRANCH + " WHERE name like '%" + branchName + "%'");
+    }
+
+    /**
+     * This method is used to update the name of a branch
+     *
+     * @param id      The id of the branch
+     * @param newName The new name of the branch
+     * @return true if update is successful, false otherwise
+     */
+    @Override
+    public boolean updateName(long id, String newName) {
+        boolean updated = false;
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate("UPDATE " + BRANCH + " SET name = '" + newName + "' WHERE branch_id = " + id);
+
+            if (rowsAffected > 0) {
+                updated = true;
+            }
+            execute("SELECT * FROM " + BRANCH + " WHERE branch_id = " + id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return updated;
+    }
+
     /**
      * Create branch object from the query result
      *
