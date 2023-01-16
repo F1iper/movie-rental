@@ -2,15 +2,19 @@ package org.movierental.branch.repository;
 
 import org.movierental.branch.entity.Branch;
 
+import java.util.List;
+
 public interface BranchRepository {
 
-    void insert(Branch branch);
+    boolean insert(Branch branch);
 
-    void findById(Long id);
+    Branch findById(Long id);
 
-    void findAllStaffByBranchId(Long id);
+    List<Branch> findAll();
 
-    void findAll();
+    boolean removeById(Long id);
 
-    void removeById(Long id);
+    List<Branch> findByName(String branchName);
+
+    boolean updateName(long id, String newName);
 }

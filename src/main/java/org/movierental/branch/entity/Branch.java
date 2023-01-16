@@ -8,4 +8,7 @@ import lombok.Data;
 public class Branch {
     private Long branchId;
     private String name;
+
+    public Branch() {
+    }
 }
