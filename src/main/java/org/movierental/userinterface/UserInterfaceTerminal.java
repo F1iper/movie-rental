@@ -355,7 +355,7 @@ public class UserInterfaceTerminal {
             return;
         }
         if ("1".equals(command)) {
-            companyController.addCompany(provideCompany());
+            companyController.add(provideCompany());
         }
         if ("2".equals(command)) {
             addressController.add(provideAddressData());
