@@ -77,13 +77,13 @@ public class MovieServiceImpl implements MovieService {
     /**
      * This method is used to update the title of a movie
      *
-     * @param id   The id of the movie to update
-     * @param name The new title of the movie
+     * @param id    The id of the movie to update
+     * @param title The new title of the movie
      * @return true if update is successful, false otherwise
      */
     @Override
-    public boolean updateTitle(Long id, String name) {
-        return movieRepository.updateTitle(id, name);
+    public boolean updateTitle(Long id, String title) {
+        return movieRepository.updateTitle(id, title);
     }
 
     /**

@@ -5,90 +5,173 @@ import org.movierental.repository.QueryExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BranchRepositoryImpl implements BranchRepository {
 
     private static final String BRANCH = "branch";
 
+
+    /**
+     * Add a branch to the database
+     *
+     * @param branch the address to add
+     * @return true if the branch was successfully added, false otherwise
+     */
     @Override
-    public void insert(Branch branch) {
-        try (var queryExecution = new QueryExecutor(); var connection = queryExecution.getConnection(); var statement = connection.prepareStatement("INSERT INTO " + BRANCH)) {
+    public boolean insert(Branch branch) {
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.prepareStatement("INSERT INTO " + BRANCH)) {
             int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("New branch has been inserted successfully.\nID: [" + branch.getBranchId() + "]");
-            }
+            return rows > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
+    /**
+     * Find a branch by ID
+     *
+     * @param id the ID of the branch to search for
+     * @return the branch that matches the given ID, or throw RuntimeException
+     */
     @Override
-    public void findById(Long id) {
-        execute("SELECT * FROM " + BRANCH + " WHERE branch_id = " + id);
+    public Branch findById(Long id) {
+        return executeFindById("SELECT * FROM " + BRANCH + " WHERE branch_id = " + id);
     }
 
-    private void execute(String sql) {
+    /**
+     * Execute a query for finding the branch by id
+     *
+     * @param sql sql query to be executed
+     * @return branch object corresponding to the given id
+     */
+    private Branch executeFindById(String sql) {
+        Branch branch = new Branch();
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement();
              var rs = statement.executeQuery(sql)) {
             while (rs.next()) {
-                print(rs);
+                branch = createBranch(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return branch;
     }
 
-    private void print(ResultSet rs) throws SQLException {
-        Long branchId = rs.getLong("branch_id");
-        String name = rs.getString("name");
-        Branch branch = new Branch(branchId, name);
-        System.out.println(branch);
+    /**
+     * This method is used to execute a given SQL query and retrieve a list of Branch
+     * objects from the result set. The method makes use of a QueryExecutor,
+     * a Connection, a Statement, and aResultSet to execute the query and extract the data.
+     *
+     * @param sql The SQL query to be executed
+     * @return A list of Branch objects retrieved from the result set
+     */
+    private List<Branch> execute(String sql) {
+        List<Branch> branches = new ArrayList<>();
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.createStatement();
+             var rs = statement.executeQuery(sql)) {
+            while (rs.next()) {
+                branches.add(createBranch(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return branches;
     }
 
-//    private List<Movie> getMoviesForBranch(Long branchId) {
-//        List<Movie> movies = new ArrayList<>();
-//        try (var queryExecution = new QueryExecutor();
-//             var connection = queryExecution.getConnection();
-//             var statement = connection.createStatement();
-//             var rs = statement.executeQuery("SELECT * FROM movies WHERE branch_id = " + branchId)) {
-//            while (rs.next()) {
-//                Long movieId = rs.getLong("movie_id");
-//                String title = rs.getString("title");
-//                String description = rs.getString("description");
-//                int releaseYear = rs.getInt("release_year");
-//                int length = rs.getInt("length");
-//                Long languageId = rs.getLong("language_id");
-//                Long categoryId = rs.getLong("category_id");
-//                double cost = rs.getDouble("cost");
-//                Long statusId = rs.getLong("status_id");
-//                double rentalRate = rs.getDouble("rental_rate");
-//                Movie movie = new Movie(movieId, title, description, releaseYear, length, languageId, categoryId, cost, statusId, rentalRate);
-//                movies.add(movie);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return movies;
-//    }
-
+    /**
+     * Find all the branches available in the system
+     *
+     * @return List of all branches
+     */
     @Override
-    public void findAllStaffByBranchId(Long id) {
+    public List<Branch> findAll() {
+        return execute("SELECT * FROM " + BRANCH);
     }
 
+    /**
+     * Remove a branch by ID
+     *
+     * @param id the ID of the branch to remove
+     * @return true if the removal was successful, false otherwise
+     */
     @Override
-    public void findAll() {
-
+    public boolean removeById(Long id) {
+        return executeRemove("DELETE FROM " + BRANCH + " WHERE branch_id = " + id);
     }
 
+
+    /**
+     * Find branches by branch name
+     *
+     * @param branchName the name of the branch to search for
+     * @return a list of branches that match the given branch name
+     */
     @Override
-    public void removeById(Long id) {
+    public List<Branch> findByName(String branchName) {
+        return execute("SELECT * FROM " + BRANCH + " WHERE name like '%" + branchName + "%'");
+    }
+
+    /**
+     * This method is used to update the name of a branch
+     *
+     * @param id      The id of the branch
+     * @param newName The new name of the branch
+     * @return true if update is successful, false otherwise
+     */
+    @Override
+    public boolean updateName(long id, String newName) {
+        boolean updated = false;
         try (var queryExecution = new QueryExecutor();
              var connection = queryExecution.getConnection();
              var statement = connection.createStatement()) {
-            statement.executeUpdate("DELETE FROM " + BRANCH + " WHERE branch_id = " + id);
+            int rowsAffected = statement.executeUpdate("UPDATE " + BRANCH + " SET name = '" + newName + "' WHERE branch_id = " + id);
+
+            if (rowsAffected > 0) {
+                updated = true;
+            }
+            execute("SELECT * FROM " + BRANCH + " WHERE branch_id = " + id);
         } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
         }
+        return updated;
+    }
+
+    /**
+     * Create branch object from the query result
+     *
+     * @param rs query result
+     * @return branch object
+     */
+    private Branch createBranch(ResultSet rs) throws SQLException {
+        Long id = rs.getLong("branch_id");
+        String name = rs.getString("name");
+
+        return new Branch(id, name);
+    }
+
+    /**
+     * Execute a query for removing the branch from the system
+     *
+     * @param sql sql query to be executed
+     * @return true if the removal was successful, false otherwise
+     */
+    private boolean executeRemove(String sql) {
+        try (var queryExecution = new QueryExecutor();
+             var connection = queryExecution.getConnection();
+             var statement = connection.createStatement()) {
+            int rowsAffected = statement.executeUpdate(sql);
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

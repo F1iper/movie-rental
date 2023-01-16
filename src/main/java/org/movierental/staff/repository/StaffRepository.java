@@ -24,4 +24,6 @@ public interface StaffRepository {
     List<Position> getPositions();
 
     boolean removeById(Long id);
+
+    List<Staff> findByBranchId(Long branchId);
 }
