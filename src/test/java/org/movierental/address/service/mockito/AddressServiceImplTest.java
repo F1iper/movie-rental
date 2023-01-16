@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.movierental.address.entity.Address;
 import org.movierental.address.repository.AddressRepository;
+import org.movierental.address.service.AddressServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;

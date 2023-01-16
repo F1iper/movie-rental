@@ -9,6 +9,11 @@ import org.movierental.movie.repository.MovieRepository;
 
 import java.util.List;
 
+/**
+ * Implementation of the {@link MovieService} interface
+ *
+ * @author Filip Timofiejew
+ */
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
 

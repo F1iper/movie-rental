@@ -1,16 +1,11 @@
 package org.movierental.branch.repository;
 
-import lombok.extern.slf4j.Slf4j;
 import org.movierental.branch.entity.Branch;
-import org.movierental.movie.entity.Movie;
 import org.movierental.repository.QueryExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-@Slf4j
 public class BranchRepositoryImpl implements BranchRepository {
 
     private static final String BRANCH = "branch";
@@ -23,7 +18,6 @@ public class BranchRepositoryImpl implements BranchRepository {
                 System.out.println("New branch has been inserted successfully.\nID: [" + branch.getBranchId() + "]");
             }
         } catch (SQLException e) {
-            log.warn(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -95,7 +89,6 @@ public class BranchRepositoryImpl implements BranchRepository {
              var statement = connection.createStatement()) {
             statement.executeUpdate("DELETE FROM " + BRANCH + " WHERE branch_id = " + id);
         } catch (SQLException e) {
-            log.warn(e.getMessage());
         }
     }
 }

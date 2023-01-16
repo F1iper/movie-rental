@@ -1,9 +1,9 @@
-FROM alpine:3.17.1
+FROM openjdk:17-alpine
 
-RUN apk --update add openjdk11-jre
+RUN mkdir -p /app
 
-ADD target/movie-rental-1.0-SNAPSHOT.jar movie-rental-1.0-SNAPSHOT.jar
+COPY target/movie-rental-1.0.jar /app/
 
-COPY src/resources/init.sql /docker-entrypoint-initdb.d/
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "movie-rental-1.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app/movie-rental-1.0.jar"]

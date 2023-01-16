@@ -1,4 +1,4 @@
-package org.movierental.address.service.mockito;
+package org.movierental.address.service;
 
 
 import org.movierental.address.entity.Address;
