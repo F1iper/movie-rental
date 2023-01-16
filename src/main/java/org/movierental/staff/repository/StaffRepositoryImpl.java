@@ -14,6 +14,7 @@ import java.util.List;
  * It uses the QueryExecutor class to perform the CRUD operations on Staff objects in the database.
  *
  * @author Filip Timofiejew
+ * @version 1.0
  */
 public class StaffRepositoryImpl implements StaffRepository {
 

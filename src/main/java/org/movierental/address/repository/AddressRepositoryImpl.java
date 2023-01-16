@@ -37,7 +37,7 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     /**
-     * Find a address by ID
+     * Find an address by ID
      *
      * @param id the ID of the address to search for
      * @return the address that matches the given ID, or throw RuntimeException

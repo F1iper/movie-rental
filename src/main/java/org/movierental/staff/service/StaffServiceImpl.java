@@ -8,12 +8,10 @@ import org.movierental.staff.repository.StaffRepository;
 import java.util.List;
 
 /**
- * StaffServiceImpl class implements the StaffService interface and
- * provides the implementation for its methods.
- * It uses StaffRepository to perform the CRUD operations on Staff objects.
+ * Implementation of the {@link StaffService} interface
  *
  * @author Filip Timofiejew
- *
+ * @version 1.0
  */
 @RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {

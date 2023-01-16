@@ -13,6 +13,7 @@ import java.util.List;
  * Implementation of the {@link MovieService} interface
  *
  * @author Filip Timofiejew
+ * @version 1.0
  */
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {

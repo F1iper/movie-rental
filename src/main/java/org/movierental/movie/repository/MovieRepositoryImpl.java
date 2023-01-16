@@ -16,9 +16,13 @@ import java.util.List;
  * It provides methods for performing CRUD operations on Movie objects in the database.
  *
  * @author Filip Timofiejew
+ * @version 1.0
  */
 public class MovieRepositoryImpl implements MovieRepository {
 
+    /**
+     * Constants for the table names in the database
+     */
     private final static String MOVIES = "movies";
     private final static String MOVIE_TYPE = "movie_type";
     private final static String STATUS = "status";
