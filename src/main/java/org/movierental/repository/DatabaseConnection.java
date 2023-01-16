@@ -20,11 +20,8 @@ public class DatabaseConnection {
             String password = prop.getProperty("db.password");
 
             return DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-//            log.warn("Error connecting to the database: " + e.getMessage());
-            return null;
-        } catch (IOException e) {
-//            log.warn("Error reading database configuration: " + e.getMessage());
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
             return null;
         }
     }

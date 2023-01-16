@@ -189,6 +189,14 @@ public class MovieRepositoryImpl implements MovieRepository {
         return execute("SELECT * FROM " + MOVIES);
     }
 
+    /**
+     * This method is used to execute a given SQL query and retrieve a list of Movie
+     * objects from the result set. The method makes use of a QueryExecutor,
+     * a Connection, a Statement, and aResultSet to execute the query and extract the data.
+     *
+     * @param sql The SQL query to be executed
+     * @return A list of Movie objects retrieved from the result set
+     */
     private List<Movie> execute(String sql) {
         List<Movie> movies = new ArrayList<>();
         try (var queryExecution = new QueryExecutor();
@@ -199,6 +207,7 @@ public class MovieRepositoryImpl implements MovieRepository {
                 movies.add(movieCreator(rs));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return movies;
     }
