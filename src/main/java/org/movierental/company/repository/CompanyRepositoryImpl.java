@@ -31,7 +31,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
                 return false;
             }
         } catch (SQLException e) {
-            // TODO: 12/30/2022 Provide specific exception + VALIDATION
+            // TODO: 1/16/2023 Provide specific exception + VALIDATION
             throw new RuntimeException(e.getMessage());
         }
 
