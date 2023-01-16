@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS movierental;
+
 USE movierental;
 
 CREATE TABLE IF NOT EXISTS company

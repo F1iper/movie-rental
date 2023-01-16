@@ -1,4 +1,3 @@
-
 version: "3.8"
 services:
   movie-rental-db:
@@ -10,19 +9,25 @@ services:
       MYSQL_DATABASE: movierental
       MYSQL_USER: test
       MYSQL_PASSWORD: test123
-      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_ROOT_PASSWORD: admin123
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --default-authentication-plugin=mysql_native_password
 
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: movie-rental-1.0.jar:latest
+    environment: {
+      "LANG": "C.UTF-8"
+    }
+    #    build:
+    #      context: .
+    #      dockerfile: Dockerfile
     volumes:
-      - ./movie-rental-1.0-SNAPSHOT.jar:/app/movie-rental-1.0-SNAPSHOT.jar
+      - ./target/movie-rental-1.0.jar:/app/movie-rental-1.0.jar
     restart: always
     ports:
       - "8080:8080"
+    stdin_open: true
+    tty: true
+    command: ash -c "cd /app && java -jar movie-rental-1.0.jar"
     depends_on:
       - movie-rental-db

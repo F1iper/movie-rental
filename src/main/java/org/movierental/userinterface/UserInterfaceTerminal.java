@@ -27,11 +27,11 @@ public class UserInterfaceTerminal {
     private final MovieController movieController;
 
     public void run() {
-        printMainMenu();
+
         while (true) {
+            printMainMenu();
             if (scanner.hasNextLine()) {
-                String command = scanner.nextLine();
-                switch (command) {
+                switch (scanner.nextLine()) {
                     case "exit":
                         return;
                     case "2":
