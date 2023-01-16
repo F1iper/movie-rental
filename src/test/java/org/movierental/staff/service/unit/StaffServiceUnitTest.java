@@ -400,7 +400,6 @@ public class StaffServiceUnitTest {
             }
         }
 
-        System.out.println(staffList);
         //then
         assertNotNull(staffList);
         assertEquals(3, staffList.size());
