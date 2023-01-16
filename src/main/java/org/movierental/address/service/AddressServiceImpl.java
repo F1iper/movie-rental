@@ -3,7 +3,6 @@ package org.movierental.address.service;
 import lombok.RequiredArgsConstructor;
 import org.movierental.address.entity.Address;
 import org.movierental.address.repository.AddressRepository;
-import org.movierental.movie.service.MovieService;
 
 import java.util.List;
 
