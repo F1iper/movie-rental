@@ -17,7 +17,7 @@ import org.movierental.staff.repository.StaffRepositoryImpl;
 import org.movierental.staff.service.StaffServiceImpl;
 import org.movierental.userinterface.UserInterfaceTerminal;
 
-class Main {
+public class Main {
 
     public static void main(String[] args) {
         var uITerminal = new UserInterfaceTerminal(

@@ -187,3 +187,21 @@ CREATE TABLE IF NOT EXISTS rental
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
     FOREIGN KEY (movie_id) REFERENCES movies (movie_id)
 );
+
+
+insert into branch (name) values ("Branch 1"), ("Branch 2"), ("Branch 3");
+insert into positions (name) values ("STAFF"), ("LEADER"), ("BOSS"), ("TRAINEE");
+insert into staff (firstname, lastname, position_id, branch_id, salary) values("Justyna", "Kowalczyk", 1, 2, 5600), ("Kamil", "Bro",3, 1, 2600), ("Jakub", "Bro", 1, 3, 5500), ("Maria", "Tutek", 2, 1, 5000);
+insert into address (city, phone, state, street, zip_code)values ("Poznan", "500 300 500", "Greater Poland", "Poznanska", "99-100"), ("Warsaw", "300 500", "Masovian", "Warszawska", "02-508");
+insert into language (name) values ("ENGLISH"), ("POLISH"), ("GERMAN"), ("FRENCH"), ("ITALIAN");
+insert into status (name) values ("IN REPAIR"), ("IN STOCK"), ("OUT OF STOCK");
+insert into movie_type (name) values ("HORROR"), ("ANIME"), ("DOCUMENTARY"), ("ACTION"), ("DRAMA"), ("COMEDY"), ("FUR KIDS");
+insert into company (name) values ("LENOVO"), ("HP"), ("ASUS"), ("HUAWEI"), ("SAMSUNG"), ("BOSCH"), ("NINTENDO");
+insert into movies (title, description, release_year, length, language_id, cost, status_id, rental_rate, movie_type_id) values ('John Wick', 'Film about John', 2000, 120, 1, 19.99, 1, 0, 1), ('Jumanji', 'Film about jungle', 2015, 150, 1, 9.99, 1, 0, 2), ('Titanic', 'Ship and sea', 1990, 124, 1, 20, 1, 0, 3);
+insert into address (city, phone, state, street, zip_code) values ('Warsaw', '55314315', 'Mazowieckie', 'Mokotowska', '05-155'), ('Warsaw', '64275362', 'Mazowieckie', 'Zwirki i Wigury', '02-120'), ('Krakow', '5315315513', 'Malopolskie', 'Krakowska', '30-032');
+insert into language (name) values ('POLISH'), ('ENGLISH'), ('FRENCH'), ('SPANISH');
+insert into status (name) values ('IN STOCK'), ('OUT OF STOCK'), ('IN REPAIR');
+insert into movie_type (name) values ('DRAMA'), ('FUR KIDS'), ('ANIME'), ('HORROR'), ('COMEDY');
+insert into staff_address (staff_id, address_id) values (1, 1), (2, 1), (3, 2), (3, 3);
+
+
