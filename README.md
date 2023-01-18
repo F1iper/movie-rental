@@ -26,7 +26,9 @@ through the use of not-so RESTful API endpoints.
 3. Open the command line and navigate to the project's root directory.
 4. Use the following command to build the project:
     **mvn clean install**
-5. Create MySQL database called movierental and update database configuration
+5. Create MySQL database called movierental and update database configuration:
+- inside mysql:
+   - **create database movierental;**
 
 - In the directory **/movie-rental/src/resources** rename the file **example.dbconfig.properties** to -> **dbconfig.properties** and edit it
   to match your local database username + password + url
@@ -37,7 +39,7 @@ db.url=jdbc:mysql://localhost:3306/movierental
 db.username=your_username
 db.password=your_password
 ```
-6. Propagate database with tables from init.sql file in the movie-rental main directory, 
+6. Propagate database with tables and sample data from init.sql file in the movie-rental main directory, 
    run this command with raplaced <your_username> with your user name.
 **mysql -h localhost -u <your_username> -p movierental < init.sql**
 
