@@ -6,7 +6,7 @@ This project is a Java implementation of a movie rental system, using:
 - JDBC as the database connector 
 - Lombok as a source code generator
 - Log4j as a logging framework 
-- JUnit and Mockito for testing.
+- JUnit 5 and Mockito for testing.
 
 ### :wrench: Application is working in command line interface.
 
@@ -37,8 +37,11 @@ db.url=jdbc:mysql://localhost:3306/movierental
 db.username=your_username
 db.password=your_password
 ```
+6. Propagate database with tables from init.sql file in the movie-rental main directory, 
+   run this command with raplaced <your_username> with your user name.
+**mysql -h localhost -u <your_username> -p movierental < init.sql**
 
-## :arrow_right: Run the project:
+## :arrow_right: Run the project
 **mvn exec:java -Dexec.mainClass="org.movierental.Main"**
 
 ## :zap: Usage
@@ -48,8 +51,7 @@ Currently CRUD for
 - Branch
 - Staff
 - Movie
-are working,
-rest of the application is in progress
+- rest of the application is in progress
 
 ## :bell: Testing
 You can run the unit tests for the project using the following command:
@@ -63,7 +65,7 @@ You can run the unit tests for the project using the following command:
 - [JDBC](https://docs.oracle.com/en/database/oracle/oracle-database/19/jdbc/index.html)
 - [Lombok](https://projectlombok.org/)
 - [Log4j](https://logging.apache.org/log4j/2.x/)
-- [JUnit](https://junit.org/junit5/)
+- [JUnit 5](https://junit.org/junit5/)
 - [Mockito](https://site.mockito.org/)
 
 ## :recycle: Contribution
